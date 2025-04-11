@@ -8,14 +8,17 @@ COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
 COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/local/bin/
 
-COPY . /app
-WORKDIR /app
+RUN install-php-extensions \
+    intl
 
 RUN apk update && apk upgrade
 
 RUN apk add --no-cache nginx multirun
 
 COPY ./.devops/default.conf /etc/nginx/http.d/default.conf
+
+COPY . /app
+WORKDIR /app
 
 CMD ["multirun", "php-fpm -R -F", "nginx -g 'daemon off;'"]
 
