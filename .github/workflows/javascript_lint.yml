@@ -1,0 +1,92 @@
+name: Front Quality Check
+
+on: [push]
+
+env:
+  WITH_DOCKER: 0
+
+jobs:
+  install-deps:
+    name: Install Dependencies
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Cache Node modules
+        uses: actions/cache@v3
+        with:
+          path: |
+            front/node_modules
+            ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('front/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Install Dependencies
+        run: npm install
+        working-directory: front
+
+  lint-js:
+    name: JS Coding Standards
+    runs-on: ubuntu-latest
+    needs: install-deps
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Cache Node modules
+        uses: actions/cache@v3
+        with:
+          path: |
+            front/node_modules
+            ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('front/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Run JS coding standards
+        run: make jscs-dry
+
+  lint-vue:
+    name: Vue Lint
+    runs-on: ubuntu-latest
+    needs: install-deps
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Cache Node modules
+        uses: actions/cache@v3
+        with:
+          path: |
+            front/node_modules
+            ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('front/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Run Vue lint
+        run: make vue-lint
+
+  front-build:
+    name: Frontend Build
+    runs-on: ubuntu-latest
+    needs: [lint-js, lint-vue]
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Cache Node modules
+        uses: actions/cache@v3
+        with:
+          path: |
+            front/node_modules
+            ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('front/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Build frontend
+        run: make front-build
