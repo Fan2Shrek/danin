@@ -1,0 +1,22 @@
+services:
+  php:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+      target: dev
+    ports:
+      - "8000:80"
+    volumes:
+      - ./api:/app
+
+  front:
+    build:
+      context: ./front
+      dockerfile: Dockerfile
+      target: dev
+    ports:
+      - "3000:5173"
+    depends_on:
+      - php
+    volumes:
+      - ./front:/app
