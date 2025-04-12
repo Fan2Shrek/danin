@@ -2,21 +2,23 @@
 import { ref } from 'vue'
 import tokens from '@/i18n/tokens'
 
-const username = ref('')
+import api from '@/lib/api/api'
+
+const email = ref('')
 const password = ref('')
 const errorMessage = ref('')
 
 const handleLogin = async () => {
-    if (!username.value || !password.value) {
-        errorMessage.value = 'Please fill in all fields'
+    if (!email.value || !password.value) {
+        errorMessage.value = tokens.login.error.empty
         return
     }
 
     try {
-        console.log('Logging in...', { username: username.value })
+        // todo set the cookie
+        await api().user().login(email.value, password.value)
     } catch (error) {
-        console.error('Login error:', error)
-        errorMessage.value = 'Login failed. Please try again.'
+        errorMessage.value = tokens.login.error.invalid
     }
 }
 </script>
@@ -27,19 +29,19 @@ const handleLogin = async () => {
             <h1>{{ $t(tokens.login.title) }}</h1>
             <form @submit.prevent="handleLogin" class="login-form">
                 <div class="form-group">
-                    <label>{{ $t(tokens.login.username) }}</label>
-                    <input type="text" v-model="username" class="form-input" />
+                    <label>{{ $t(tokens.login.email) }}</label>
+                    <input type="text" v-model="email" class="form-input" />
                 </div>
                 <div class="form-group">
                     <label>{{ $t(tokens.login.password) }}</label>
                     <input type="password" v-model="password" class="form-input" />
                 </div>
-                <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
+                <p v-if="errorMessage" class="error-message">{{ $t(errorMessage) }}</p>
                 <button type="submit" class="submit-button">{{ $t(tokens.login.submit) }}</button>
 
-                <!-- todo link to register page -->
                 <p class="register-link">
                     {{ $t(tokens.login.register.link) }}
+                    <!-- todo link to register page -->
                     <a href="#">{{ $t(tokens.login.register.cta) }}</a>
                 </p>
             </form>

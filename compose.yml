@@ -28,6 +28,8 @@ services:
       - php
     volumes:
       - ./front:/app
+    environment:
+      VITE_API_URL: ${API_URL}
 
 volumes:
   db_data:

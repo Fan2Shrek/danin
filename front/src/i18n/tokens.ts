@@ -1,13 +1,17 @@
 const tokens = {
     login: {
         title: 'login.title',
-        username: 'login.username',
+        email: 'login.email',
         password: 'login.password',
         submit: 'login.submit',
         register: {
             link: 'login.register.link',
             cta: 'login.register.cta',
         },
+        error: {
+            invalid: 'login.error.invalid',
+            empty: 'login.error.empty',
+        }
     },
 }
 
