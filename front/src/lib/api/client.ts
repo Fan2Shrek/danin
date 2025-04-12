@@ -9,16 +9,21 @@ class Client {
         return await this.request<T>('GET', url);
     }
 
-    public async post<T>(url: string, body: any): Promise<T> {
+    public async post<T>(url: string, body: object | undefined): Promise<T> {
         return await this.request<T>('POST', url, body, {
             'Content-Type': 'application/json',
         });
     }
 
-    private async request<T>(method: string, url: string, body?: any, headers?: any): Promise<T> {
+    private async request<T>(
+        method: string,
+        url: string,
+        body?: object,
+        headers?: HeadersInit,
+    ): Promise<T> {
         const response = await fetch(this.baseUrl + url, {
             method,
-            headers,
+            headers: headers ? headers : {},
             body: body ? JSON.stringify(body) : undefined,
         });
 

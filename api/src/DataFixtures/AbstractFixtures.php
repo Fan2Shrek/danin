@@ -28,7 +28,7 @@ abstract class AbstractFixtures extends Fixture
             $entity = $r->newInstanceArgs($args);
 
             foreach ($data as $property => $value) {
-                $setter = 'set' . ucfirst($property);
+                $setter = 'set'.ucfirst($property);
 
                 if (method_exists($entity, $setter)) {
                     $entity->$setter($value);
@@ -38,13 +38,15 @@ abstract class AbstractFixtures extends Fixture
             $this->postInstantiate($entity);
             $manager->persist($entity);
             ++$key;
-            $this->addReference($r->getShortName() . '_' . $key, $entity);
+            $this->addReference($r->getShortName().'_'.$key, $entity);
         }
 
         $manager->flush();
     }
 
-    protected function postInstantiate(object $entity): void {}
+    protected function postInstantiate(object $entity): void
+    {
+    }
 
     abstract protected function getData(): iterable;
 

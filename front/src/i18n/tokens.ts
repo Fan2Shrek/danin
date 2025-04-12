@@ -11,8 +11,8 @@ const tokens = {
         error: {
             invalid: 'login.error.invalid',
             empty: 'login.error.empty',
-        }
+        },
     },
-}
+};
 
-export default tokens
+export default tokens;

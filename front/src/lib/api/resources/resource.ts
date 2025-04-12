@@ -1,4 +1,4 @@
-import Client from "../client";
+import Client from '../client';
 
 class Resource {
     protected client: Client;
@@ -11,7 +11,7 @@ class Resource {
         return await this.client.get<T>(url);
     }
 
-    protected async post<T>(url: string, body: any): Promise<T> {
+    protected async post<T>(url: string, body: object | undefined): Promise<T> {
         return await this.client.post<T>(url, body);
     }
 }

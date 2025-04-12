@@ -1,4 +1,4 @@
-import tokens from './tokens.ts'
+import tokens from './tokens.ts';
 
 const translations: { [key: string]: string } = {
     [tokens.login.title]: 'Login',
@@ -9,6 +9,6 @@ const translations: { [key: string]: string } = {
     [tokens.login.register.cta]: 'Create one',
     [tokens.login.error.invalid]: 'Invalid username or password',
     [tokens.login.error.empty]: 'Please fill all fields',
-}
+};
 
-export default translations
+export default translations;

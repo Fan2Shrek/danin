@@ -1,26 +1,26 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import tokens from '@/i18n/tokens'
+import { ref } from 'vue';
+import tokens from '@/i18n/tokens';
 
-import api from '@/lib/api/api'
+import api from '@/lib/api/api';
 
-const email = ref('')
-const password = ref('')
-const errorMessage = ref('')
+const email = ref('');
+const password = ref('');
+const errorMessage = ref('');
 
 const handleLogin = async () => {
     if (!email.value || !password.value) {
-        errorMessage.value = tokens.login.error.empty
-        return
+        errorMessage.value = tokens.login.error.empty;
+        return;
     }
 
     try {
         // todo set the cookie
-        await api().user().login(email.value, password.value)
-    } catch (error) {
-        errorMessage.value = tokens.login.error.invalid
+        await api().user().login(email.value, password.value);
+    } catch {
+        errorMessage.value = tokens.login.error.invalid;
     }
-}
+};
 </script>
 
 <template>
