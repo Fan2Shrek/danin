@@ -1,4 +1,12 @@
 services:
+  db:
+    image: mariadb:10.4
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: app
+    volumes:
+      - db_data:/var/lib/mysql
+
   php:
     build:
       context: ./api
@@ -20,3 +28,6 @@ services:
       - php
     volumes:
       - ./front:/app
+
+volumes:
+  db_data:

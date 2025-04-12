@@ -53,3 +53,15 @@ vue-lint:
 
 front-build:
 	$(NPM) npm run build-only
+
+############################## Setup Symfony ##############################
+
+db:
+	$(CONSOLE) doctrine:database:create --if-not-exists
+	$(CONSOLE) doctrine:schema:update --force
+
+drop-db:
+	$(CONSOLE) doctrine:database:drop --force --if-exists
+
+fixtures: db
+	$(CONSOLE) doctrine:fixtures:load --no-interaction
