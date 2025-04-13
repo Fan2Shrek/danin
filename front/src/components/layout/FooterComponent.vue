@@ -40,7 +40,11 @@ const links = {
             <div class="support-us">
                 <h3>{{ $t(tokens.footer.support.title) }}</h3>
                 <ul>
-                    <li><img src="@/assets/various/github-mark.svg" alt="Github" /></li>
+                    <li>
+                        <a target="_blank" href="https://github.com/Fan2Shrek/danin">
+                            <img src="@/assets/various/github-mark.svg" alt="Github" />
+                        </a>
+                    </li>
                     <li><img src="@/assets/various/paypal.svg" alt="Paypal" /></li>
                 </ul>
             </div>
