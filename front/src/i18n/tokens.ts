@@ -13,6 +13,28 @@ const tokens = {
             empty: 'login.error.empty',
         },
     },
+    footer: {
+        copyright: 'footer.copyright',
+        links: {
+            games: {
+                title: 'footer.links.games.title',
+                supportedList: 'footer.links.games.supportedList',
+                suggestion: 'footer.links.games.suggestion',
+            },
+            documentation: {
+                title: 'footer.links.documentation.title',
+                createRoom: 'footer.links.documentation.createRoom',
+                connectGame: 'footer.links.documentation.connectGame',
+                connectTchat: 'footer.links.documentation.connectTchat',
+            },
+            currentGames: {
+                title: 'footer.links.currentGames.title',
+            },
+        },
+        support: {
+            title: 'footer.support.title',
+        },
+    },
 };
 
 export default tokens;

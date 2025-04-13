@@ -1,5 +1,5 @@
 <template>
-    <div class="locale-changer">
+    <div class="locale-switcher">
         <select v-model="$i18n.locale">
             <option
                 v-for="locale in $i18n.availableLocales"
@@ -11,3 +11,9 @@
         </select>
     </div>
 </template>
+
+<style scoped lang="scss">
+.locale-switcher {
+    position: fixed;
+}
+</style>
