@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Service;
+namespace App\Service\Transport;
 
 use App\Domain\Model\Connection;
+use App\Service\Transport\GameTransportInterface;
 
-class GameTransport
+class GameTransport implements GameTransportInterface
 {
     public function send(Connection $connection, string $message): void
     {

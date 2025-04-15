@@ -16,6 +16,16 @@ services:
       - "8000:80"
     volumes:
       - ./api:/app
+    environment:
+      - WORKER_URL=${WORKER_URL}
+
+  william:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+      target: worker
+    volumes:
+      - ./api:/app
 
   front:
     build:

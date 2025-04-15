@@ -31,5 +31,11 @@ RUN composer install
 
 RUN chmod -R 777 var
 
+FROM dev AS worker
+
+ENV APP_ENV worker
+
+CMD ["multirun", "php-fpm -R -F", "nginx -g 'daemon off;'", "php bin/console app:danin:consume"]
+
 
 FROM main AS prod

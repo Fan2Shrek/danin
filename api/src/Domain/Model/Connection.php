@@ -33,6 +33,14 @@ final class Connection
         }
     }
 
+    public function close(): void
+    {
+        if ($this->isConnected) {
+            socket_close($this->socket);
+            $this->isConnected = false;
+        }
+    }
+
     public function send(string $data): void
     {
         $bytesSent = socket_send($this->socket, $data, strlen($data), 0);
