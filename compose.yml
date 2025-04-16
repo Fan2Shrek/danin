@@ -17,7 +17,7 @@ services:
     volumes:
       - ./api:/app
     environment:
-      - WORKER_URL=${WORKER_URL}
+      - REDIS_URL=${REDIS_URL}
 
   william:
     build:
@@ -40,6 +40,9 @@ services:
       - ./front:/app
     environment:
       VITE_API_URL: ${API_URL}
+
+  redis:
+    image: redis:alpine
 
 volumes:
   db_data:

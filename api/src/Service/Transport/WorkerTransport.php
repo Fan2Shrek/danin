@@ -5,32 +5,23 @@ declare(strict_types=1);
 namespace App\Service\Transport;
 
 use App\Domain\Model\Connection;
-use Symfony\Component\HttpClient\Messenger\PingWebhookMessage;
-use Symfony\Component\Messenger\MessageBusInterface;
+use App\Service\Redis\Attribute\UseRedisDispatcher;
+use App\Service\Redis\EventDispatcher\RedisEvent;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
+#[UseRedisDispatcher(true)]
 class WorkerTransport implements GameTransportInterface
 {
     public function __construct(
-        private MessageBusInterface $bus,
-        private string $workerUrl,
+        private EventDispatcherInterface $eventDispatcher,
     ) {
     }
 
     public function send(Connection $connection, string $message): void
     {
-        $payload = [
-
-        ];
-        $this->bus->dispatch(new PingWebhookMessage(
-            'POST',
-            $this->workerUrl,
-            [
-                'headers' => [
-                    'Content-Type' => 'application/json',
-                ],
-                'body' => $message,
-            ],
-            true,
-        ));
+        $this->eventDispatcher->dispatch(
+            new RedisEvent($message),
+            'tchat_message',
+        );
     }
 }

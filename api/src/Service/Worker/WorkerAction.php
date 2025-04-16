@@ -7,8 +7,6 @@ namespace App\Service\Worker;
 readonly class WorkerAction
 {
     public function __construct(
-        public string $id,
-        public string $serverId,
         public string $type,
         public array $data,
     ) {

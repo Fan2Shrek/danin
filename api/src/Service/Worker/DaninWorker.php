@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Service\Worker;
 
 use App\Domain\Model\Connection;
+use App\Service\Redis\RedisListenerManager;
 use App\Service\Transport\GameTransportInterface;
 use Psr\Log\LoggerInterface;
 
@@ -15,6 +16,7 @@ final class DaninWorker
     private ?\Closure $eh = null;
 
     public function __construct(
+        private RedisListenerManager $redisListenerManager,
         private ActionQueue $queue,
         private LoggerInterface $logger,
         private GameTransportInterface $gameTransport,
@@ -23,7 +25,12 @@ final class DaninWorker
 
     public function setUp(): void
     {
-        $this->eh = set_exception_handler($this->gracefulShutdown(...));
+        /* $this->eh = set_exception_handler($this->gracefulShutdown(...)); */
+
+        // dev
+        $this->servers['0'] = new Connection('172.17.0.1', 12345);
+
+        $this->redisListenerManager->startListening();
     }
 
     public function tearDown(): void
@@ -35,6 +42,8 @@ final class DaninWorker
 
     public function consume(): never
     {
+        $this->setUp();
+
         while (1) {
             if (!$action = $this->queue->getNextAction()) {
                 sleep(1);
@@ -45,19 +54,21 @@ final class DaninWorker
         }
     }
 
-    private function processAction(WorkerAction $action): void
+    public function processAction(WorkerAction $action): void
     {
         if ($action === null) {
             return;
         }
 
-        $server = $this->getServer($action->serverId);
+        // dev
+        /* $server = $this->getServer($action->serverId); */
+        $server = $this->getServer('0');
         if ($server === null) {
             return;
         }
 
         /** todo handly start/stop action */
-        $this->gameTransport->send($server, $action->type, $action->data);
+        $this->gameTransport->send($server, json_encode($action->data));
     }
 
     private function addServer(Connection $server): void

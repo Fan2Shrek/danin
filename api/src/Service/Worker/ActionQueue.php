@@ -9,7 +9,7 @@ final class ActionQueue implements \Countable, \IteratorAggregate
     /** @var WorkerAction[] */
     private array $actions = [];
 
-    public function addAction(Action $action): void
+    public function addAction(WorkerAction $action): void
     {
         $this->actions[] = $action;
     }

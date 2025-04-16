@@ -11,6 +11,7 @@ COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr
 RUN install-php-extensions \
     intl \
     sockets \
+    redis \
     pdo_mysql
 
 RUN apk update && apk upgrade
