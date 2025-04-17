@@ -42,7 +42,7 @@ final class RedisListenerManager
         }
     }
 
-    private function dispatch($redis, $channel, $msg): void
+    private function dispatch(\Redis $redis, string $channel, string $msg): void
     {
         $this->logger->debug('Dispatching message', [
             'channel' => $channel,
@@ -52,7 +52,7 @@ final class RedisListenerManager
 
         try {
             $this->callListenersForEvent(
-                new RedisEvent($msg),
+                unserialize($msg),
                 $channel,
             );
         } catch (\Throwable $e) {

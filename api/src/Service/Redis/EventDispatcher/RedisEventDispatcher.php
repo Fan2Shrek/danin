@@ -22,7 +22,7 @@ final class RedisEventDispatcher implements EventDispatcherInterface
 
         $this->redis->publish(
             $eventName,
-            $event->data,
+            serialize($event),
         );
 
         return $event;
