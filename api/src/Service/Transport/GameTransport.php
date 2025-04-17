@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Service\Transport;
 
 use App\Domain\Model\Connection;
-use App\Service\Transport\GameTransportInterface;
 
 class GameTransport implements GameTransportInterface
 {

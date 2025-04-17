@@ -2,12 +2,11 @@
 
 namespace App;
 
-use App\Command\DaninConsumer;
 use App\DependencyInjection\Compiler\RegisterRedisListenerPass;
 use App\DependencyInjection\Compiler\ResolveRedisDispatcherPass;
 use App\Service\Redis\Attribute\AsRedisListener;
-use App\Service\Redis\EventDispatcher\RedisEventDispatcher;
 use App\Service\Redis\Attribute\UseRedisDispatcher;
+use App\Service\Redis\EventDispatcher\RedisEventDispatcher;
 use App\Service\Redis\RedisListenerManager;
 use App\Service\Transport\GameTransport;
 use App\Service\Transport\GameTransportInterface;
@@ -62,20 +61,7 @@ class Kernel extends BaseKernel
 
         $container->registerAttributeForAutoconfiguration(
             AsRedisListener::class,
-            static function (ChildDefinition $definition, AsRedisListener $attribute, \ReflectionClass $reflector): void {
-                if (null !== $attribute->method && !$reflector->hasMethod($attribute->method)) {
-                    throw new \RuntimeException(sprintf('Method "%s" not found in class "%s"', $attribute->method, $reflector->getName()));
-                }
-
-                if (null === $attribute->method && !$reflector->hasMethod('__invoke')) {
-                    throw new \RuntimeException(sprintf('Method "__invoke" not found in class "%s"', $reflector->getName()));
-                }
-
-                $definition->addTag('redis.listener', [
-                    'event' => $attribute->event,
-                    'method' => $attribute->method ?? '__invoke',
-                ]);
-            }
+            RegisterRedisListenerPass::configureFromAttribute(...),
         );
     }
 

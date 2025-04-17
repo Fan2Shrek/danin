@@ -43,7 +43,7 @@ final class Connection
 
     public function send(string $data): void
     {
-        $bytesSent = socket_send($this->socket, $data, strlen($data), 0);
+        $bytesSent = socket_send($this->socket, $data, \strlen($data), 0);
 
         if (false === $bytesSent) {
             throw new \RuntimeException('Failed to send data: '.socket_strerror(socket_last_error($this->socket)));

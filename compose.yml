@@ -23,9 +23,11 @@ services:
     build:
       context: ./api
       dockerfile: Dockerfile
-      target: worker
     volumes:
       - ./api:/app
+    environment:
+      - REDIS_URL=${REDIS_URL}
+    command: php bin/console app:danin:consume
 
   front:
     build:

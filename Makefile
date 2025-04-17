@@ -6,12 +6,13 @@ ifeq ($(WITH_DOCKER), 1)
 	PHP=$(COMPOSE) run --rm php
 	NPM=$(COMPOSE) run --rm front
 
-	PHPCS_CMD=$(PHP) sh -c 'PHP_CS_FIXER_IGNORE_ENV=1 vendor/bin/php-cs-fixer fix src'
+	PHPCS_CMD=$(PHP) sh -c 'PHP_CS_FIXER_IGNORE_ENV=1 vendor/bin/php-cs-fixer fix src --allow-risky=yes'
+	PHPCS_CMD_DRY=$(PHP) sh -c 'PHP_CS_FIXER_IGNORE_ENV=1 vendor/bin/php-cs-fixer fix src --dry-run --allow-risky=yes'
 else
 	PHP=cd api &&
 	NPM=cd front &&
 
-	PHPCS_CMD=export PHP_CS_FIXER_IGNORE_ENV=1 && $(PHP) vendor/bin/php-cs-fixer fix src
+	PHPCS_CMD=export PHP_CS_FIXER_IGNORE_ENV=1 && $(PHP) vendor/bin/php-cs-fixer fix src --allow-risky=yes
 endif
 
 CONSOLE := $(PHP) bin/console
@@ -32,7 +33,7 @@ phpcs:
 	$(PHPCS_CMD)
 
 phpcs-dry:
-	$(PHPCS_CMD) --dry-run
+	$(PHPCS_CMD_DRY)
 
 jscs:
 	$(NPM) npm run format
@@ -53,6 +54,11 @@ vue-lint:
 
 front-build:
 	$(NPM) npm run build-only
+
+############################## Test ##############################
+
+tests:
+	$(PHP) vendor/bin/phpunit tests/
 
 ############################## Setup Symfony ##############################
 

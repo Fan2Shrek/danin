@@ -11,10 +11,10 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
-* This command is used to consume messages from the Danin queue.
-*
-* Thsi command should run continuously in the background to process messages as they arrive.
-*/
+ * This command is used to consume messages from the Danin queue.
+ *
+ * Thsi command should run continuously in the background to process messages as they arrive.
+ */
 #[AsCommand(
     name: 'app:danin:consumer',
     description: 'Consume messages from the Danin queue.',

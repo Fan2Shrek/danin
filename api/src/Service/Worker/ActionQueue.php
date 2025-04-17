@@ -21,7 +21,7 @@ final class ActionQueue implements \Countable, \IteratorAggregate
 
     public function count(): int
     {
-        return count($this->actions);
+        return \count($this->actions);
     }
 
     public function getIterator(): \ArrayIterator

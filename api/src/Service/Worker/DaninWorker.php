@@ -56,18 +56,18 @@ final class DaninWorker
 
     public function processAction(WorkerAction $action): void
     {
-        if ($action === null) {
+        if (null === $action) {
             return;
         }
 
         // dev
         /* $server = $this->getServer($action->serverId); */
         $server = $this->getServer('0');
-        if ($server === null) {
+        if (null === $server) {
             return;
         }
 
-        /** todo handly start/stop action */
+        /* todo handly start/stop action */
         $this->gameTransport->send($server, json_encode($action->data));
     }
 

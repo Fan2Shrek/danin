@@ -6,9 +6,3 @@ controllers:
 
 api_login:
     path: /api/login
-
-when@worker:
-  notify:
-    path: /notify
-    methods: [POST]
-    controller: App\Controller\NotifyController
