@@ -10,6 +10,7 @@ final class Connection
     private bool $isConnected = false;
 
     public function __construct(
+        public string $id,
         public string $host,
         public int $port,
     ) {
@@ -31,6 +32,8 @@ final class Connection
         if (false === $result) {
             throw new \RuntimeException('Failed to connect: '.socket_strerror(socket_last_error($this->socket)));
         }
+
+        $this->isConnected = true;
     }
 
     public function close(): void

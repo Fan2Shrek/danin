@@ -4,6 +4,8 @@ local console = require("resources.console")
 
 local handlers = {}
 
+local token = nil
+
 function handlers.spawn(entity)
 	if type(entity) ~= "number" then
 		console.debug(entity)
@@ -26,11 +28,24 @@ end
 
 function handlers.handle(msg)
 	local success, data = pcall(json.decode, msg)
+    console.debug("Received message: " .. tostring(msg))
 
 	if not success then
 		console.debug("Failed to decode JSON: " .. tostring(msg))
 		return
 	end
+
+    if nil == token and data.token and not data.content then
+        token = data.token
+        console.debug("Token set: " .. tostring(token))
+
+        return
+    end
+
+    if data.token ~= token then
+        console.debug("Invalid token: " .. tostring(data.token))
+        return
+    end
 
 	local action = data.type
 	local content = data.content
@@ -40,6 +55,14 @@ function handlers.handle(msg)
 	elseif action == "activate" then
 		handlers.useActiveItem(content)
 	end
+end
+
+function handlers.tearDown()
+    console.debug("Tearing down handlers")
+
+    if token then
+        token = nil
+    end
 end
 
 return handlers
