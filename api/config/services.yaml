@@ -17,7 +17,7 @@ services:
     # this creates a service per class whose id is the fully-qualified class name
     App\:
         resource: '../src/'
-        # Probably more thing to exlucde
+        # Probably more things to exclude
         exclude:
             - '../src/Service/Worker/DaninWorker.php'
             - '../src/DependencyInjection/'
