@@ -13,19 +13,23 @@ final class DaninWorker
 {
     /** @var arraystring, Connection> */
     private array $servers = [];
-    private ?\Closure $eh = null;
+    /** @var callable */
+    private $eh;
 
     public function __construct(
         private RedisListenerManager $redisListenerManager,
-        private ActionQueue $queue,
         private LoggerInterface $logger,
         private GameTransportInterface $gameTransport,
-    ) {
+    ) {}
+
+    public function consume(): void
+    {
+        $this->setUp();
     }
 
     public function setUp(): void
     {
-        /* $this->eh = set_exception_handler($this->gracefulShutdown(...)); */
+        $this->eh = set_exception_handler($this->gracefulShutdown(...));
 
         // dev
         $this->servers['0'] = new Connection('172.17.0.1', 12345);
@@ -40,26 +44,8 @@ final class DaninWorker
         }
     }
 
-    public function consume(): never
-    {
-        $this->setUp();
-
-        while (1) {
-            if (!$action = $this->queue->getNextAction()) {
-                sleep(1);
-                continue;
-            }
-
-            $this->processAction($action);
-        }
-    }
-
     public function processAction(WorkerAction $action): void
     {
-        if (null === $action) {
-            return;
-        }
-
         // dev
         /* $server = $this->getServer($action->serverId); */
         $server = $this->getServer('0');
@@ -83,12 +69,10 @@ final class DaninWorker
 
     private function gracefulShutdown(\Throwable $e): void
     {
-        $this->logger->info('An exception occurred: '.$e->getMessage());
+        $this->logger->info('An exception occurred: ' . $e->getMessage());
         $this->logger->info('Gracefully shutting down DaninWorker...');
 
-        foreach ($this->servers as $server) {
-            $server->close();
-        }
+        $this->tearDown();
 
         $this->logger->info('DaninWorker shut down successfully.');
 

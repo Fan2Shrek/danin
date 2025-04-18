@@ -15,7 +15,6 @@ use Psr\Log\LoggerInterface;
 final class ActionListener
 {
     public function __construct(
-        private ActionQueue $actionQueue,
         private LoggerInterface $logger,
         private DaninWorker $worker,
     ) {

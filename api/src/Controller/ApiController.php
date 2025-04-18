@@ -23,7 +23,7 @@ final class ApiController extends AbstractController
         $connection = new Connection('172.17.0.1', 12345);
         $gameTransport->send($connection, json_encode([
             'type' => 'spawn',
-            'content' => 4,
+            'content' => 412,
         ]));
 
         return new JsonResponse([

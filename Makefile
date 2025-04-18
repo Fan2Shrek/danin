@@ -58,7 +58,7 @@ front-build:
 ############################## Test ##############################
 
 tests:
-	$(PHP) vendor/bin/phpunit tests/
+	$(PHP) bin/phpunit tests/
 
 ############################## Setup Symfony ##############################
 
