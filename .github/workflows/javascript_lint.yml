@@ -1,6 +1,9 @@
 name: Front Quality Check
 
-on: [push]
+on:
+  push:
+    paths:
+      - 'front/**'
 
 env:
   WITH_DOCKER: 0

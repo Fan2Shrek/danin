@@ -1,6 +1,9 @@
 name: PHP Quality Check
 
-on: [push]
+on:
+  push:
+    paths:
+      - 'api/**'
 
 env:
   WITH_DOCKER: 0
