@@ -61,6 +61,7 @@ final class RedisListenerManager
                 'message' => $redis,
                 'stdout' => $msg,
                 'exception' => $e->getMessage(),
+                'file' => $e->getFile(),
             ]);
         }
     }

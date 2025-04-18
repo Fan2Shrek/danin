@@ -1,5 +1,15 @@
-local handlers = require('resources/handlers')
-local server = require('resources/server')
+local DEBUG = true
+
+local handlers = nil
+local server = nil
+
+if DEBUG then
+    server = include('resources/server.lua')
+    handlers = include('resources/handlers.lua')
+else
+    handlers = require('resources/handlers')
+    server = require('resources/server')
+end
 
 local PORT = 12345
 local HOST = "0.0.0.0"
@@ -25,6 +35,7 @@ end
 
 function mod:tearDown()
     server.stop()
+    handlers.tearDown()
 end
 
 -- Make sure the mod is started if using luamod from cli

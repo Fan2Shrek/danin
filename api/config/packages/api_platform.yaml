@@ -1,6 +1,12 @@
 api_platform:
-    title: Hello API Platform
+    title: Danin
     version: 1.0.0
+    formats:
+      jsonld: ["application/ld+json"]
+      json: ["application/json"]
+    resource_class_directories:
+        - '%kernel.project_dir%/src/Api/Model'
+        - '%kernel.project_dir%/src/Entity'
     defaults:
         stateless: true
         cache_headers:

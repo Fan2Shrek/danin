@@ -6,7 +6,6 @@ namespace App\Service\Transport;
 
 use App\Service\Redis\Attribute\AsRedisListener;
 use App\Service\Redis\EventDispatcher\RedisEvent;
-use App\Service\Worker\ActionQueue;
 use App\Service\Worker\DaninWorker;
 use App\Service\Worker\WorkerAction;
 use Psr\Log\LoggerInterface;
@@ -27,8 +26,11 @@ final class ActionListener
         ]);
 
         $this->worker->processAction(new WorkerAction(
-            'message',
-            json_decode($event->data, true),
+            $event->data['type'],
+            array_merge(
+                ['id' => $event->data['connection']],
+                json_decode($event->data['content'], true),
+            )
         ));
     }
 }

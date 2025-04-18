@@ -13,6 +13,8 @@ final class DaninWorker
 {
     /** @var arraystring, Connection> */
     private array $servers = [];
+    /** @var arraystring, string> */
+    private array $tokens = [];
     /** @var callable */
     private $eh;
 
@@ -20,7 +22,8 @@ final class DaninWorker
         private RedisListenerManager $redisListenerManager,
         private LoggerInterface $logger,
         private GameTransportInterface $gameTransport,
-    ) {}
+    ) {
+    }
 
     public function consume(): void
     {
@@ -32,7 +35,7 @@ final class DaninWorker
         $this->eh = set_exception_handler($this->gracefulShutdown(...));
 
         // dev
-        $this->servers['0'] = new Connection('172.17.0.1', 12345);
+        $this->servers['0'] = new Connection('0', '172.17.0.1', 12345);
 
         $this->redisListenerManager->startListening();
     }
@@ -46,20 +49,52 @@ final class DaninWorker
 
     public function processAction(WorkerAction $action): void
     {
-        // dev
-        /* $server = $this->getServer($action->serverId); */
-        $server = $this->getServer('0');
-        if (null === $server) {
+        if ('create' === $action->type) {
+            $this->create($action->data);
+
             return;
         }
 
-        /* todo handly start/stop action */
-        $this->gameTransport->send($server, json_encode($action->data));
+        $id = $action->data['id'] ?? null;
+
+        if (null === $id || null === $server = $this->getServer($id)) {
+            return;
+        }
+
+        $this->gameTransport->send($server, $this->convertPayload($action->data), $action->type);
+    }
+
+    private function create(array $config): void
+    {
+        $server = new Connection(
+            $config['id'],
+            $config['host'],
+            $config['port'],
+        );
+
+        $this->logger->info('Creating server', [
+            'server' => $server,
+        ]);
+
+        $server->connect();
+
+        $this->addServer($server);
+        $this->handshake($server);
+    }
+
+    private function convertPayload(array $payload): string
+    {
+        if (isset($payload['id'])) {
+            $payload['token'] = $this->tokens[$payload['id']] ?? throw new \RuntimeException('Token not found for server: '.$serverId);
+            unset($payload['id']);
+        }
+
+        return json_encode($payload);
     }
 
     private function addServer(Connection $server): void
     {
-        $this->servers[] = $server;
+        $this->servers[$server->id] = $server;
     }
 
     private function getServer(string $id): ?Connection
@@ -69,7 +104,7 @@ final class DaninWorker
 
     private function gracefulShutdown(\Throwable $e): void
     {
-        $this->logger->info('An exception occurred: ' . $e->getMessage());
+        $this->logger->info('An exception occurred: '.$e->getMessage());
         $this->logger->info('Gracefully shutting down DaninWorker...');
 
         $this->tearDown();
@@ -79,5 +114,25 @@ final class DaninWorker
         if ($this->eh) {
             ($this->eh)($e);
         }
+    }
+
+    private function handshake(Connection $server): void
+    {
+        $this->logger->info('Handshake with server', [
+            'server' => $server,
+        ]);
+
+        $this->tokens[$server->id] = $this->generateToken();
+
+        $this->gameTransport->send($server, $this->convertPayload([
+            'token' => $this->tokens[$server->id],
+        ]), 'handshake');
+    }
+
+    private function generateToken(): string
+    {
+        $token = bin2hex(random_bytes(16));
+
+        return $token;
     }
 }

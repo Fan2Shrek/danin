@@ -8,5 +8,5 @@ use App\Domain\Model\Connection;
 
 interface GameTransportInterface
 {
-    public function send(Connection $connection, string $data): void;
+    public function send(string|Connection $connection, string $data, string $type): void;
 }

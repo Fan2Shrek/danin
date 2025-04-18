@@ -12,6 +12,7 @@ use App\Service\Transport\GameTransport;
 use App\Service\Transport\GameTransportInterface;
 use App\Service\Transport\WorkerTransport;
 use App\Service\Worker\DaninWorker;
+use App\Tests\Resources\GameClientMock;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -24,6 +25,7 @@ class Kernel extends BaseKernel
     use MicroKernelTrait;
 
     private bool $appDebug = true;
+    private bool $useMocks = false;
 
     protected function build(ContainerBuilder $container): void
     {
@@ -34,20 +36,29 @@ class Kernel extends BaseKernel
             $this->buildAsProd($container);
         }
 
-        $container->setDefinition('app.game.transport', new Definition(GameTransport::class));
+        if ($this->useMocks) {
+            $this->registerMocks($container);
+        }
+
+        $container->setDefinition('app.game.transport', new Definition(GameTransport::class)->setAutowired(true));
 
         if (!$container->hasAlias(GameTransportInterface::class)) {
             $container->setAlias(GameTransportInterface::class, 'app.game.transport');
         }
 
+        if (!$container->has(DaninWorker::class)) {
+            $container->register(DaninWorker::class);
+        }
+
         $listenerManager = new Definition(RedisListenerManager::class);
         $listenerManager->setAutowired(true);
+
         $container->setDefinition(
             'redis.listener_manager',
             $listenerManager,
         );
-        $container->setAlias(RedisListenerManager::class, 'redis.listener_manager');
 
+        $container->setAlias(RedisListenerManager::class, 'redis.listener_manager');
         $container->setAlias('redis.event_dispatcher', RedisEventDispatcher::class);
 
         $container->registerAttributeForAutoconfiguration(
@@ -73,5 +84,15 @@ class Kernel extends BaseKernel
 
         $container->setAlias(GameTransportInterface::class, WorkerTransport::class);
         $container->setDefinition(DaninWorker::class, $worker);
+    }
+
+    private function registerMocks(ContainerBuilder $container): void
+    {
+        $gameClientMock = new Definition(GameClientMock::class);
+
+        if ('worker' === $this->getEnvironment()) {
+            $container->setDefinition('app.game.client.mock', $gameClientMock);
+            $container->setAlias(GameTransportInterface::class, 'app.game.client.mock');
+        }
     }
 }

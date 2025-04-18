@@ -17,10 +17,14 @@ class WorkerTransport implements GameTransportInterface
     ) {
     }
 
-    public function send(Connection $connection, string $message): void
+    public function send(string|Connection $connection, string $message, string $type): void
     {
         $this->eventDispatcher->dispatch(
-            new RedisEvent($message),
+            new RedisEvent([
+                'type' => $type,
+                'connection' => \is_string($connection) ? $connection : $connection->id,
+                'content' => $message,
+            ]),
             'tchat_message',
         );
     }
