@@ -10,12 +10,16 @@ services:
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+        bind:
+            $redisUrl: '%env(REDIS_URL)%'
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
     App\:
         resource: '../src/'
+        # Probably more things to exclude
         exclude:
+            - '../src/Service/Worker/DaninWorker.php'
             - '../src/DependencyInjection/'
             - '../src/Entity/'
             - '../src/Domain/Model'

@@ -33,12 +33,25 @@ final class Connection
         }
     }
 
+    public function close(): void
+    {
+        if ($this->isConnected) {
+            socket_close($this->socket);
+            $this->isConnected = false;
+        }
+    }
+
     public function send(string $data): void
     {
-        $bytesSent = socket_send($this->socket, $data, strlen($data), 0);
+        $bytesSent = socket_send($this->socket, $data, \strlen($data), 0);
 
         if (false === $bytesSent) {
             throw new \RuntimeException('Failed to send data: '.socket_strerror(socket_last_error($this->socket)));
         }
+    }
+
+    public function __toString(): string
+    {
+        return $this->host.':'.$this->port;
     }
 }

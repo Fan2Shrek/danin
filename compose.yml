@@ -16,6 +16,18 @@ services:
       - "8000:80"
     volumes:
       - ./api:/app
+    environment:
+      - REDIS_URL=${REDIS_URL}
+
+  william:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    volumes:
+      - ./api:/app
+    environment:
+      - REDIS_URL=${REDIS_URL}
+    command: php bin/console app:danin:consume
 
   front:
     build:
@@ -30,6 +42,9 @@ services:
       - ./front:/app
     environment:
       VITE_API_URL: ${API_URL}
+
+  redis:
+    image: redis:alpine
 
 volumes:
   db_data:

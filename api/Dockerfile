@@ -11,6 +11,7 @@ COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr
 RUN install-php-extensions \
     intl \
     sockets \
+    redis \
     pdo_mysql
 
 RUN apk update && apk upgrade
@@ -30,6 +31,5 @@ FROM main AS dev
 RUN composer install
 
 RUN chmod -R 777 var
-
 
 FROM main AS prod

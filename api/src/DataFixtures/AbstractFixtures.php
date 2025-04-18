@@ -16,7 +16,7 @@ abstract class AbstractFixtures extends Fixture
             $args = [];
 
             if (null === $constructor) {
-                throw new \RuntimeException(sprintf('The entity "%s" has no constructor.', $r->getName()));
+                throw new \RuntimeException(\sprintf('The entity "%s" has no constructor.', $r->getName()));
             }
 
             foreach ($constructor->getParameters() as $parameter) {
