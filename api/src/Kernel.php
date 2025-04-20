@@ -24,7 +24,7 @@ class Kernel extends BaseKernel
 {
     use MicroKernelTrait;
 
-    private bool $appDebug = true;
+    private bool $appDebug = false;
     private bool $useMocks = false;
 
     protected function build(ContainerBuilder $container): void
