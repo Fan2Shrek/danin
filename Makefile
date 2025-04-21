@@ -60,6 +60,7 @@ front-build:
 pretests:
 	$(CONSOLE) -etest d:d:c --if-not-exists
 	$(CONSOLE) -etest d:s:u -f
+	$(CONSOLE) -etest lexik:jwt:generate-keypair --overwrite -n
 
 tests:
 	$(PHP) bin/phpunit tests/
