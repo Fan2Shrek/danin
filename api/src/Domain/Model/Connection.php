@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Model;
 
-final class Connection
+class Connection
 {
     private \Socket $socket;
     private bool $isConnected = false;
