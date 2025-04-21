@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Service\Redis;
+namespace App\Service\Redis\EventDispatcher;
 
-use App\Service\Redis\EventDispatcher\RedisEvent;
+use App\Service\Redis\RedisConnectionManager;
 use Psr\Log\LoggerInterface;
 
 final class RedisListenerManager

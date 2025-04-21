@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Service\Worker;
 
 use App\Domain\Model\Connection;
-use App\Service\Redis\RedisListenerManager;
+use App\Service\Redis\EventDispatcher\RedisListenerManager;
 use App\Service\Transport\GameTransportInterface;
 use Psr\Log\LoggerInterface;
 

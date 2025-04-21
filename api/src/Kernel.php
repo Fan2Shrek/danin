@@ -4,10 +4,11 @@ namespace App;
 
 use App\DependencyInjection\Compiler\RegisterRedisListenerPass;
 use App\DependencyInjection\Compiler\ResolveRedisDispatcherPass;
+use App\Service\MessageProcessor;
 use App\Service\Redis\Attribute\AsRedisListener;
 use App\Service\Redis\Attribute\UseRedisDispatcher;
 use App\Service\Redis\EventDispatcher\RedisEventDispatcher;
-use App\Service\Redis\RedisListenerManager;
+use App\Service\Redis\EventDispatcher\RedisListenerManager;
 use App\Service\Transport\GameTransport;
 use App\Service\Transport\GameTransportInterface;
 use App\Service\Transport\WorkerTransport;
@@ -24,13 +25,17 @@ class Kernel extends BaseKernel
 {
     use MicroKernelTrait;
 
-    private bool $appDebug = true;
-    private bool $useMocks = false;
+    protected bool $appDebug = false;
+    protected bool $useMocks = false;
 
     protected function build(ContainerBuilder $container): void
     {
         $container->addCompilerPass(new ResolveRedisDispatcherPass());
         $container->addCompilerPass(new RegisterRedisListenerPass());
+
+        if (!$container->has(DaninWorker::class)) {
+            $container->register(DaninWorker::class)->setAutowired(true);
+        }
 
         if ('prod' === $this->getEnvironment() || $this->appDebug) {
             $this->buildAsProd($container);
@@ -44,10 +49,6 @@ class Kernel extends BaseKernel
 
         if (!$container->hasAlias(GameTransportInterface::class)) {
             $container->setAlias(GameTransportInterface::class, 'app.game.transport');
-        }
-
-        if (!$container->has(DaninWorker::class)) {
-            $container->register(DaninWorker::class);
         }
 
         $listenerManager = new Definition(RedisListenerManager::class);
@@ -78,8 +79,7 @@ class Kernel extends BaseKernel
 
     private function buildAsProd(ContainerBuilder $container): void
     {
-        $worker = new Definition(DaninWorker::class);
-        $worker->setAutowired(true);
+        $worker = $container->getDefinition(DaninWorker::class);
         $worker->setArgument('$gameTransport', new Reference('app.game.transport'));
 
         $container->setAlias(GameTransportInterface::class, WorkerTransport::class);
@@ -89,10 +89,14 @@ class Kernel extends BaseKernel
     private function registerMocks(ContainerBuilder $container): void
     {
         $gameClientMock = new Definition(GameClientMock::class);
+        $container->setDefinition('app.game.client.mock', $gameClientMock);
+        $container->setAlias(GameTransportInterface::class, 'app.game.client.mock');
 
-        if ('worker' === $this->getEnvironment()) {
-            $container->setDefinition('app.game.client.mock', $gameClientMock);
-            $container->setAlias(GameTransportInterface::class, 'app.game.client.mock');
+        if ($this->appDebug) {
+            $container->register(MessageProcessor::class)
+                ->setArgument('$transport', new Reference(WorkerTransport::class));
+            $container->getDefinition(DaninWorker::class)
+                ->setArgument('$gameTransport', new Reference('app.game.client.mock'));
         }
     }
 }
