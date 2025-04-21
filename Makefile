@@ -57,6 +57,10 @@ front-build:
 
 ############################## Test ##############################
 
+pretests:
+	$(CONSOLE) -etest d:d:c --if-not-exists
+	$(CONSOLE) -etest d:s:u -f
+
 tests:
 	$(PHP) bin/phpunit tests/
 
