@@ -35,7 +35,6 @@ class GameTransportTest extends TestCase
         $gameTransport->send($connection, '', 'test');
     }
 
-
     private function getLogger(): LoggerInterface
     {
         return $this->createMock(LoggerInterface::class);
