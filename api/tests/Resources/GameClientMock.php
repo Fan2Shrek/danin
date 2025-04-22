@@ -9,8 +9,28 @@ use App\Service\Transport\GameTransportInterface;
 
 final class GameClientMock implements GameTransportInterface
 {
+    private array $messages = [];
+
+    public function __construct(
+        private bool $echo = false,
+    ) {
+    }
+
     public function send(string|Connection $connection, string $message, string $type): void
     {
-        echo "Sending message: $message to connection: $connection with type: $type\n";
+        if ($this->echo) {
+            echo "Sending message: $message to connection: $connection with type: $type\n";
+        }
+
+        $this->messages[] = [
+            'connection' => $connection,
+            'message' => $message,
+            'type' => $type,
+        ];
+    }
+
+    public function getMessages(): array
+    {
+        return $this->messages;
     }
 }
