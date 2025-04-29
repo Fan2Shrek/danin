@@ -10,7 +10,7 @@ use Psr\Log\LoggerInterface;
 final class RedisListenerManager
 {
     /** @var array<string, callable(RedisEvent): void> */
-    private array $listeners;
+    private array $listeners = [];
 
     public function __construct(
         private RedisConnectionManager $redis,

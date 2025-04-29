@@ -1,5 +1,6 @@
-local json = require("json")
+local ALLOW_TOKENLESS = true
 
+local json = require("json")
 local console = require("resources.console")
 
 local handlers = {}
@@ -35,14 +36,16 @@ function handlers.handle(msg)
 		return
 	end
 
-    if nil == token and data.token and not data.content then
-        token = data.token
-        console.debug("Token set: " .. tostring(token))
+    if not ALLOW_TOKENLESS then
+        if nil == token and data.token and not data.content then
+            token = data.token
+            console.debug("Token set: " .. tostring(token))
 
-        return
+            return
+        end
     end
 
-    if data.token ~= token then
+    if not ALLOW_TOKENLESS and data.token ~= token then
         console.debug("Invalid token: " .. tostring(data.token))
         return
     end

@@ -28,6 +28,8 @@ final class DaninWorker
     public function consume(): void
     {
         $this->setUp();
+
+        $this->redisListenerManager->startListening();
     }
 
     public function setUp(): void
@@ -36,8 +38,6 @@ final class DaninWorker
 
         // dev
         $this->servers['0'] = new Connection('0', '172.17.0.1', 12345);
-
-        $this->redisListenerManager->startListening();
     }
 
     public function tearDown(): void
