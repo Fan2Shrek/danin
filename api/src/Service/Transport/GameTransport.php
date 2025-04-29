@@ -36,6 +36,6 @@ class GameTransport implements GameTransportInterface
 
     private function createConnection(string $connection): Connection
     {
-        return new Connection($connection, '', 0);
+        return new Connection($connection, '172.17.0.1', 12345);
     }
 }

@@ -18,6 +18,7 @@ services:
       - ./api:/app
     environment:
       - REDIS_URL=${REDIS_URL}
+      - PHP_URL=${PHP_URL}
 
   william:
     build:
@@ -27,6 +28,7 @@ services:
       - ./api:/app
     environment:
       - REDIS_URL=${REDIS_URL}
+      - PHP_URL=${PHP_URL}
     command: php bin/console app:danin:consume
 
   front:
