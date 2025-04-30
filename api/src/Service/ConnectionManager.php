@@ -71,10 +71,27 @@ final class ConnectionManager
             'type' => $type,
         ]);
 
-        $this->gameTransport->send($connection, $this->convertPayload((array) $payload), $type);
+        if (\is_string($payload)) {
+            $payload = [
+                'message' => $payload,
+            ];
+        }
+
+        $payload['id'] = $id;
+
+        $this->gameTransport->send($connection, $this->convertPayload($payload), $type);
     }
 
-    private function handshake(string $id): void
+    public function getToken(string $serverId): string
+    {
+        if (null === $token = ($this->tokens[$serverId] ?? null)) {
+            throw new UnknowConnectionException($serverId);
+        }
+
+        return $token;
+    }
+
+    public function handshake(string $id): void
     {
         $connection = $this->getConnection($id);
         $this->logger->info('Handshake with server', [
@@ -90,6 +107,11 @@ final class ConnectionManager
 
     private function convertPayload(array $payload): string
     {
+        if (isset($payload['id'])) {
+            $payload['token'] = $this->getToken($payload['id']);
+            unset($payload['id']);
+        }
+
         return json_encode($payload);
     }
 
