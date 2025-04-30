@@ -14,7 +14,7 @@ class GameTransport implements GameTransportInterface
     ) {
     }
 
-    public function send(string|Connection $connection, string $message, string $type): void
+    public function send(Connection $connection, string $message, string $type): void
     {
         $this->logger->debug('Sending "{message}" to connection with id "{id}"', [
             'connection' => $connection,

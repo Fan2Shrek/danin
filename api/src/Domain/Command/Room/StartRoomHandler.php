@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Command\Room;
 
+use App\Domain\Model\Connection;
 use App\Service\Transport\GameTransportInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
@@ -24,6 +25,6 @@ final class StartRoomHandler
             'port' => 12345,
         ];
 
-        $this->transport->send('extras', json_encode($config), 'create');
+        $this->transport->send(new Connection(...$config), json_encode($config), 'create');
     }
 }

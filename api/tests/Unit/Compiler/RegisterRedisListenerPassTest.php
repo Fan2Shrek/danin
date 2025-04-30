@@ -6,6 +6,7 @@ namespace App\Tests\Unit\Compiler;
 
 use App\DependencyInjection\Compiler\RegisterRedisListenerPass;
 use App\Service\Redis\Attribute\AsRedisListener;
+use App\Service\Redis\EventDispatcher\RedisListenerManager;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\Argument\ServiceClosureArgument;
 use Symfony\Component\DependencyInjection\ChildDefinition;
@@ -25,7 +26,7 @@ class RegisterRedisListenerPassTest extends TestCase
 
         $container->setDefinition('test_listener', $listener);
         $container->register('redis.event_dispatcher');
-        $listenerManager = $container->register('redis.listener_manager');;
+        $listenerManager = $container->register(RedisListenerManager::class);
 
         $pass = new RegisterRedisListenerPass();
         $pass->process($container);
@@ -77,7 +78,7 @@ class RegisterRedisListenerPassTest extends TestCase
 
         $container->setDefinition('test_listener', $listener);
         $container->register('redis.event_dispatcher');
-        $listenerManager = $container->register('redis.listener_manager');;
+        $listenerManager = $container->register(RedisListenerManager::class);
 
         $pass = new RegisterRedisListenerPass();
         $pass->process($container);
@@ -108,7 +109,7 @@ class RegisterRedisListenerPassTest extends TestCase
 
         $container->setDefinition('test_listener', $listener);
         $container->register('redis.event_dispatcher');
-        $listenerManager = $container->register('redis.listener_manager');;
+        $listenerManager = $container->register(RedisListenerManager::class);
 
         $pass = new RegisterRedisListenerPass();
         $pass->process($container);

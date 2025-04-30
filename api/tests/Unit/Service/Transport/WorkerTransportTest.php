@@ -15,10 +15,10 @@ class WorkerTransportTest extends TestCase
     {
         $expectedContent = [
             'type' => 'test',
-            'connection' => 'test_connection',
+            'connection' => 'host',
             'content' => "Hello World!",
         ];
-        $connection = new Connection('test_connection', '', 0);
+        $connection = new Connection('host', 0);
         $ed = $this->createMock(EventDispatcherInterface::class);
         $ed->expects($this->once())
             ->method('dispatch')
@@ -31,7 +31,7 @@ class WorkerTransportTest extends TestCase
                 'tchat_message'
             );
 
-        $gameTransport = new WorkerTransport($ed);
+        $gameTransport = new WorkerTransport($ed, $this->createMock(\Psr\Log\LoggerInterface::class));
         $gameTransport->send($connection, 'Hello World!', 'test');
     }
 }

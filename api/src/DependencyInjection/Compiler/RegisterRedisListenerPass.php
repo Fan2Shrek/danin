@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\DependencyInjection\Compiler;
 
 use App\Service\Redis\Attribute\AsRedisListener;
+use App\Service\Redis\EventDispatcher\RedisListenerManager;
 use Symfony\Component\DependencyInjection\Argument\ServiceClosureArgument;
 use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
@@ -15,11 +16,11 @@ final class RegisterRedisListenerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
-        if (!$container->has('redis.event_dispatcher') || !$container->has('redis.listener_manager')) {
+        if (!$container->has('redis.event_dispatcher') || !$container->has(RedisListenerManager::class)) {
             return;
         }
 
-        $listenerManager = $container->getDefinition('redis.listener_manager');
+        $listenerManager = $container->getDefinition(RedisListenerManager::class);
 
         foreach ($container->findTaggedServiceIds('redis.listener') as $id => $tags) {
             foreach ($tags as $tag) {

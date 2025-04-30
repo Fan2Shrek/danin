@@ -19,13 +19,13 @@ use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
-use Symfony\Component\HttpKernel\Kernel as BaseKernel;
+use Symfony\Component\HttpKernel\Kernel;
 
-class Kernel extends BaseKernel
+class DaninKernel extends Kernel
 {
     use MicroKernelTrait;
 
-    protected bool $appDebug = false;
+    protected bool $appDebug = true;
     protected bool $useMocks = false;
 
     protected function build(ContainerBuilder $container): void
@@ -39,6 +39,10 @@ class Kernel extends BaseKernel
 
         if ('prod' === $this->getEnvironment() || $this->appDebug) {
             $this->buildAsProd($container);
+
+            if ('worker' === $this->getEnvironment()) {
+                $container->setAlias(GameTransportInterface::class, GameTransport::class);
+            }
         }
 
         if ($this->useMocks) {
@@ -50,14 +54,6 @@ class Kernel extends BaseKernel
         if (!$container->hasAlias(GameTransportInterface::class)) {
             $container->setAlias(GameTransportInterface::class, 'app.game.transport');
         }
-
-        $listenerManager = new Definition(RedisListenerManager::class);
-        $listenerManager->setAutowired(true);
-
-        $container->setDefinition(
-            'redis.listener_manager',
-            $listenerManager,
-        );
 
         $container->setAlias(RedisListenerManager::class, 'redis.listener_manager');
         $container->setAlias('redis.event_dispatcher', RedisEventDispatcher::class);
@@ -79,11 +75,7 @@ class Kernel extends BaseKernel
 
     private function buildAsProd(ContainerBuilder $container): void
     {
-        $worker = $container->getDefinition(DaninWorker::class);
-        $worker->setArgument('$gameTransport', new Reference('app.game.transport'));
-
         $container->setAlias(GameTransportInterface::class, WorkerTransport::class);
-        $container->setDefinition(DaninWorker::class, $worker);
     }
 
     private function registerMocks(ContainerBuilder $container): void
