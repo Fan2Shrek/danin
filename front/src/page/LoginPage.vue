@@ -3,6 +3,7 @@ import { ref } from 'vue';
 import tokens from '@/i18n/tokens';
 
 import api from '@/lib/api/api';
+import { setCookie } from '@/lib/cookies';
 
 const email = ref('');
 const password = ref('');
@@ -16,8 +17,11 @@ const handleLogin = async () => {
 
     try {
         // todo set the cookie
-        await api().user().login(email.value, password.value);
-    } catch {
+        const response = await api().user().login(email.value, password.value);
+        api().setToken(response.token);
+        setCookie('token', response.token);
+    } catch (error) {
+        console.error(error);
         errorMessage.value = tokens.login.error.invalid;
     }
 };
