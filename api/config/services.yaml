@@ -19,7 +19,6 @@ services:
         resource: '../src/'
         # Probably more things to exclude
         exclude:
-            - '../src/Service/Worker/DaninWorker.php'
             - '../src/DependencyInjection/'
             - '../src/Entity/'
             - '../src/Domain/Model'

@@ -29,6 +29,10 @@ final class RedisListenerManager
 
     public function startListening(): void
     {
+        if (empty($this->listeners)) {
+            throw new \BadMethodCallException('No listeners registered.');
+        }
+
         $this->redis->subscribe(array_keys($this->listeners), $this->dispatch(...));
     }
 
@@ -62,6 +66,7 @@ final class RedisListenerManager
                 'stdout' => $msg,
                 'exception' => $e->getMessage(),
                 'file' => $e->getFile(),
+                'line' => $e->getLine(),
             ]);
         }
     }

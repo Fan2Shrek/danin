@@ -10,7 +10,6 @@ class Connection
     private bool $isConnected = false;
 
     public function __construct(
-        public string $id,
         public string $host,
         public int $port,
     ) {

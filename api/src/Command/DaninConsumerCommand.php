@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Command;
 
+use App\Service\Redis\EventDispatcher\RedisListenerManager;
+use App\Service\Transport\GameTransportInterface;
 use App\Service\Worker\DaninWorker;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -19,9 +21,11 @@ use Symfony\Component\Console\Output\OutputInterface;
     name: 'app:danin:consumer',
     description: 'Consume messages from the Danin queue.',
 )]
-final class DaninConsumer extends Command
+final class DaninConsumerCommand extends Command
 {
     public function __construct(
+        private RedisListenerManager $redisListenerManager,
+        private GameTransportInterface $transport,
         private DaninWorker $worker,
     ) {
         parent::__construct();
@@ -36,7 +40,13 @@ final class DaninConsumer extends Command
     {
         $output->writeln('Starting Danin consumer...');
 
-        $this->worker->consume();
+        $this->worker->start();
+
+        try {
+            $this->redisListenerManager->startListening();
+        } finally {
+            $this->worker->shutdown();
+        }
 
         return Command::SUCCESS;
     }
