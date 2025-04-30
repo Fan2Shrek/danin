@@ -13,6 +13,13 @@ const tokens = {
             empty: 'login.error.empty',
         },
     },
+    room: {
+        tchat: {
+            title: 'room.tchat.title',
+            send: 'room.tchat.send',
+            placeholder: 'room.tchat.placeholder',
+        },
+    },
     footer: {
         copyright: 'footer.copyright',
         links: {

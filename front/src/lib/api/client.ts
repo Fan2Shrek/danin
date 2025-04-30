@@ -1,5 +1,6 @@
 class Client {
     private baseUrl: string;
+    private token: string | null = null;
 
     public constructor(baseUrl: string = '') {
         this.baseUrl = baseUrl;
@@ -15,6 +16,10 @@ class Client {
         });
     }
 
+    public setToken(token: string): void {
+        this.token = token;
+    }
+
     private async request<T>(
         method: string,
         url: string,
@@ -23,7 +28,7 @@ class Client {
     ): Promise<T> {
         const response = await fetch(this.baseUrl + url, {
             method,
-            headers: headers ? headers : {},
+            headers: this._buildHeaders(headers || null),
             body: body ? JSON.stringify(body) : undefined,
         });
 
@@ -32,6 +37,19 @@ class Client {
         }
 
         return response.json();
+    }
+
+    private _buildHeaders(headers: HeadersInit | null): HeadersInit {
+        if (!headers) {
+            headers = {};
+        }
+        const realHeaders = new Headers(headers);
+
+        if (this.token) {
+            realHeaders.set('Authorization', `Bearer ${this.token}`);
+        }
+
+        return realHeaders;
     }
 }
 
