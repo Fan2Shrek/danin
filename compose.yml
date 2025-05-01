@@ -18,7 +18,8 @@ services:
       - ./api:/app
     environment:
       - REDIS_URL=${REDIS_URL}
-      - PHP_URL=${PHP_URL}
+      - MERCURE_JWT_SECRET=${MERCURE_PUBLISHER_SECRET}
+      - MERCURE_URL=${MERCURE_URL}
 
   william:
     build:
@@ -27,8 +28,8 @@ services:
     volumes:
       - ./api:/app
     environment:
+      - APP_ENV=worker
       - REDIS_URL=${REDIS_URL}
-      - PHP_URL=${PHP_URL}
     command: php bin/console app:danin:consume
 
   front:
@@ -44,9 +45,27 @@ services:
       - ./front:/app
     environment:
       VITE_API_URL: ${API_URL}
+      VITE_MERCURE_URL: ${MERCURE_PUBLIC_URL}
 
   redis:
     image: redis:alpine
 
+  mercure:
+    image: dunglas/mercure
+    ports:
+      - "8090:80"
+    environment:
+      SERVER_NAME: ':80'
+      MERCURE_PUBLISHER_JWT_KEY: ${MERCURE_PUBLISHER_SECRET}
+      MERCURE_SUBSCRIBER_JWT_KEY: ${MERCURE_PUBLISHER_SECRET}
+      MERCURE_EXTRA_DIRECTIVES: |
+        cors_origins http://localhost:3000
+    command: /usr/bin/caddy run --config /etc/caddy/dev.Caddyfile
+    volumes:
+      - mercure_data:/data
+      - mercure_config:/config
+
 volumes:
   db_data:
+  mercure_data:
+  mercure_config:

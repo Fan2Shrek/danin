@@ -43,4 +43,24 @@ final class RedisConnectionManager
         $this->redis->setOption(\Redis::OPT_READ_TIMEOUT, -1);
         $this->connection()->subscribe($channels, $callback);
     }
+
+    public function lpush(string $key, string $value): void
+    {
+        $this->connection()->lpush($this->hashKey($key), $value);
+    }
+
+    public function ltrim(string $key, int $start, int $end): void
+    {
+        $this->connection()->ltrim($this->hashKey($key), $start, $end);
+    }
+
+    public function lrange(string $key, int $start, int $end): array
+    {
+        return $this->connection()->lrange($this->hashKey($key), $start, $end);
+    }
+
+    private function hashKey(string $key): string
+    {
+        return sha1($key);
+    }
 }
