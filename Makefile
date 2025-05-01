@@ -63,7 +63,7 @@ pretests:
 	$(CONSOLE) -etest lexik:jwt:generate-keypair --overwrite -n
 
 tests:
-	$(PHP) bin/phpunit tests/
+	$(PHP) bin/phpunit tests/ --fail-on-warning --fail-on-deprecation --testdox
 
 ############################## Setup Symfony ##############################
 

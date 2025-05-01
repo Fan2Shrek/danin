@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service\Redis;
 
-final class RedisConnectionManager
+class RedisConnectionManager
 {
     private ?\Redis $redis = null;
 
