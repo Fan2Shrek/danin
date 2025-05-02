@@ -14,7 +14,7 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use App\Service\Worker\DaninWorker;
 
-class KernelTest extends TestCase
+class DaninKernelTest extends TestCase
 {
     public function testCompilerPassesAreAdded()
     {

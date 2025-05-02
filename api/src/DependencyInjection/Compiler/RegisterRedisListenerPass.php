@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\DependencyInjection\Compiler;
 
 use App\Service\Redis\Attribute\AsRedisListener;
+use App\Service\Redis\EventDispatcher\RedisEventDispatcher;
 use App\Service\Redis\EventDispatcher\RedisListenerManager;
 use Symfony\Component\DependencyInjection\Argument\ServiceClosureArgument;
 use Symfony\Component\DependencyInjection\ChildDefinition;
@@ -16,7 +17,7 @@ final class RegisterRedisListenerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
-        if (!$container->has('redis.event_dispatcher') || !$container->has(RedisListenerManager::class)) {
+        if (!$container->has(RedisEventDispatcher::class) || !$container->has(RedisListenerManager::class)) {
             return;
         }
 
@@ -32,11 +33,11 @@ final class RegisterRedisListenerPass implements CompilerPassInterface
     public static function configureFromAttribute(ChildDefinition $definition, AsRedisListener $attribute, \ReflectionClass $reflector): void
     {
         if (null !== $attribute->method && !$reflector->hasMethod($attribute->method)) {
-            throw new \RuntimeException(\sprintf('Method "%s" not found in class "%s"', $attribute->method, $reflector->getName()));
+            throw new \RuntimeException(\sprintf('Method "%s" not found in class "%s".', $attribute->method, $reflector->getName()));
         }
 
         if (null === $attribute->method && !$reflector->hasMethod('__invoke')) {
-            throw new \RuntimeException(\sprintf('Method "__invoke" not found in class "%s"', $reflector->getName()));
+            throw new \RuntimeException(\sprintf('Method "__invoke" not found in class "%s".', $reflector->getName()));
         }
 
         $definition->addTag('redis.listener', [
