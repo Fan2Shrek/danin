@@ -13,9 +13,8 @@ trait UserTrait
         string $username = 'default',
         string $email = 'default@gmail.com',
         string $password = 'password',
-    ): User
-    {
-        assert($this instanceof FunctionalTestCase);
+    ): User {
+        \assert($this instanceof FunctionalTestCase);
 
         $user = new User($username, $email);
         $user->setPassword('password');

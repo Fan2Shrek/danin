@@ -6,8 +6,8 @@ ifeq ($(WITH_DOCKER), 1)
 	PHP=$(COMPOSE) run --rm php
 	NPM=$(COMPOSE) run --rm front
 
-	PHPCS_CMD=$(PHP) sh -c 'PHP_CS_FIXER_IGNORE_ENV=1 vendor/bin/php-cs-fixer fix src --allow-risky=yes'
-	PHPCS_CMD_DRY=$(PHP) sh -c 'PHP_CS_FIXER_IGNORE_ENV=1 vendor/bin/php-cs-fixer fix src --dry-run --allow-risky=yes'
+	PHPCS_CMD=$(PHP) sh -c 'PHP_CS_FIXER_IGNORE_ENV=1 vendor/bin/php-cs-fixer fix --allow-risky=yes'
+	PHPCS_CMD_DRY=$(PHP) sh -c 'PHP_CS_FIXER_IGNORE_ENV=1 vendor/bin/php-cs-fixer fix --dry-run --allow-risky=yes'
 else
 	PHP=cd api &&
 	NPM=cd front &&

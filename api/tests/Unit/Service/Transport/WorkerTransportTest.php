@@ -16,7 +16,7 @@ class WorkerTransportTest extends TestCase
         $expectedContent = [
             'type' => 'test',
             'connection' => 'host',
-            'content' => "Hello World!",
+            'content' => 'Hello World!',
         ];
         $connection = new Connection('host', 0);
         $ed = $this->createMock(EventDispatcherInterface::class);

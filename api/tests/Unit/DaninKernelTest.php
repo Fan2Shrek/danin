@@ -2,17 +2,17 @@
 
 namespace App\Tests\Unit;
 
-use App\DependencyInjection\Compiler\ResolveRedisDispatcherPass;
-use App\DependencyInjection\Compiler\RegisterRedisListenerPass;;
 use App\DaninKernel;
+use App\DependencyInjection\Compiler\RegisterRedisListenerPass;
+use App\DependencyInjection\Compiler\ResolveRedisDispatcherPass;
 use App\Service\Message\MessageProcessor;
 use App\Service\Redis\Attribute\AsRedisListener;
 use App\Service\Redis\Attribute\UseRedisDispatcher;
 use App\Service\Transport\GameTransportInterface;
 use App\Service\Transport\WorkerTransport;
+use App\Service\Worker\DaninWorker;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use App\Service\Worker\DaninWorker;
 
 class DaninKernelTest extends TestCase
 {

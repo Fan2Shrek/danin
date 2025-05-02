@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\Service\Transport;
 
-use App\Service\Transport\GameTransport;
 use App\Domain\Model\Connection;
+use App\Service\Transport\GameTransport;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 
@@ -13,7 +13,7 @@ class GameTransportTest extends TestCase
 {
     public function testSendMessageWithNewline(): void
     {
-        $message = "Hello, World!";
+        $message = 'Hello, World!';
         $expectedMessage = $message."\n";
         $connection = $this->createMock(Connection::class);
         $connection->expects($this->once())

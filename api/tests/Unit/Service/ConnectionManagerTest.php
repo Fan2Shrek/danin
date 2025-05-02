@@ -87,9 +87,8 @@ class ConnectionManagerTest extends TestCase
     }
 
     private function getConnectionManager(
-        ?GameTransportInterface $gameTransport = null
-    ): ConnectionManager
-    {
+        ?GameTransportInterface $gameTransport = null,
+    ): ConnectionManager {
         return new ConnectionManager(
             $this->createMock(LoggerInterface::class),
             $gameTransport ?? $this->createMock(GameTransportInterface::class)

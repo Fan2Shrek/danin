@@ -21,7 +21,7 @@ final class LoginTest extends FunctionalTestCase
             'json' => [
                 'email' => 'extras@gmail.com',
                 'password' => 'secret',
-            ]
+            ],
         ]);
 
         self::assertResponseIsSuccessful();
@@ -39,7 +39,7 @@ final class LoginTest extends FunctionalTestCase
             'json' => [
                 'email' => 'fake@gmail.com',
                 'password' => 'wrong',
-            ]
+            ],
         ]);
 
         self::assertResponseStatusCodeSame(401);

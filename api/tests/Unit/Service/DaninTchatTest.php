@@ -99,7 +99,7 @@ class DaninTchatTest extends TestCase
     private function getDaninTchat(
         ?RedisConnectionManager $redisConnectionManager = null,
         ?ClockInterface $clock = null,
-        ?HubInterface $hub = null
+        ?HubInterface $hub = null,
     ): DaninTchat {
         return new DaninTchat(
             $redisConnectionManager ?? $this->createMock(RedisConnectionManager::class),

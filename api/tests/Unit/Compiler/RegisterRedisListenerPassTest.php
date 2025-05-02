@@ -59,7 +59,6 @@ class RegisterRedisListenerPassTest extends TestCase
         $container->setDefinition('test_listener', $listener);
         $listenerManager = $container->register(RedisListenerManager::class);
 
-
         $pass = new RegisterRedisListenerPass();
         $pass->process($container);
 
