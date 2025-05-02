@@ -5,7 +5,7 @@ namespace App\Tests\Unit;
 use App\DependencyInjection\Compiler\ResolveRedisDispatcherPass;
 use App\DependencyInjection\Compiler\RegisterRedisListenerPass;;
 use App\DaninKernel;
-use App\Service\MessageProcessor;
+use App\Service\Message\MessageProcessor;
 use App\Service\Redis\Attribute\AsRedisListener;
 use App\Service\Redis\Attribute\UseRedisDispatcher;
 use App\Service\Transport\GameTransportInterface;

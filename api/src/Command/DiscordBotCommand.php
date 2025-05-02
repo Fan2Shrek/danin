@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Command;
 
 use App\Domain\Model\Message as ModelMessage;
-use App\Service\MessageProcessor;
+use App\Service\Message\MessageProcessor;
 use Discord\Discord;
 use Discord\Parts\Channel\Message;
 use Discord\WebSockets\Event;
@@ -56,6 +56,6 @@ final class DiscordBotCommand extends Command
             'content' => $message->content,
         ]);
 
-        $this->messageProcessor->process(new ModelMessage($message->content, null));
+        $this->messageProcessor->process(new ModelMessage($message->content, 'discord'));
     }
 }

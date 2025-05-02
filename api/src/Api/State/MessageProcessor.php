@@ -9,7 +9,7 @@ use ApiPlatform\State\ProcessorInterface;
 use App\Domain\Model\Message;
 use App\Service\DaninTchat;
 use App\Service\Factory\MessageFactory;
-use App\Service\MessageProcessor as ServiceMessageProcessor;
+use App\Service\Message\MessageProcessor as ServiceMessageProcessor;
 
 /**
  * @implements ProcessorInterface<Message, Message>

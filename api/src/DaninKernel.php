@@ -4,11 +4,9 @@ namespace App;
 
 use App\DependencyInjection\Compiler\RegisterRedisListenerPass;
 use App\DependencyInjection\Compiler\ResolveRedisDispatcherPass;
-use App\Service\MessageProcessor;
+use App\Service\Message\MessageProcessor;
 use App\Service\Redis\Attribute\AsRedisListener;
 use App\Service\Redis\Attribute\UseRedisDispatcher;
-use App\Service\Redis\EventDispatcher\RedisEventDispatcher;
-use App\Service\Redis\EventDispatcher\RedisListenerManager;
 use App\Service\Transport\GameTransport;
 use App\Service\Transport\GameTransportInterface;
 use App\Service\Transport\WorkerTransport;
@@ -17,7 +15,6 @@ use App\Tests\Resources\GameClientMock;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\Kernel;
 

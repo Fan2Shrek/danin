@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Service;
+namespace App\Service\Message;
 
 use App\Domain\Model\Connection;
 use App\Domain\Model\Message;
+use App\Service\ConnectionManager;
 use App\Service\Transport\GameTransportInterface;
 
 final class MessageProcessor
