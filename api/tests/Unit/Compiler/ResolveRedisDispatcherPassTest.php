@@ -10,7 +10,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
-class RevolseRedisDispatcherPassTest extends TestCase
+class ResolveRedisDispatcherPassTest extends TestCase
 {
     public function testProcess(): void
     {
