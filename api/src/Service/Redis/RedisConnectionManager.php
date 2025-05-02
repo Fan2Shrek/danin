@@ -32,9 +32,9 @@ class RedisConnectionManager
         }
     }
 
-    public function publish(string $channel, string $message): void
+    public function publish(string $channel, string $message): int
     {
-        $this->connection()->publish($channel, $message);
+        return $this->connection()->publish($channel, $message);
     }
 
     public function subscribe(array $channels, callable $callback): void

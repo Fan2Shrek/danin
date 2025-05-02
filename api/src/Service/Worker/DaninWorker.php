@@ -28,6 +28,9 @@ final class DaninWorker
 
     public function processAction(WorkerAction $action): void
     {
+        $this->logger->info('Processing {action}', [
+            'action' => $action,
+        ]);
         if ('create' === $action->type) {
             // Maybe add id?
             $this->connectionManager->connect(
