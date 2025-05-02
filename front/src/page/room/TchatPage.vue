@@ -1,24 +1,27 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import type { Message } from '@/lib/api/resources/tchat';
+
+import { ref, onMounted } from 'vue';
 
 import tokens from '@/i18n/tokens';
 import api from '@/lib/api/api';
+import mercure from '@/lib/mercure';
 
+const roomId = 1;
+
+// add room id
 const message = ref('');
-const messages = ref([
-    {
-        id: 1,
-        content: 'Hello, how are you?',
-    },
-    {
-        id: 2,
-        content: 'I am fine, thank you!',
-    },
-    {
-        id: 3,
-        content: 'What about you?',
-    },
-]);
+const messages = ref<Message[]>([]);
+
+mercure.subscribe(`danin_tchat/${roomId}`, (data) => {
+    const message = data as Message;
+    messages.value.push(message);
+});
+
+onMounted(async () => {
+    messages.value = await api().tchat().getMessages(roomId);
+    messages.value.reverse();
+});
 
 // setup mercure
 
@@ -27,7 +30,7 @@ const handleSubmit = async () => {
         return;
     }
 
-    api().tchat().sendMessage(message.value);
+    api().tchat().sendMessage(message.value, roomId);
 
     message.value = '';
 };
@@ -39,7 +42,17 @@ const handleSubmit = async () => {
 
         <div class="messages">
             <ul>
-                <li v-for="message in messages" :key="message.id">{{ message.content }}</li>
+                <li v-for="message in messages" :key="message['@id']">
+                    <strong>{{ message.author }}</strong
+                    >: {{ message.content }}
+                    <br />
+                    <small>{{
+                        new Date(message.sendAt).toLocaleTimeString([], {
+                            hour: '2-digit',
+                            minute: '2-digit',
+                        })
+                    }}</small>
+                </li>
             </ul>
         </div>
 
