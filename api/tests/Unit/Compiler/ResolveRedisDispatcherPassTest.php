@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Unit\Compiler;
 
 use App\DependencyInjection\Compiler\ResolveRedisDispatcherPass;
+use App\Service\Redis\EventDispatcher\RedisEventDispatcher;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -16,17 +17,17 @@ class ResolveRedisDispatcherPassTest extends TestCase
     {
         $container = new ContainerBuilder();
         $redisDispatcher = new Definition();
-        $container->setDefinition('redis.event_dispatcher', $redisDispatcher);
+        $container->setDefinition(RedisEventDispatcher::class, $redisDispatcher);
         $testService = new Definition()->addTag('redis.dispatcher');
         $container->setDefinition('test', $testService);
 
         $pass = new ResolveRedisDispatcherPass();
         $pass->process($container);
 
-        self::assertTrue($container->has('redis.event_dispatcher'));
+        self::assertTrue($container->has(RedisEventDispatcher::class));
         self::assertArrayHasKey(EventDispatcherInterface::class, $testService->getBindings());
         self::assertSame(
-            'redis.event_dispatcher',
+            RedisEventDispatcher::class,
             (string) $testService->getBindings()[EventDispatcherInterface::class]->getValues()[0],
         );
     }
