@@ -12,7 +12,7 @@ else
 	PHP=cd api &&
 	NPM=cd front &&
 
-	PHPCS_CMD=export PHP_CS_FIXER_IGNORE_ENV=1 && $(PHP) vendor/bin/php-cs-fixer fix src --allow-risky=yes
+	PHPCS_CMD=export PHP_CS_FIXER_IGNORE_ENV=1 && $(PHP) vendor/bin/php-cs-fixer fix --allow-risky=yes
 endif
 
 CONSOLE := $(PHP) bin/console

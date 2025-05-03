@@ -55,4 +55,53 @@ final class IsaacMessageTransformerTest extends TestCase
             'content' => 173,
         ], $result);
     }
+
+    #[DataProvider('useProvider')]
+    public function testUse(?int $expectedId, ?string $activeItemName): void
+    {
+        $isaac = new IsaacMessageTransformer(\dirname(__DIR__, 3).'/Resources/games/');
+        $message = new Message("!use $activeItemName", 'test');
+
+        $result = $isaac->transform($message);
+
+        self::assertSame([
+            'type' => 'activate',
+            'content' => $expectedId,
+        ], $result);
+    }
+
+    public static function useProvider(): \Generator
+    {
+        yield 'faint' => [12, 'faint'];
+        yield 'rhinestone eye' => [173, 'rhinestone_eye'];
+    }
+
+    public function testUseWithoutActiveItem(): void
+    {
+        $isaac = new IsaacMessageTransformer(\dirname(__DIR__, 3).'/Resources/games/');
+        $message = new Message('!use', 'test');
+
+        $result = $isaac->transform($message);
+
+        self::assertSame([
+            'type' => 'activate',
+            'content' => null,
+        ], $result);
+    }
+
+    public function testUseWithUnknwonItem(): void
+    {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Unknown active item "unknown".');
+
+        $isaac = new IsaacMessageTransformer(\dirname(__DIR__, 3).'/Resources/games/');
+        $message = new Message('!use unknown', 'test');
+
+        $result = $isaac->transform($message);
+
+        self::assertSame([
+            'type' => 'activate',
+            'content' => null,
+        ], $result);
+    }
 }
