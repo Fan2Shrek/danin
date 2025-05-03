@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\Service\Message\Transformer;
 
 /**
-* This class is highly link to the isaac danin mod.
-* See mods/TBOI/resources/handlers.lua
-*
-* @author Pierre Ambroise<pierre27.ambroise@gmail.com>
-*/
+ * This class is highly link to the isaac danin mod.
+ * See mods/TBOI/resources/handlers.lua.
+ *
+ * @author Pierre Ambroise<pierre27.ambroise@gmail.com>
+ */
 final class IsaacMessageTransformer extends AbstractMessageTransformer
 {
     private array $entityMapping = [];
@@ -54,7 +54,7 @@ final class IsaacMessageTransformer extends AbstractMessageTransformer
     protected function initializeData(): void
     {
         $this->entityMapping = require $this->getResourcesPath().'entities.php';
-        $this->activeItemMapping = require $this->getResourcesPath().'activeItems.php';
+        $this->activeItemMapping = require $this->getResourcesPath().'active_items.php';
     }
 
     protected function getCommand(): array
