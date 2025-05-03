@@ -28,7 +28,5 @@ final class MessageProcessor
         // dev change to real handler
         $content = $this->messageTransformer->transform($message);
         $this->transport->send(new Connection('172.17.0.1', 0), json_encode($content), 'message');
-
-        // add to tchat
     }
 }

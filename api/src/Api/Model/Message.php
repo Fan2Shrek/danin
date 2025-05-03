@@ -10,7 +10,6 @@ use ApiPlatform\Metadata\Post;
 use App\Api\State\MessageProcessor;
 use App\Api\State\TchatProvider;
 
-/** todo add tchat*/
 #[ApiResource(
     operations: [
         new Post(

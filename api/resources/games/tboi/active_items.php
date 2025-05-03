@@ -1,5 +1,7 @@
 <?php
 
+// @ŧodo: fix this list
+// done with my friend ChatGPT, this should not be accurate
 return [
     'bible' => 33,
     'book_of_belial' => 34,
