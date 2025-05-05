@@ -37,12 +37,22 @@ final class ConnectionManager
             'port' => $port,
         ]);
 
-        $connection = new Connection($host, $port);
+        $connection = $this->create($host, $port);
         $id ??= $this->getCurrentId();
         $this->addConnection($id, $connection);
         $this->handshake($id);
 
         return $id;
+    }
+
+    public function create(string $host, int $port): Connection
+    {
+        $this->logger->info('Creating server {host}:{port}', [
+            'host' => $host,
+            'port' => $port,
+        ]);
+
+        return new Connection($host, $port);
     }
 
     public function closeAllConnections(): void
@@ -52,13 +62,18 @@ final class ConnectionManager
         }
     }
 
-    public function getConnection(string $id): ?Connection
+    public function getConnection(string $id): Connection
     {
         if (null === $connection = ($this->connections[$id] ?? null)) {
             throw new UnknowConnectionException($id);
         }
 
         return $connection;
+    }
+
+    public function hasConnection(string $id): bool
+    {
+        return isset($this->connections[$id]);
     }
 
     public function send(string $id, string|array $payload, string $type): void
