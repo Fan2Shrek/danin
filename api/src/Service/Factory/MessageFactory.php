@@ -26,6 +26,9 @@ final class MessageFactory
             $content,
             $author instanceof User ? $author->getUsername() : $author->getUserIdentifier(),
             $this->clock->now(),
+            [
+                'connectionId' => 'todo',
+            ],
         );
     }
 }

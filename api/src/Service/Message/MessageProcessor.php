@@ -19,14 +19,24 @@ final class MessageProcessor
     ) {
     }
 
+    /** @todo add room entity blablabla */
     public function process(Message $message): void
     {
         if (!$this->messageTransformer->supports($message)) {
             throw new \RuntimeException('No transformer found for message.');
         }
 
-        // dev change to real handler
+        if (null === $connectionId = $message->metadata['connectionId'] ?? null) {
+            throw new \RuntimeException('No connection id found in message metadata.');
+        }
+
+        if (!$this->connectionManager->hasConnection($message->metadata['connectionId'])) {
+            $connection = new Connection('172.17.0.1', 0);
+        }
+
+        $connection ??= $this->connectionManager->getConnection($connectionId);
+
         $content = $this->messageTransformer->transform($message);
-        $this->transport->send(new Connection('172.17.0.1', 0), json_encode($content), 'message');
+        $this->transport->send($connection, json_encode($content), 'message');
     }
 }

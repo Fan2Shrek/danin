@@ -31,6 +31,7 @@ final class DaninWorker
         $this->logger->info('Processing {action}', [
             'action' => $action,
         ]);
+
         if ('create' === $action->type) {
             // Maybe add id?
             $this->connectionManager->connect(
@@ -43,7 +44,7 @@ final class DaninWorker
         }
 
         if (null === $id = $action->data['id'] ?? null) {
-            throw new \RuntimeException('No id provided');
+            throw new \RuntimeException('No id provided.');
         }
 
         $this->connectionManager->send($id, $action->data, $action->type);

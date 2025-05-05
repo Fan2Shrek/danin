@@ -26,16 +26,7 @@ class GameTransport implements GameTransportInterface
             $message .= "\n";
         }
 
-        if (\is_string($connection)) {
-            $connection = $this->createConnection($connection);
-        }
-
         $connection->connect();
         $connection->send($message);
-    }
-
-    private function createConnection(string $connection): Connection
-    {
-        return new Connection($connection, '172.17.0.1', 12345);
     }
 }
