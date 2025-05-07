@@ -16,7 +16,6 @@ const handleLogin = async () => {
     }
 
     try {
-        // todo set the cookie
         const response = await api().user().login(email.value, password.value);
         api().setToken(response.token);
         setCookie('token', response.token);
