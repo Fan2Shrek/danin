@@ -1,13 +1,16 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, inject } from 'vue';
 import tokens from '@/i18n/tokens';
-
-import api from '@/lib/api/api';
-import { setCookie } from '@/lib/cookies';
 
 const email = ref('');
 const password = ref('');
 const errorMessage = ref('');
+
+const loginUser = inject<(username: string, password: string) => void>('loginUser');
+
+if (!loginUser) {
+    throw new Error('loginUser function is not provided');
+}
 
 const handleLogin = async () => {
     if (!email.value || !password.value) {
@@ -16,9 +19,8 @@ const handleLogin = async () => {
     }
 
     try {
-        const response = await api().user().login(email.value, password.value);
-        api().setToken(response.token);
-        setCookie('token', response.token);
+        await loginUser(email.value, password.value);
+        errorMessage.value = '';
     } catch (error) {
         console.error(error);
         errorMessage.value = tokens.login.error.invalid;
