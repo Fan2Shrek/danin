@@ -13,6 +13,11 @@ const tokens = {
             empty: 'login.error.empty',
         },
     },
+    home: {
+        title: 'home.title',
+        subtitle: 'home.description',
+        cta: 'home.cta',
+    },
     room: {
         tchat: {
             title: 'room.tchat.title',

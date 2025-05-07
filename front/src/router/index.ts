@@ -1,7 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
 import LoginPage from '../page/LoginPage.vue';
+import HomePage from '../page/HomePage.vue';
 import TchatPage from '../page/room/TchatPage.vue';
+
 import { getCookie } from '../lib/cookies';
 
 function isAuthenticated() {
@@ -13,6 +15,11 @@ function isAuthenticated() {
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes: [
+        {
+            path: '/',
+            name: 'Home',
+            component: HomePage,
+        },
         {
             path: '/login',
             name: 'Login',
