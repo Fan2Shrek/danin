@@ -29,7 +29,7 @@ const games = ref({
         <div class="home-header">
             <h1>{{ $t(tokens.home.title) }}</h1>
             <p>{{ $t(tokens.home.subtitle) }}</p>
-            <BasicButton :text="$t(tokens.home.cta)" />
+            <BasicButton :text="$t(tokens.home.cta)" class="home-header__btn" />
         </div>
         <div class="game-list">
             <div v-for="(game, key) in games" :key="key" class="game-item">
@@ -61,6 +61,7 @@ const games = ref({
             font-weight: 800;
             line-height: 1.2;
             margin-bottom: 1rem;
+            animation: fadeInLeft 1s ease-out forwards;
         }
 
         p {
@@ -68,7 +69,36 @@ const games = ref({
             font-weight: 400;
             margin-bottom: 2rem;
             color: #d0d0d0;
+            opacity: 0;
+            animation: fadeInLeft 1s ease-out 0.5s forwards;
         }
+
+        &__btn {
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 1s forwards;
+        }
+    }
+}
+
+@keyframes fadeInLeft {
+    0% {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
 </style>
