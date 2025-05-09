@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Service\Message\Transformer;
 
+use App\Enum\GameEnum;
+
 /**
  * This class is highly link to the isaac danin mod.
  * See mods/TBOI/resources/handlers.lua.
@@ -17,7 +19,7 @@ final class IsaacMessageTransformer extends AbstractMessageTransformer
 
     protected function getGameName(): string
     {
-        return 'tboi';
+        return GameEnum::THE_BINDING_OF_ISAAC->value;
     }
 
     protected function spawn(string $data): array
