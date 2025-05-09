@@ -10,6 +10,8 @@ final class LoginTest extends FunctionalTestCase
 {
     use UserTrait;
 
+    protected const URI = '/api/login';
+
     public function testLogin()
     {
         $this->createUser(
@@ -17,7 +19,7 @@ final class LoginTest extends FunctionalTestCase
             password: 'secret',
         );
 
-        $response = $this->client->request('POST', '/api/login', [
+        $response = $this->client->request('POST', static::URI, [
             'json' => [
                 'email' => 'extras@gmail.com',
                 'password' => 'secret',
@@ -35,7 +37,7 @@ final class LoginTest extends FunctionalTestCase
             password: 'secret',
         );
 
-        $this->client->request('POST', '/api/login', [
+        $this->client->request('POST', static::URI, [
             'json' => [
                 'email' => 'fake@gmail.com',
                 'password' => 'wrong',

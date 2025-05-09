@@ -8,23 +8,25 @@ use App\Tests\Functional\FunctionalTestCase;
 
 final class GetGamesTest extends FunctionalTestCase
 {
+    protected const URI = '/api/games';
+
     public function testCall()
     {
-        $this->client->request('GET', '/api/games');
+        $this->client->request('GET', static::URI);
 
         self::assertResponseIsSuccessful();
     }
 
     public function testGame()
     {
-        $response = $this->client->request('GET', '/api/games');
+        $response = $this->client->request('GET', static::URI);
 
         self::assertCount(1, $response->toArray()['member']);
     }
 
     public function testFormat()
     {
-        $response = $this->client->request('GET', '/api/games');
+        $response = $this->client->request('GET', static::URI);
 
         self::assertSame([
             'id' => 'tboi',
