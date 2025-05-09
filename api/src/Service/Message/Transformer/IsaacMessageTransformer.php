@@ -17,7 +17,7 @@ final class IsaacMessageTransformer extends AbstractMessageTransformer
     private array $entityMapping = [];
     private array $activeItemMapping = [];
 
-    protected function getGameName(): string
+    public function getGameName(): string
     {
         return GameEnum::THE_BINDING_OF_ISAAC->value;
     }
@@ -59,7 +59,7 @@ final class IsaacMessageTransformer extends AbstractMessageTransformer
         $this->activeItemMapping = require $this->getResourcesPath().'active_items.php';
     }
 
-    protected function getCommand(): array
+    public function getCommands(): array
     {
         return [
             'spawn' => $this->spawn(...),

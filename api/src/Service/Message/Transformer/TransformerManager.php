@@ -6,7 +6,7 @@ namespace App\Service\Message\Transformer;
 
 use App\Domain\Model\Message;
 
-final class DelegatingTransformer implements MessageTransformerInterface
+final class TransformerManager
 {
     /**
      * @param iterable<MessageTransformerInterface> $transformers
@@ -24,6 +24,17 @@ final class DelegatingTransformer implements MessageTransformerInterface
     public function supports(Message $message): bool
     {
         return null !== $this->getTransformerForMessage($message);
+    }
+
+    public function getCommandsFromGame(string $game): array
+    {
+        foreach ($this->transformers as $transformer) {
+            if ($transformer->getGameName() === $game) {
+                return array_keys($transformer->getCommands());
+            }
+        }
+
+        return [];
     }
 
     private function getTransformerForMessage(Message $message): ?MessageTransformerInterface
