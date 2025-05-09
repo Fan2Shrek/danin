@@ -21,10 +21,16 @@ final class GetCommandsTest extends FunctionalTestCase
     {
         $response = $this->client->request('GET', \sprintf(static::URI, 'tboi'));
 
-        self::assertSame([
-            'spawn',
-            'bomb',
-            'use',
+        self::assertArraySubset([
+            [
+                'id' => 'spawn',
+            ],
+            [
+                'id' => 'bomb',
+            ],
+            [
+                'id' => 'use',
+            ],
         ], $response->toArray()['member']);
     }
 }

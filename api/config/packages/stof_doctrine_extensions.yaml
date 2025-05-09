@@ -1,0 +1,6 @@
+stof_doctrine_extensions:
+    default_locale: '%kernel.default_locale%'
+
+    orm:
+        default:
+            translatable: true
