@@ -36,17 +36,15 @@ abstract class AbstractMessageTransformer implements MessageTransformerInterface
         $args = $explodedCommand[1] ?? null;
 
         if (!$this->hasCommand($commandName)) {
-            throw new UnknownCommandException(\sprintf('Unknown command "%s" for game "%s" (options are %s).', $commandName, $this->getGameName(), implode(', ', array_keys($this->getCommand()))));
+            throw new UnknownCommandException(\sprintf('Unknown command "%s" for game "%s" (options are %s).', $commandName, $this->getGameName(), implode(', ', array_keys($this->getCommands()))));
         }
 
         if (!$this->isInitialized) {
             $this->initialize();
         }
 
-        return $this->getCommand()[$commandName]($args);
+        return $this->getCommands()[$commandName]($args);
     }
-
-    abstract protected function getGameName(): string;
 
     protected function getResourcesPath(): string
     {
@@ -59,7 +57,7 @@ abstract class AbstractMessageTransformer implements MessageTransformerInterface
      *
      * @return array<string, callable>
      */
-    protected function getCommand(): array
+    public function getCommands(): array
     {
         return [];
     }
@@ -77,6 +75,6 @@ abstract class AbstractMessageTransformer implements MessageTransformerInterface
 
     private function hasCommand(string $name): bool
     {
-        return isset($this->getCommand()[$name]);
+        return isset($this->getCommands()[$name]);
     }
 }

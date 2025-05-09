@@ -7,7 +7,7 @@ namespace App\Service\Message;
 use App\Domain\Model\Connection;
 use App\Domain\Model\Message;
 use App\Service\ConnectionManager;
-use App\Service\Message\Transformer\MessageTransformerInterface;
+use App\Service\Message\Transformer\TransformerManager;
 use App\Service\Transport\GameTransportInterface;
 
 final class MessageProcessor
@@ -15,14 +15,14 @@ final class MessageProcessor
     public function __construct(
         private ConnectionManager $connectionManager,
         private GameTransportInterface $transport,
-        private MessageTransformerInterface $messageTransformer,
+        private TransformerManager $transformerManager,
     ) {
     }
 
     /** @todo add room entity blablabla */
     public function process(Message $message): void
     {
-        if (!$this->messageTransformer->supports($message)) {
+        if (!$this->transformerManager->supports($message)) {
             throw new \RuntimeException('No transformer found for message.');
         }
 
@@ -36,7 +36,7 @@ final class MessageProcessor
 
         $connection ??= $this->connectionManager->getConnection($connectionId);
 
-        $content = $this->messageTransformer->transform($message);
+        $content = $this->transformerManager->transform($message);
         $this->transport->send($connection, json_encode($content), 'message');
     }
 }

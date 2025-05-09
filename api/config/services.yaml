@@ -37,11 +37,9 @@ services:
         arguments:
             $botToken: '%env(DISCORD_BOT_TOKEN)%'
 
-    App\Service\Message\Transformer\DelegatingTransformer:
+    App\Service\Message\Transformer\TransformerManager:
         arguments:
             $transformers: !tagged_iterator app.message_transformer
-
-    App\Service\Message\Transformer\MessageTransformerInterface: '@App\Service\Message\Transformer\DelegatingTransformer'
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
