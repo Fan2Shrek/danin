@@ -15,6 +15,8 @@ const translations: { [key: string]: string } = {
     [tokens.room.tchat.title]: 'Tchat',
     [tokens.room.tchat.send]: 'Send message',
     [tokens.room.tchat.placeholder]: 'Write a message...',
+    [tokens.room.tchat.commands.title]: 'Command list',
+    [tokens.room.tchat.commands.description]: 'Here is the list of available commands:',
     [tokens.footer.copyright]: 'All rights reserved',
     [tokens.footer.links.games.title]: 'Games',
     [tokens.footer.links.games.supportedList]: 'Supported games',

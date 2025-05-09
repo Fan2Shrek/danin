@@ -23,6 +23,10 @@ const tokens = {
             title: 'room.tchat.title',
             send: 'room.tchat.send',
             placeholder: 'room.tchat.placeholder',
+            commands: {
+                title: 'room.tchat.commands.title',
+                description: 'room.tchat.commands.description',
+            },
         },
     },
     footer: {

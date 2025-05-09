@@ -1,6 +1,7 @@
 import Client from './client';
 import UserResource from './resources/user';
 import TchatResource from './resources/tchat';
+import GameResource from './resources/game';
 import { getCookie } from '../cookies';
 
 class Api {
@@ -8,6 +9,7 @@ class Api {
 
     private userResource: UserResource;
     private tchatResource: TchatResource;
+    private gameResource: GameResource;
 
     constructor() {
         this.client = new Client(import.meta.env.VITE_API_URL);
@@ -15,6 +17,7 @@ class Api {
 
         this.userResource = new UserResource(this.client);
         this.tchatResource = new TchatResource(this.client);
+        this.gameResource = new GameResource(this.client);
     }
 
     public user(): UserResource {
@@ -25,8 +28,16 @@ class Api {
         return this.tchatResource;
     }
 
+    public game(): GameResource {
+        return this.gameResource;
+    }
+
     public setToken(token: string): void {
         this.client.setToken(token);
+    }
+
+    public setLocale(locale: string): void {
+        this.client.setLocale(locale);
     }
 }
 
