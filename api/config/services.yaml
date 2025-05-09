@@ -12,6 +12,7 @@ services:
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
         bind:
             $redisUrl: '%env(REDIS_URL)%'
+            $locales: '%kernel.enabled_locales%'
 
     _instanceof:
         App\Service\Message\Transformer\AbstractMessageTransformer:
@@ -21,6 +22,9 @@ services:
         App\Service\Message\Transformer\MessageTransformerInterface:
              tags:
                 - { name: 'app.message_transformer' }
+
+    gedmo.mapping.driver.attribute:
+        class: Gedmo\Mapping\Driver\AttributeReader
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
@@ -40,6 +44,3 @@ services:
     App\Service\Message\Transformer\TransformerManager:
         arguments:
             $transformers: !tagged_iterator app.message_transformer
-
-    # add more service definitions when explicit configuration is needed
-    # please note that last definitions always *replace* previous ones

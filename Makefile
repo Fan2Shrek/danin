@@ -61,6 +61,7 @@ pretests:
 	$(CONSOLE) -etest d:d:c --if-not-exists
 	$(CONSOLE) -etest d:s:u -f
 	$(CONSOLE) -etest lexik:jwt:generate-keypair --overwrite -n
+	$(CONSOLE) -etest app:sync:data
 
 tests:
 	$(PHP) bin/phpunit tests/ --fail-on-warning --fail-on-deprecation --testdox
