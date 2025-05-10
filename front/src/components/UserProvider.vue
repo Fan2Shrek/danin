@@ -10,7 +10,8 @@ const router = useRouter();
 const loginUser = async (username: string, password: string) => {
     const response = await api().user().login(username, password);
     api().setToken(response.token);
-    setCookie('token', response.token);
+    const decoded = atob(response.token.split('.')[1]);
+    setCookie('token', response.token, new Date(JSON.parse(decoded).exp * 1000));
     router.push({ name: 'Home' });
 };
 
