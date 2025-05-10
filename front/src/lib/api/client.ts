@@ -1,6 +1,7 @@
 class Client {
     private baseUrl: string;
     private token: string | null = null;
+    private locale: string = 'fr';
 
     public constructor(baseUrl: string = '') {
         this.baseUrl = baseUrl;
@@ -18,6 +19,10 @@ class Client {
 
     public setToken(token: string): void {
         this.token = token;
+    }
+
+    public setLocale(locale: string): void {
+        this.locale = locale;
     }
 
     private async request<T>(
@@ -47,6 +52,10 @@ class Client {
 
         if (this.token) {
             realHeaders.set('Authorization', `Bearer ${this.token}`);
+        }
+
+        if (this.locale) {
+            realHeaders.set('Accept-Language', this.locale);
         }
 
         return realHeaders;
