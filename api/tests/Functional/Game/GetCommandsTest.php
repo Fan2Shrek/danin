@@ -32,5 +32,6 @@ final class GetCommandsTest extends FunctionalTestCase
                 'id' => 'use',
             ],
         ], $response->toArray()['member']);
+        self::assertArrayHasKey('description', $response->toArray()['member'][0]);
     }
 }
