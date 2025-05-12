@@ -51,3 +51,6 @@ jobs:
           push: true
           target: ${{ env.DOCKER_TARGET }}
           tags: ${{ env.IMAGE_PREFIX }}/frontend:latest
+          build-args: |
+            VITE_API_URL=${{ secrets.API_URL }}
+            VITE_MERCURE_URL=${{ secrets.MERCURE_URL }}

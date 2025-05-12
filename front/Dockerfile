@@ -17,6 +17,11 @@ CMD ["npm", "run", "dev"]
 
 FROM main AS build
 
+ARG VITE_API_URL
+ARG VITE_MERCURE_URL
+ENV VITE_API_URL=$VITE_API_URL
+ENV VITE_MERCURE_URL=$VITE_MERCURE_URL
+
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 RUN npm run build-only
