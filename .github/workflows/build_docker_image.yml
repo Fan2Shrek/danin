@@ -7,6 +7,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
+  DOCKER_TARGET: prod
 
 jobs:
   build:
@@ -38,7 +39,7 @@ jobs:
         with:
           context: ./api
           push: true
-          target: prod
+          target: ${{ env.DOCKER_TARGET }}
           tags: ${{ env.IMAGE_PREFIX }}/backend:latest
           build-args: |
             PHP_VERSION=8.4.1
@@ -48,5 +49,5 @@ jobs:
         with:
           context: ./front
           push: true
-          target: prod
+          target: ${{ env.DOCKER_TARGET }}
           tags: ${{ env.IMAGE_PREFIX }}/frontend:latest

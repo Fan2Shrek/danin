@@ -32,4 +32,13 @@ RUN composer install
 
 RUN chmod -R 777 var
 
+
 FROM main AS prod
+
+ENV APP_ENV prod
+ENV APP_DEBUG 0
+
+# Clean up
+RUN rm -rf tests/
+
+RUN composer install --no-dev --optimize-autoloader
