@@ -1,6 +1,6 @@
 // todo add expires
-export const setCookie = (name: string, value: string, expire: Date|null = null) => {
-    document.cookie = `${name}=${encodeURIComponent(value)}; path=/; ${expire ? `expires=${expire.toUTCString()};`: ''}`;
+export const setCookie = (name: string, value: string, expire: Date | null = null) => {
+    document.cookie = `${name}=${encodeURIComponent(value)}; path=/; ${expire ? `expires=${expire.toUTCString()};` : ''}`;
 };
 
 export const getCookie = (name: string): string | null => {
