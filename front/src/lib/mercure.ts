@@ -1,3 +1,5 @@
+import api from '@/lib/api/api';
+
 class Mercure {
     private baseUrl: string;
 
@@ -6,7 +8,10 @@ class Mercure {
     }
 
     public async subscribe(topic: string, onMessage: (data: object) => void): Promise<void> {
-        const eventSource = new EventSource(`${this.baseUrl}?topic=${encodeURIComponent(topic)}`);
+        api().mercure().getToken([topic]);
+        const eventSource = new EventSource(`${this.baseUrl}?topic=${encodeURIComponent(topic)}`, {
+            withCredentials: true,
+        });
 
         eventSource.onmessage = (event) => {
             const data = JSON.parse(event.data);
