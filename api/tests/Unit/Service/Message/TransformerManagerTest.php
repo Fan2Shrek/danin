@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Tests\Unit\Service\Message;
 
 use App\Domain\Model\Message;
-use App\Service\Message\Transformer\TransformerManager;
 use App\Service\Message\Transformer\MessageTransformerInterface;
+use App\Service\Message\Transformer\TransformerManager;
 use PHPUnit\Framework\TestCase;
 
 final class TransformerManagerTest extends TestCase

@@ -28,7 +28,6 @@ final class AddLocaleSubscriber implements EventSubscriberInterface
             ? $request->getPreferredLanguage()
             : $request->getLocale();
 
-
         if ($locale) {
             $request->setLocale($locale);
             $request->attributes->set('_locale', $locale);
