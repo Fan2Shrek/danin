@@ -22,8 +22,7 @@ COPY . .
 RUN npm run build-only
 
 
-FROM main AS prod
+FROM nginx:alpine AS prod
 
-RUN npm install --omit=dev
-
-COPY --from=build /app/dist ./dist
+COPY ./.devops/default.conf /etc/nginx/conf.d/default.conf
+COPY --from=build /app/dist /usr/share/nginx/html
