@@ -20,6 +20,7 @@ services:
       - REDIS_URL=${REDIS_URL}
       - MERCURE_JWT_SECRET=${MERCURE_PUBLISHER_SECRET}
       - MERCURE_URL=${MERCURE_URL}
+      - MERCURE_PUBLIC_URL=${MERCURE_PUBLIC_URL}
 
   william:
     build:
