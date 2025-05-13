@@ -11,10 +11,20 @@ class Client {
         return await this.request<T>('GET', url);
     }
 
-    public async post<T>(url: string, body: object | undefined): Promise<T> {
-        return await this.request<T>('POST', url, body, {
-            'Content-Type': 'application/json',
-        });
+    public async post<T>(
+        url: string,
+        body: object | undefined,
+        credentials: RequestCredentials = 'same-origin',
+    ): Promise<T> {
+        return await this.request<T>(
+            'POST',
+            url,
+            body,
+            {
+                'Content-Type': 'application/json',
+            },
+            credentials,
+        );
     }
 
     public setToken(token: string): void {
@@ -30,11 +40,13 @@ class Client {
         url: string,
         body?: object,
         headers?: HeadersInit,
+        credentials: RequestCredentials = 'same-origin',
     ): Promise<T> {
         const response = await fetch(this.baseUrl + url, {
             method,
             headers: this._buildHeaders(headers || null),
             body: body ? JSON.stringify(body) : undefined,
+            credentials,
         });
 
         if (!response.ok) {
