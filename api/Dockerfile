@@ -42,3 +42,4 @@ ENV APP_DEBUG 0
 RUN rm -rf tests/
 
 RUN composer install --no-dev --optimize-autoloader
+RUN chmod -R 777 var
