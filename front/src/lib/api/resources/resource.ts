@@ -11,8 +11,12 @@ class Resource {
         return await this.client.get<T>(url);
     }
 
-    protected async post<T>(url: string, body: object | undefined): Promise<T> {
-        return await this.client.post<T>(url, body);
+    protected async post<T>(
+        url: string,
+        body: object | undefined,
+        credentials: RequestCredentials = 'same-origin',
+    ): Promise<T> {
+        return await this.client.post<T>(url, body, credentials);
     }
 }
 
