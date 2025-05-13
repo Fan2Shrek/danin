@@ -8,7 +8,7 @@ class Mercure {
     }
 
     public async subscribe(topic: string, onMessage: (data: object) => void): Promise<void> {
-        api().mercure().getToken([topic]);
+        await api().mercure().getToken([topic]);
         const eventSource = new EventSource(`${this.baseUrl}?topic=${encodeURIComponent(topic)}`, {
             withCredentials: true,
         });
