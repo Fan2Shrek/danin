@@ -4,6 +4,9 @@ on:
   push:
     paths:
       - 'api/**'
+    branches:
+      - '*'
+      - '!main'
 
 env:
   WITH_DOCKER: 0

@@ -4,6 +4,9 @@ on:
   push:
     paths:
       - 'front/**'
+    branches:
+      - '*'
+      - '!main'
 
 env:
   WITH_DOCKER: 0

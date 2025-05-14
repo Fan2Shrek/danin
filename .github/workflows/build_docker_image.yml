@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'front/**'
+      - 'api/**'
 
 env:
   REGISTRY: ghcr.io
