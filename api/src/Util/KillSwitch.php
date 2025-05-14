@@ -18,7 +18,7 @@ final class KillSwitch
     private static function getFeature(string $featureName): bool
     {
         self::loadFeatures();
-        if (array_key_exists($featureName, self::$features)) {
+        if (\array_key_exists($featureName, self::$features)) {
             return self::$features[$featureName];
         }
 
