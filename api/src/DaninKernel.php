@@ -12,11 +12,13 @@ use App\Service\Transport\GameTransportInterface;
 use App\Service\Transport\WorkerTransport;
 use App\Service\Worker\DaninWorker;
 use App\Tests\Resources\GameClientMock;
+use App\Tests\Resources\HubSpy;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\Kernel;
+use Symfony\Component\Mercure\HubInterface;
 
 class DaninKernel extends Kernel
 {
@@ -24,6 +26,11 @@ class DaninKernel extends Kernel
 
     protected bool $appDebug = true;
     protected bool $useMocks = false;
+
+    public function noOp(): void
+    {
+        // No-op
+    }
 
     protected function build(ContainerBuilder $container): void
     {
@@ -70,6 +77,9 @@ class DaninKernel extends Kernel
 
     private function registerMocks(ContainerBuilder $container): void
     {
+        $container->register(HubInterface::class)
+            ->setClass(HubSpy::class)
+        ;
         $container->register(GameClientMock::class);
         $container->setAlias(GameTransportInterface::class, GameClientMock::class);
 

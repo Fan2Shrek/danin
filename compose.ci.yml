@@ -1,0 +1,22 @@
+services:
+  db:
+    image: mariadb:10.4
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: app
+
+  php:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+      target: ${DOCKER_TARGET:-dev}
+    ports:
+      - "8000:80"
+    environment:
+      - REDIS_URL=${REDIS_URL}
+      - MERCURE_JWT_SECRET=${MERCURE_PUBLISHER_SECRET}
+      - MERCURE_URL=${MERCURE_URL}
+      - MERCURE_PUBLIC_URL=${MERCURE_PUBLIC_URL}
+
+  redis:
+    image: redis:alpine

@@ -33,6 +33,16 @@ RUN composer install
 RUN chmod -R 777 var
 
 
+FROM main AS test
+
+ENV APP_ENV test
+ENV APP_DEBUG 0
+
+RUN composer install
+
+RUN chmod -R 777 var
+
+
 FROM main AS prod
 
 ENV APP_ENV prod
