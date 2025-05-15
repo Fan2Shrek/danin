@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - 'api/**'
+      - 'resources/*.postman_*.json'
 
 jobs:
   install-deps:
@@ -39,6 +40,8 @@ jobs:
     name: PHP tests
     runs-on: ubuntu-latest
     needs: install-deps
+    env:
+      WITH_DOCKER: 0
 
     services:
       mariadb:

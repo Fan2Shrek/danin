@@ -10,8 +10,8 @@ use Symfony\Component\DependencyInjection\Attribute\When;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 /**
-* Loads the data fixtures for Postman.
-*/
+ * Loads the data fixtures for Postman.
+ */
 #[When('test')]
 class PostmanFixtures extends Fixture implements FixtureGroupInterface
 {

@@ -208,6 +208,10 @@
 									"pm.test(\"Status code is 204\", function () {",
 									"    pm.response.to.have.status(204);",
 									"});",
+									"",
+									"pm.test(\"Response is empty\", function () {",
+									"    pm.expect(pm.response.text()).to.be.empty;",
+									"});",
 									""
 								],
 								"type": "text/javascript",
