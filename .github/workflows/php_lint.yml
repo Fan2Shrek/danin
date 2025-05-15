@@ -4,9 +4,8 @@ on:
   push:
     paths:
       - 'api/**'
-    branches:
-      - '*'
-      - '!main'
+    branches-ignore:
+      - 'main'
 
 env:
   WITH_DOCKER: 0

@@ -1,0 +1,603 @@
+{
+	"info": {
+		"_postman_id": "3eb984e8-5467-406c-b05e-9c8dbf52cd51",
+		"name": "Danin E2E",
+		"description": "> This collection features end-to-end tests that ensure the Intergalactic Bank API components function in an expected sequence. Check out the [Functional testing collection](https://www.postman.com/templates/f26ad070-d626-4d75-b151-7cbf1a48ed11/Functional-testing) and [Integration testing collection](https://www.postman.com/templates/6f788c17-067a-4074-a528-d07df1df9529/Integration-testing-%23example) for other test cases for this API. \n  \n\n## **🪐 Get started**\n\nThe fictional Intergalactic Bank Services team is responsible for testing the end-to-end workflows in this collection. You can use this collection to validate specific workflows for your team or figure out ways to increase your test coverage and make your applications more resilient.\n\nTo test the Intergalactic Bank API, you can:\n\n1. **Review tests and scripts:** Check out the [tests](https://learning.postman.com/docs/writing-scripts/test-scripts/) in the Scripts tab of a collection, folder, or request. You’ll also find additional steps in the Pre-request Script, such as for passing data between requests or building up POST request payloads.\n    \n2. **Run tests:** To run the collection, select Run collection from the collection menu. If you are interested in testing one of the use cases, select Run folder from the use case folder menu. Keep in mind that many of these tests contain logic that passes information between requests, and they are meant to be run in order from top to bottom. If you send the requests manually or out of order, your results may vary.\n    \n3. **Review test results:** Many of the test cases contain error messages to help debug service errors. If you’re using this collection as a pre-merge check, ensure that all tests are passing before submitting (and no, deleting the failing test cases isn’t an option 😉).\n    \n\nCheck out the additional sections below or select View complete documentation. For context-sensitive help with a folder or request, look for the documentation icon.\n\n## 🧑‍💻How your team can use this collection\n\n- **Add a mock server to speed up development:** Adding functionality to this service? Since this collection has example responses, you can add a mock server that will return the expected results. Start writing tests against the mock, and once your additions are live, you can swap out the URLs and have a live test suite.\n    \n- **Integrate tests with your CI/CD pipeline:** This comprehensive test suite is a great addition to your existing CI/CD pipeline. Generate the Postman CLI command from the Collection Runner and add this step to your existing checks each time you make a commit affecting this service.\n    \n- **Add a monitor:** If your team is contributing to or relying on this service, it’s a good idea to keep tabs on the status. Adding a monitor to this collection can give you confidence that the service is up and running and alert you to any breaking changes that may have occurred.\n    \n\n## 🔍 What we’re testing\n\n- A very common workflow is the transfer of funds between accounts. We have two scenarios: one which creates all resources and successfully transfers funds, and one which tries the transfer with insufficient funds.\n    \n- During these workflows, we are testing for data correctness, data types, and that data is successfully passed through the system during creation and retrieval.\n    \n\n## 🔒A note on authorization\n\nThis API uses an API key-based authorization. In this collection, we set the authorization at the collection level and generate a new API Key for each test run.\n\n## 👀 View and share run results\n\nInterested in seeing previous run results? We’re happy to share, and have a few ways for you to stay in the loop:\n\n- **Runs tab:** View past collection runs in the `Runs` tab of this collection. Here, you can see the results of past runs, including who ran them and whether it was via the Collection Runner or the CLI. You can also share individual run reports from this page.\n    \n- **Monitors:** If you have a monitor set up for this collection, you can see historical run information when you select the Monitors tab in the left sidebar. You can also have the results sent to Slack or other services when you set up a corresponding integration.\n    \n\n### 🤝Increase test coverage\n\nThe Intergalactic Bank Services team wants your team to have everything they need to successfully test our services with their applications. Is your team utilizing this API in a use case not represented here? Reach out to us on our internal Slack by tagging `@bank-services`. Or add an [inline comment](https://learning.postman.com/docs/collaborating-in-postman/working-with-your-team/discussing-your-work/) to this collection with your test case suggestions.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21218355",
+		"_collection_link": "https://cloudy-flare-528310.postman.co/workspace/Sruuua~50d64399-d19d-4e2c-8ed8-dc2b5306e73e/collection/21218355-3eb984e8-5467-406c-b05e-9c8dbf52cd51?action=share&source=collection_link&creator=21218355"
+	},
+	"item": [
+		{
+			"name": "[1] Room Creation",
+			"item": [
+				{
+					"name": "[1] Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let response = pm.response.json();",
+									"",
+									"pm.test(\"Should return a object\", function () {",
+									"    pm.expect(response, 'The response is not an object').to.be.an('object');",
+									"});",
+									"",
+									"pm.test(\"Should contain the `token` property in the response\", function () {",
+									"    pm.expect(response, 'The response does not contain the property').to.haveOwnProperty('token');",
+									"});",
+									"",
+									"pm.test(\"Should return a string for the `token` property\", function () {",
+									"    pm.expect(response.token, 'The property is not a string').to.be.a('string');",
+									"});",
+									"",
+									"if (pm.response.code === 200) {",
+									"    pm.collectionVariables.set('token', response.token);",
+									"}",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"{{user_email}}\",\n    \"password\": \"{{user_password}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/login",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"login"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Successful Response",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"{{user_email}}\",\n    \"password\": \"{{user_password}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/api/login",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"login"
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"token\": \"jwt\"\n}"
+						}
+					]
+				},
+				{
+					"name": "[2] Create Room",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let response = pm.response.json();",
+									"",
+									"pm.test(\"Should return a object\", function () {",
+									"    pm.expect(response, 'The response is not an object').to.be.an('object');",
+									"});",
+									"",
+									"pm.test(\"Should contain the `id` property in the response\", function () {",
+									"    pm.expect(response, 'The response does not contain the property').to.haveOwnProperty('id');",
+									"});",
+									"",
+									"pm.test(\"Should return a string for the `id` property\", function () {",
+									"    pm.expect(response.id, 'The property is not a string').to.be.a('string');",
+									"});",
+									"",
+									"if (pm.response.code === 200) {",
+									"    pm.collectionVariables.set('room_id', response.id);",
+									"}",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/rooms/create",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"rooms",
+								"create"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "[2] - Create Room",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/api/rooms/create",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"rooms",
+										"create"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\n    \"id\": \"d1d9a648-2518-40fe-b129-a9376bdb3c89\"\n}"
+						}
+					]
+				},
+				{
+					"name": "[3] Start Room",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});",
+									"",
+									"pm.test(\"Response is empty\", function () {",
+									"    pm.expect(pm.response.text()).to.be.empty;",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"host\": \"172.17.0.1\",\n    \"port\": 12345\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/rooms/:roomId/start",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"rooms",
+								":roomId",
+								"start"
+							],
+							"variable": [
+								{
+									"key": "roomId",
+									"value": "{{room_id}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "[3] Start Room",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"host\": \"172.17.0.1\",\n    \"port\": 12345\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/api/rooms/:roomId/start",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"rooms",
+										":roomId",
+										"start"
+									],
+									"variable": [
+										{
+											"key": "roomId",
+											"value": "{{room_id}}"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "[4] Send Message",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let response = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"pm.test(\"Should contain the `content` property in the response\", function () {",
+									"    pm.expect(response, 'The response does not contain the property').to.haveOwnProperty('content');",
+									"});",
+									"",
+									"pm.test(\"Should return a string for the `content` property\", function () {",
+									"    pm.expect(response.content, 'The property is not a string').to.be.a('string');",
+									"});",
+									"",
+									"pm.test(\"Should return the content send for the `content` property\", function () {",
+									"    pm.expect(response.content, 'The content has changed').to.equal('' + pm.collectionVariables.get('postman_seed'));",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"content\": \"{{postman_seed}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/rooms/:roomId/messages",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"rooms",
+								":roomId",
+								"messages"
+							],
+							"variable": [
+								{
+									"key": "roomId",
+									"value": "{{room_id}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "[4] Send Message",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"content\": \"{{postman_seed}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/api/rooms/:roomId/messages",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"rooms",
+										":roomId",
+										"messages"
+									],
+									"variable": [
+										{
+											"key": "roomId",
+											"value": "{{room_id}}"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"@context\": \"/api/contexts/Message\",\n    \"@id\": \"/api/.well-known/genid/a5120e9fe5b86857d0c6\",\n    \"@type\": \"Message\",\n    \"content\": \"!use flush\"\n}"
+						}
+					]
+				},
+				{
+					"name": "[5] Get Messages",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let response = pm.response.json();",
+									"",
+									"pm.test(\"Should return an object\", function () {",
+									"    pm.expect(response, 'The response is not an object').to.be.an('object');",
+									"});",
+									"",
+									"pm.test(\"Should contain the `totalItems` property in the response\", function () {",
+									"    pm.expect(response, 'The response does not contain the property').to.haveOwnProperty('totalItems');",
+									"});",
+									"",
+									"pm.test(\"`totalItems` should be a number\", function () {",
+									"    pm.expect(response.totalItems, 'The property is not a number').to.be.a('number');",
+									"});",
+									"",
+									"pm.test(\"Should contain the `member` property in the response\", function () {",
+									"    pm.expect(response, 'The response does not contain the property').to.haveOwnProperty('member');",
+									"});",
+									"",
+									"pm.test(\"`member` should be an array\", function () {",
+									"    pm.expect(response.member, 'The property is not an array').to.be.an('array');",
+									"});",
+									"",
+									"pm.test(\"`totalItems` should equal the number of `member` items\", function () {",
+									"    pm.expect(response.totalItems, 'The property totalItems is incorrect').to.equal(response.member.length);",
+									"});",
+									"",
+									"pm.test(\"Each member should contain the `content` property\", function () {",
+									"    pm.expect(response.member[0], 'The response does not contain the content property').to.haveOwnProperty('content');",
+									"});",
+									"",
+									"pm.test(\"First member's `content` should match the Postman seed\", function () {",
+									"    const seed = pm.collectionVariables.get('postman_seed');",
+									"    pm.expect(response.member[0].content, 'The message content is incorrect').to.equal('' + seed);",
+									"});",
+									"",
+									"pm.test(\"Each member should contain the `author` property\", function () {",
+									"    pm.expect(response.member[0], 'The response does not contain the author property').to.haveOwnProperty('author');",
+									"});",
+									"",
+									"pm.test(\"First member's `author` should match the environment user_name\", function () {",
+									"    const userName = pm.environment.get('user_name');",
+									"    pm.expect(response.member[0].author, 'The author is incorrect').to.equal(userName);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/rooms/:roomId/messages",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"rooms",
+								":roomId",
+								"messages"
+							],
+							"variable": [
+								{
+									"key": "roomId",
+									"value": "{{room_id}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "[5] Get Messages",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/api/rooms/:roomId/messages",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"rooms",
+										":roomId",
+										"messages"
+									],
+									"variable": [
+										{
+											"key": "roomId",
+											"value": "{{room_id}}"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"@context\": \"/api/contexts/Message\",\n    \"@id\": \"/api/rooms/d1d9a648-2518-40fe-b129-a9376bdb3c89/messages\",\n    \"@type\": \"Collection\",\n    \"totalItems\": 4,\n    \"member\": [\n        {\n            \"@type\": \"Message\",\n            \"@id\": \"/api/.well-known/genid/6a3682f3b5ac5df60ece\",\n            \"content\": \"!use flush\",\n            \"author\": \"admin\",\n            \"sendAt\": \"2025-05-15T16:27:26+00:00\",\n            \"metadata\": {\n                \"connectionId\": \"todo\"\n            }\n        },\n        {\n            \"@type\": \"Message\",\n            \"@id\": \"/api/.well-known/genid/5eda4da065f267c0e26c\",\n            \"content\": \"!use flush\",\n            \"author\": \"admin\",\n            \"sendAt\": \"2025-05-15T15:44:19+00:00\",\n            \"metadata\": {\n                \"connectionId\": \"todo\"\n            }\n        },\n        {\n            \"@type\": \"Message\",\n            \"@id\": \"/api/.well-known/genid/b9c7a744a12feb70037c\",\n            \"content\": \"!use flush\",\n            \"author\": \"admin\",\n            \"sendAt\": \"2025-05-14T16:35:02+00:00\",\n            \"metadata\": {\n                \"connectionId\": \"todo\"\n            }\n        },\n        {\n            \"@type\": \"Message\",\n            \"@id\": \"/api/.well-known/genid/54632d1db870c3561ee6\",\n            \"content\": \"!use flush\",\n            \"author\": \"admin\",\n            \"sendAt\": \"2025-05-14T16:35:01+00:00\",\n            \"metadata\": {\n                \"connectionId\": \"todo\"\n            }\n        }\n    ]\n}"
+						}
+					]
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							"pm.test(\"Response time is less than 300ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(300);",
+							"});",
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"if (!pm.collectionVariables.get(\"postman_seed\")) {",
+					"  pm.collectionVariables.set(\"postman_seed\", Math.floor(Math.random() * 1000000));",
+					"}",
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8000",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": ""
+		},
+		{
+			"key": "room_id",
+			"value": ""
+		},
+		{
+			"key": "postman_seed",
+			"value": ""
+		}
+	]
+}
