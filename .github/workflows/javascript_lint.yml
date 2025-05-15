@@ -1,11 +1,9 @@
 name: Front Quality Check
 
 on:
-  push:
+  pull_request:
     paths:
       - 'front/**'
-    branches-ignore:
-      - 'main'
 
 env:
   WITH_DOCKER: 0
