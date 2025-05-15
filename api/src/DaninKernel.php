@@ -27,11 +27,6 @@ class DaninKernel extends Kernel
     protected bool $appDebug = true;
     protected bool $useMocks = false;
 
-    public function noOp(): void
-    {
-        // No-op
-    }
-
     protected function build(ContainerBuilder $container): void
     {
         $container->addCompilerPass(new ResolveRedisDispatcherPass());
