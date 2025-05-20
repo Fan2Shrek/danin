@@ -1,6 +1,7 @@
 class Client {
     private baseUrl: string;
     private token: string | null = null;
+    private refreshToken: (() => void) | null = null;
     private locale: string = 'fr';
 
     public constructor(baseUrl: string = '') {
@@ -31,6 +32,10 @@ class Client {
         this.token = token;
     }
 
+    public setRefreshToken(refreshToken: () => void): void {
+        this.refreshToken = refreshToken;
+    }
+
     public setLocale(locale: string): void {
         this.locale = locale;
     }
@@ -50,16 +55,29 @@ class Client {
         });
 
         if (!response.ok) {
+            if (response.status === 401) {
+                this._refreshToken();
+
+                return this.request<T>(method, url, body, headers, credentials);
+            }
+
             throw new Error(`HTTP error! status: ${response.status}`);
         }
 
         return response.json();
     }
 
+    private _refreshToken(): void {
+        if (this.refreshToken) {
+            this.refreshToken();
+        }
+    }
+
     private _buildHeaders(headers: HeadersInit | null): HeadersInit {
         if (!headers) {
             headers = {};
         }
+
         const realHeaders = new Headers(headers);
 
         if (this.token) {

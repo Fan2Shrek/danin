@@ -12,6 +12,13 @@ const loginUser = async (username: string, password: string) => {
     api().setToken(response.token);
     const decoded = atob(response.token.split('.')[1]);
     setCookie('token', response.token, new Date(JSON.parse(decoded).exp * 1000));
+
+    if (response.refresh_token) {
+        const date = new Date();
+        date.setDate(date.getDate() + 30);
+        setCookie('refresh_token', response.refresh_token, date);
+    }
+
     router.push({ name: 'Home' });
 };
 

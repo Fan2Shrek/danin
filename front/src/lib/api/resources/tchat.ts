@@ -8,13 +8,13 @@ export type Message = {
 };
 
 class TchatResource extends Resource {
-    public async sendMessage(message: string, roomId: number): Promise<void> {
+    public async sendMessage(message: string, roomId: string): Promise<void> {
         return await this.post(`/api/rooms/${roomId}/messages`, {
             content: message,
         });
     }
 
-    public async getMessages(roomId: number): Promise<Message[]> {
+    public async getMessages(roomId: string): Promise<Message[]> {
         const response: { member: Message[] } = await this.get(`/api/rooms/${roomId}/messages`);
 
         return response.member;

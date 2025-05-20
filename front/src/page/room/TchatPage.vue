@@ -11,7 +11,7 @@ import type { Command } from '@/lib/api/resources/game';
 
 const emitter = useEmitter();
 // add room id
-const roomId = 1;
+const roomId = 'c8119903-1551-4439-9b23-a0db2fec37dc';
 const gameId = 'tboi';
 
 const message = ref('');
