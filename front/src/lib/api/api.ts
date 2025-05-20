@@ -3,7 +3,7 @@ import UserResource from './resources/user';
 import TchatResource from './resources/tchat';
 import GameResource from './resources/game';
 import MercureResource from './resources/mercure';
-import { getCookie, setCookie } from '../cookies';
+import { deleteCookie, getCookie, setCookie } from '../cookies';
 
 class Api {
     private client: Client;
@@ -28,14 +28,18 @@ class Api {
 
         this.client.setRefreshToken(async () => {
             if (!this.isRefreshing && this.refreshToken) {
+                deleteCookie('token');
+                this.setToken('');
                 this.isRefreshing = true;
 
-                const response = await this.userResource.refreshToken(this.refreshToken);
+                try {
+                    const response = await this.userResource.refreshToken(this.refreshToken);
 
-                this.setToken(response.token);
-                setCookie('token', response.token);
-
-                this.isRefreshing = false;
+                    this.setToken(response.token);
+                    setCookie('token', response.token);
+                } finally {
+                    this.isRefreshing = false;
+                }
             }
         });
     }
