@@ -67,7 +67,7 @@ class Client {
         return response.json();
     }
 
-    private _refreshToken(): void {
+    private async _refreshToken(): Promise<void> {
         if (this.refreshToken) {
             this.refreshToken();
         }
