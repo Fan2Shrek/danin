@@ -7,7 +7,7 @@ import TchatPage from '../page/room/TchatPage.vue';
 import { getCookie } from '../lib/cookies';
 
 function isAuthenticated() {
-    const cookie = getCookie('token');
+    const cookie = getCookie('token') || getCookie('refresh_token');
 
     return cookie !== null;
 }

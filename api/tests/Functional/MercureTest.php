@@ -23,7 +23,7 @@ final class MercureTest extends FunctionalTestCase
             ],
         ]);
 
-        $this->assertResponseIsSuccessful();
+        self::assertResponseIsSuccessful();
         self::assertArrayHasKey('set-cookie', $response->getHeaders(false));
         self::assertMatchesRegularExpression(
             '/^mercureAuthorization=.+; .+/',

@@ -28,6 +28,7 @@ final class LoginTest extends FunctionalTestCase
 
         self::assertResponseIsSuccessful();
         self::assertJsonHasKey('token', $response);
+        self::assertJsonHasKey('refresh_token', $response);
     }
 
     public function testLoginWrongCredentials()
