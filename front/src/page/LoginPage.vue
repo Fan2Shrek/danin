@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import QrcodeVue from 'qrcode.vue'
+
 import { ref, inject } from 'vue';
 import tokens from '@/i18n/tokens';
 
@@ -50,6 +52,7 @@ const handleLogin = async () => {
                     <a href="#">{{ $t(tokens.login.register.cta) }}</a>
                 </p>
             </form>
+            <QrcodeVue value="otpauth://totp/YourAppName:username@example.com?secret=SECRET&issuer=YourAppName" :size="200" />
         </div>
     </div>
 </template>

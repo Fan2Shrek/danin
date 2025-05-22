@@ -22,6 +22,7 @@
         "ramsey/uuid-doctrine": "^2.1",
         "stof/doctrine-extensions-bundle": "^1.14",
         "symfony/asset": "7.2.*",
+        "symfony/clock": "7.2.*",
         "symfony/console": "7.2.*",
         "symfony/dotenv": "7.2.*",
         "symfony/expression-language": "7.2.*",

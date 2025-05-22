@@ -52,6 +52,11 @@ services:
         arguments:
             $botToken: '%env(DISCORD_BOT_TOKEN)%'
 
+    App\Service\Authentication\TOTPFactory:
+        arguments:
+            $secret: '%env(TOTP_SECRET)%'
+            $appName: 'changeMe'
+
     App\Service\Message\Transformer\TransformerManager:
         arguments:
             $transformers: !tagged_iterator app.message_transformer
