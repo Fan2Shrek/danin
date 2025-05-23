@@ -25,6 +25,10 @@ final class ResolveRedisDispatcherPass implements CompilerPassInterface
                 throw new \RuntimeException(\sprintf('Service "%s" requires a Redis event dispatcher, but none is registered.', $id));
             }
 
+            if (!$hasRedis) {
+                $container->log($this, 'No Redis event dispatcher registered, using default event dispatcher.');
+            }
+
             $evId = $hasRedis ? RedisEventDispatcher::class : 'event_dispatcher';
 
             $bindings[EventDispatcherInterface::class] = new Reference($evId);
