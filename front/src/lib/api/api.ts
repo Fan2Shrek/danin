@@ -3,6 +3,7 @@ import UserResource from './resources/user';
 import TchatResource from './resources/tchat';
 import GameResource from './resources/game';
 import MercureResource from './resources/mercure';
+import RoomResource from './resources/room';
 import { deleteCookie, getCookie, setCookie } from '../cookies';
 
 class Api {
@@ -15,6 +16,7 @@ class Api {
     private tchatResource: TchatResource;
     private gameResource: GameResource;
     private mercureResource: MercureResource;
+    private roomResource: RoomResource;
 
     constructor() {
         this.client = new Client(import.meta.env.VITE_API_URL);
@@ -25,6 +27,7 @@ class Api {
         this.tchatResource = new TchatResource(this.client);
         this.gameResource = new GameResource(this.client);
         this.mercureResource = new MercureResource(this.client);
+        this.roomResource = new RoomResource(this.client);
 
         this.client.setRefreshToken(async () => {
             if (!this.isRefreshing && this.refreshToken) {
@@ -58,6 +61,10 @@ class Api {
 
     public mercure(): MercureResource {
         return this.mercureResource;
+    }
+
+    public room(): RoomResource {
+        return this.roomResource;
     }
 
     public setToken(token: string): void {
