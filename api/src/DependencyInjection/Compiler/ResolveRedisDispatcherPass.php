@@ -12,7 +12,7 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 final class ResolveRedisDispatcherPass implements CompilerPassInterface
 {
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         foreach ($container->findTaggedServiceIds('redis.dispatcher') as $id => $tags) {
             $isRequired = array_reduce($tags, static function (bool $carry, array $tag): bool {

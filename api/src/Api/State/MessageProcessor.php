@@ -28,10 +28,10 @@ final class MessageProcessor implements ProcessorInterface
     ) {
     }
 
-    public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = [])
+    public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): ?Message
     {
         if (!KillSwitch::isEnabled('tchat')) {
-            return;
+            return null;
         }
 
         if (!$room = $this->roomRepository->find($uriVariables['id'])) {

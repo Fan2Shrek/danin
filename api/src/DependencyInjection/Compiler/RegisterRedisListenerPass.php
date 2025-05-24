@@ -15,7 +15,7 @@ use Symfony\Component\DependencyInjection\Reference;
 
 final class RegisterRedisListenerPass implements CompilerPassInterface
 {
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         if (!$container->has(RedisEventDispatcher::class) || !$container->has(RedisListenerManager::class)) {
             return;
