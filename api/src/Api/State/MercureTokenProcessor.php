@@ -10,6 +10,9 @@ use App\Api\Model\MercureToken;
 use Symfony\Component\Mercure\Authorization;
 use Symfony\Component\Mercure\HubRegistry;
 
+/**
+ * @implements ProcessorInterface<MercureToken, MercureToken>
+ */
 final class MercureTokenProcessor implements ProcessorInterface
 {
     public function __construct(
@@ -18,7 +21,7 @@ final class MercureTokenProcessor implements ProcessorInterface
     ) {
     }
 
-    public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = [])
+    public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): MercureToken
     {
         if (!$data instanceof MercureToken) {
             throw new \InvalidArgumentException('Expected instance of MercureToken.');
