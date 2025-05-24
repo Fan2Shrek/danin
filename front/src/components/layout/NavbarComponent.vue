@@ -4,10 +4,10 @@ import LanguageSwitcher from '@/components/i18n/LanguageSwitcher.vue';
 import { ref } from 'vue';
 
 const links = {
-    [tokens.navbar.links.games]: '#',
-    [tokens.navbar.links.tchat]: '#',
-    [tokens.navbar.links.createRoom]: '#',
-    [tokens.navbar.links.login]: '#',
+    [tokens.navbar.links.games]: '/',
+    [tokens.navbar.links.tchat]: '/',
+    [tokens.navbar.links.createRoom]: '/',
+    [tokens.navbar.links.login]: '/',
 };
 
 const isOpen = ref(false);
