@@ -34,6 +34,15 @@ const tokens = {
             },
         },
     },
+    navbar: {
+        links: {
+            games: 'navbar.games',
+            tchat: 'navbar.tchat',
+            createRoom: 'navbar.createRoom',
+            logout: 'navbar.logout',
+            login: 'navbar.login',
+        },
+    },
     footer: {
         copyright: 'footer.copyright',
         links: {
