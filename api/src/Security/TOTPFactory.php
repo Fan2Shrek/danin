@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Service\Authentication;
+namespace App\Security;
 
 use Symfony\Component\Clock\ClockInterface;
 use Symfony\Component\Security\Core\User\UserInterface;

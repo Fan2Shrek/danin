@@ -8,6 +8,11 @@ const tokens = {
             link: 'login.register.link',
             cta: 'login.register.cta',
         },
+        totp: {
+            title: 'login.totp.title',
+            submit: 'login.totp.submit',
+            input: 'login.totp.input',
+        },
         error: {
             invalid: 'login.error.invalid',
             empty: 'login.error.empty',

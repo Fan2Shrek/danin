@@ -43,6 +43,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $totpSecret = null;
+
     public function __construct(string $username, string $email)
     {
         $this->email = $email;
@@ -128,5 +131,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    public function hasTotp(): bool
+    {
+        return null !== $this->totpSecret;
+    }
+
+    public function getTotpSecret(): ?string
+    {
+        return $this->totpSecret;
+    }
+
+    public function setTotpSecret(string $totpSecret): static
+    {
+        $this->totpSecret = $totpSecret;
+
+        return $this;
     }
 }

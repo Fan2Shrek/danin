@@ -8,9 +8,13 @@ const email = ref('');
 const password = ref('');
 const errorMessage = ref('');
 
-const loginUser = inject<(username: string, password: string) => void>('loginUser');
+const totpCode = ref('');
+const step = ref(1);
 
-if (!loginUser) {
+const loginUser = inject<(username: string, password: string) => string|null>('loginUser');
+const verifyCode = inject<(code: string) => null>('verifyCode');
+
+if (!loginUser || !verifyCode) {
     throw new Error('loginUser function is not provided');
 }
 
@@ -21,38 +25,68 @@ const handleLogin = async () => {
     }
 
     try {
-        await loginUser(email.value, password.value);
         errorMessage.value = '';
+        const response = await loginUser(email.value, password.value);
+
+        if (response.need_totp) {
+            step.value = 2;
+            return;
+        }
     } catch (error) {
         console.error(error);
         errorMessage.value = tokens.login.error.invalid;
     }
 };
+
+const handleCode = async () => {
+    if (!totpCode.value) {
+        errorMessage.value = tokens.login.error.empty;
+        return;
+    }
+
+    try {
+        errorMessage.value = '';
+        await verifyCode(totpCode.value);
+    } catch (error) {
+        errorMessage.value = tokens.login.error.invalid;
+    }
+}
 </script>
 
 <template>
     <div class="login-container">
         <div class="login-box">
-            <h1>{{ $t(tokens.login.title) }}</h1>
-            <form @submit.prevent="handleLogin" class="login-form">
-                <div class="form-group">
-                    <label>{{ $t(tokens.login.email) }}</label>
-                    <input type="text" v-model="email" class="form-input" />
-                </div>
-                <div class="form-group">
-                    <label>{{ $t(tokens.login.password) }}</label>
-                    <input type="password" v-model="password" class="form-input" />
-                </div>
-                <p v-if="errorMessage" class="error-message">{{ $t(errorMessage) }}</p>
-                <button type="submit" class="submit-button">{{ $t(tokens.login.submit) }}</button>
+            <div v-if="step === 1">
+              <h1>{{ $t(tokens.login.title) }}</h1>
+              <form @submit.prevent="handleLogin" class="login-form">
+                  <div class="form-group">
+                      <label>{{ $t(tokens.login.email) }}</label>
+                      <input type="text" v-model="email" class="form-input" />
+                  </div>
+                  <div class="form-group">
+                      <label>{{ $t(tokens.login.password) }}</label>
+                      <input type="password" v-model="password" class="form-input" />
+                  </div>
+                  <p v-if="errorMessage" class="error-message">{{ $t(errorMessage) }}</p>
+                  <button type="submit" class="submit-button">{{ $t(tokens.login.submit) }}</button>
 
-                <p class="register-link">
-                    {{ $t(tokens.login.register.link) }}
-                    <!-- todo link to register page -->
-                    <a href="#">{{ $t(tokens.login.register.cta) }}</a>
-                </p>
-            </form>
-            <QrcodeVue value="otpauth://totp/YourAppName:username@example.com?secret=SECRET&issuer=YourAppName" :size="200" />
+                  <p class="register-link">
+                      {{ $t(tokens.login.register.link) }}
+                      <!-- todo link to register page -->
+                      <a href="#">{{ $t(tokens.login.register.cta) }}</a>
+                  </p>
+              </form>
+            </div>
+            <div v-if="step === 2">
+              <h1>{{ $t(tokens.login.totp.title) }}</h1>
+              <form @submit.prevent="handleCode">
+                  <div class="form-group">
+                      <label>{{ $t(tokens.login.totp.input) }}</label>
+                      <input type="text" v-model="totpCode" class="form-input" />
+                  </div>
+              </form>
+              <p class="error-message">{{ $t(errorMessage) }}</p>
+            </div>
         </div>
     </div>
 </template>
@@ -86,6 +120,12 @@ const handleLogin = async () => {
         display: flex;
         flex-direction: column;
         gap: 0.5rem;
+    }
+
+    .totp-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 1.5rem;
     }
 }
 
