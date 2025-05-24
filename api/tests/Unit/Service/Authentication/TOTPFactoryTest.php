@@ -46,7 +46,7 @@ final class TOTPFactoryTest extends TestCase
 
     private static function getFakeUser(): UserInterface
     {
-        return new class() implements UserInterface {
+        return new class implements UserInterface {
             public function getUserIdentifier(): string
             {
                 return 'test_user';

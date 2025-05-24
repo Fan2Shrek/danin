@@ -14,7 +14,8 @@ final class TOTPFactory
         private string $appName,
         private ClockInterface $clock,
         private int $timeStep = 30,
-    ) {}
+    ) {
+    }
 
     public function create(UserInterface $user): TOTP
     {

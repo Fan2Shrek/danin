@@ -33,7 +33,7 @@ class UserFixtures extends AbstractFixtures
             'email' => 'big@gmail.com',
             'password' => self::USER_PASSWORD,
             'roles' => ['ROLE_USER'],
-            'totpSecret' => 'JBSWY3DPEHPK3PXP'
+            'totpSecret' => 'JBSWY3DPEHPK3PXP',
         ];
     }
 

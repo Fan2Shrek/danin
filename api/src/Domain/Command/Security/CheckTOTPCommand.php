@@ -7,7 +7,7 @@ namespace App\Domain\Command\Security;
 final class CheckTOTPCommand
 {
     public function __construct(
-        public readonly string $code
+        public readonly string $code,
     ) {
     }
 }

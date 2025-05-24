@@ -13,7 +13,7 @@ use App\Domain\Command\Security\CheckTOTPCommand;
         '/check-totp',
         messenger: 'input',
         input: CheckTOTPCommand::class,
-    )
+    ),
 ])]
 final class TOTP
 {

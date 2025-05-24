@@ -11,7 +11,7 @@ use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
-#[AsMessagehandler]
+#[AsMessageHandler]
 final class CheckTOTPHandler
 {
     public function __construct(

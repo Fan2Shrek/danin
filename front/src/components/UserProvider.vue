@@ -7,7 +7,7 @@ import { setCookie, deleteCookie } from '@/lib/cookies';
 
 const router = useRouter();
 
-const onLoginSuccess = (token: string, refreshToken: string|null) => {
+const onLoginSuccess = (token: string, refreshToken: string | null) => {
     api().setToken(token);
     const decoded = atob(token.split('.')[1]);
     setCookie('token', token, new Date(JSON.parse(decoded).exp * 1000));
@@ -19,7 +19,7 @@ const onLoginSuccess = (token: string, refreshToken: string|null) => {
     }
 
     router.push({ name: 'Home' });
-}
+};
 
 const loginUser = async (username: string, password: string): Promise<Response> => {
     const response = await api().user().login(username, password);
@@ -32,14 +32,14 @@ const loginUser = async (username: string, password: string): Promise<Response> 
 
     onLoginSuccess(response.token, response.refresh_token);
 
-    return response
+    return response;
 };
 
 const verifyCode = async (code: string) => {
     const response = await api().user().verifyCode(code);
 
     onLoginSuccess(response.token);
-}
+};
 
 const logoutUser = () => {
     deleteCookie('token');

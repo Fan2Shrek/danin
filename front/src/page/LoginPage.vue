@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import QrcodeVue from 'qrcode.vue'
+import QrcodeVue from 'qrcode.vue';
 
 import { ref, inject } from 'vue';
 import tokens from '@/i18n/tokens';
@@ -11,7 +11,7 @@ const errorMessage = ref('');
 const totpCode = ref('');
 const step = ref(1);
 
-const loginUser = inject<(username: string, password: string) => string|null>('loginUser');
+const loginUser = inject<(username: string, password: string) => string | null>('loginUser');
 const verifyCode = inject<(code: string) => null>('verifyCode');
 
 if (!loginUser || !verifyCode) {
@@ -50,42 +50,44 @@ const handleCode = async () => {
     } catch (error) {
         errorMessage.value = tokens.login.error.invalid;
     }
-}
+};
 </script>
 
 <template>
     <div class="login-container">
         <div class="login-box">
             <div v-if="step === 1">
-              <h1>{{ $t(tokens.login.title) }}</h1>
-              <form @submit.prevent="handleLogin" class="login-form">
-                  <div class="form-group">
-                      <label>{{ $t(tokens.login.email) }}</label>
-                      <input type="text" v-model="email" class="form-input" />
-                  </div>
-                  <div class="form-group">
-                      <label>{{ $t(tokens.login.password) }}</label>
-                      <input type="password" v-model="password" class="form-input" />
-                  </div>
-                  <p v-if="errorMessage" class="error-message">{{ $t(errorMessage) }}</p>
-                  <button type="submit" class="submit-button">{{ $t(tokens.login.submit) }}</button>
+                <h1>{{ $t(tokens.login.title) }}</h1>
+                <form @submit.prevent="handleLogin" class="login-form">
+                    <div class="form-group">
+                        <label>{{ $t(tokens.login.email) }}</label>
+                        <input type="text" v-model="email" class="form-input" />
+                    </div>
+                    <div class="form-group">
+                        <label>{{ $t(tokens.login.password) }}</label>
+                        <input type="password" v-model="password" class="form-input" />
+                    </div>
+                    <p v-if="errorMessage" class="error-message">{{ $t(errorMessage) }}</p>
+                    <button type="submit" class="submit-button">
+                        {{ $t(tokens.login.submit) }}
+                    </button>
 
-                  <p class="register-link">
-                      {{ $t(tokens.login.register.link) }}
-                      <!-- todo link to register page -->
-                      <a href="#">{{ $t(tokens.login.register.cta) }}</a>
-                  </p>
-              </form>
+                    <p class="register-link">
+                        {{ $t(tokens.login.register.link) }}
+                        <!-- todo link to register page -->
+                        <a href="#">{{ $t(tokens.login.register.cta) }}</a>
+                    </p>
+                </form>
             </div>
             <div v-if="step === 2">
-              <h1>{{ $t(tokens.login.totp.title) }}</h1>
-              <form @submit.prevent="handleCode">
-                  <div class="form-group">
-                      <label>{{ $t(tokens.login.totp.input) }}</label>
-                      <input type="text" v-model="totpCode" class="form-input" />
-                  </div>
-              </form>
-              <p class="error-message">{{ $t(errorMessage) }}</p>
+                <h1>{{ $t(tokens.login.totp.title) }}</h1>
+                <form @submit.prevent="handleCode">
+                    <div class="form-group">
+                        <label>{{ $t(tokens.login.totp.input) }}</label>
+                        <input type="text" v-model="totpCode" class="form-input" />
+                    </div>
+                </form>
+                <p class="error-message">{{ $t(errorMessage) }}</p>
             </div>
         </div>
     </div>

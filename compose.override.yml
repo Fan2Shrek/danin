@@ -1,0 +1,9 @@
+services:
+  db:
+    networks:
+      - pma
+      - default
+
+networks:
+  pma:
+    external: true
