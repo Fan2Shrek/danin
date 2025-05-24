@@ -1,12 +1,16 @@
 import Resource from './resource';
 
-type Response = {
+export interface Response {
     token: string;
     refresh_token: string;
-};
+}
+
+export interface LoginResponse extends Response {
+    need_totp?: boolean;
+}
 
 class UserResource extends Resource {
-    public async login(email: string, password: string): Promise<Response> {
+    public async login(email: string, password: string): Promise<LoginResponse> {
         return await this.post(`/api/login`, {
             email,
             password,

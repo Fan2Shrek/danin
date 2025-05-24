@@ -44,7 +44,6 @@ final class TOTP
     {
         $currentSlice = floor(time() / $this->timeStep);
         for ($i = -$window; $i <= $window; ++$i) {
-            dump($this->getTOTPCode($currentSlice + $i), $currentSlice + $i);
             if ($this->getTOTPCode($currentSlice + $i) === $input) {
                 return true;
             }

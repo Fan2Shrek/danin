@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import QrcodeVue from 'qrcode.vue';
-
 import { ref, inject } from 'vue';
 import tokens from '@/i18n/tokens';
+
+import type { LoginResponse } from '@/lib/api/resources/user';
 
 const email = ref('');
 const password = ref('');
@@ -11,7 +11,7 @@ const errorMessage = ref('');
 const totpCode = ref('');
 const step = ref(1);
 
-const loginUser = inject<(username: string, password: string) => string | null>('loginUser');
+const loginUser = inject<(username: string, password: string) => LoginResponse>('loginUser');
 const verifyCode = inject<(code: string) => null>('verifyCode');
 
 if (!loginUser || !verifyCode) {
@@ -47,7 +47,7 @@ const handleCode = async () => {
     try {
         errorMessage.value = '';
         await verifyCode(totpCode.value);
-    } catch (error) {
+    } catch {
         errorMessage.value = tokens.login.error.invalid;
     }
 };

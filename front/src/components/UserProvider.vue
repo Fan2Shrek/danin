@@ -5,9 +5,11 @@ import { useRouter } from 'vue-router';
 import api from '@/lib/api/api';
 import { setCookie, deleteCookie } from '@/lib/cookies';
 
+import type { Response } from '@/lib/api/resources/user';
+
 const router = useRouter();
 
-const onLoginSuccess = (token: string, refreshToken: string | null) => {
+const onLoginSuccess = (token: string, refreshToken: string | null = null) => {
     api().setToken(token);
     const decoded = atob(token.split('.')[1]);
     setCookie('token', token, new Date(JSON.parse(decoded).exp * 1000));
