@@ -8,7 +8,6 @@ const links = {
     [tokens.navbar.links.tchat]: '#',
     [tokens.navbar.links.createRoom]: '#',
     [tokens.navbar.links.login]: '#',
-    [tokens.navbar.links.logout]: '#',
 };
 
 const isOpen = ref(false);
@@ -103,6 +102,7 @@ const toggleMenu = () => {
             transition: all 0.5s ease-in-out;
 
             & li a {
+                position: relative;
                 display: inline-block;
                 width: 100%;
                 padding: 0.375rem 0.75rem;
@@ -120,6 +120,52 @@ const toggleMenu = () => {
             &--expanded {
                 margin-top: 0.375rem;
                 max-height: 15rem;
+            }
+        }
+    }
+
+    @media (min-width: 768px) {
+        .navbar {
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            padding-right: 5rem;
+
+            &__links {
+                display: flex;
+                gap: 1rem;
+                max-height: none;
+                margin-top: 0;
+            }
+
+            &__toggle {
+                display: none;
+            }
+
+            &__links li a {
+                padding: 0;
+
+                &:hover {
+                    color: #101828;
+                    background-color: transparent;
+                }
+
+                &::after {
+                    content: "";
+                    position: absolute;
+                    width: 100%;
+                    transform: scaleX(0);
+                    height: 2px;
+                    bottom: 0;
+                    left: 0;
+                    background-color: #101828;
+                    transform-origin: bottom;
+                    transition: transform 0.2s ease-out;
+                }
+
+                &:hover::after {
+                    transform: scaleX(1);
+                }
             }
         }
     }
