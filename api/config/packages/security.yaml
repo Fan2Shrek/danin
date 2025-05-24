@@ -20,24 +20,27 @@ security:
             json_login:
                 check_path: /api/login
                 username_path: email
-                success_handler: lexik_jwt_authentication.handler.authentication_success
+                success_handler: App\Security\Authentication\AuthenticationSuccessHandler
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
 
+        check-totp:
+            pattern: ^/api/check-totp
+            stateless: true
+            jwt: ~
+
         refresh_token:
+            pattern: ^/api/token/refresh
             stateless: true
             jwt: ~
             entry_point: jwt
-            json_login:
-                check_path: /api/login
-                success_handler: lexik_jwt_authentication.handler.authentication_success
-                failure_handler: lexik_jwt_authentication.handler.authentication_failure
             refresh_jwt:
                 check_path: /api/token/refresh
 
         api:
             pattern: ^/api
             stateless: true
-            jwt: ~
+            jwt:
+                authenticator: app.custom_authenticator
 
         main:
             lazy: true

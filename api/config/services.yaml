@@ -48,9 +48,18 @@ services:
             - '../src/Domain/Model'
             - '../src/Kernel.php'
 
+    app.custom_authenticator:
+        class: App\Security\Authentication\JwtAuthenticator
+        parent: lexik_jwt_authentication.security.jwt_authenticator
+
     App\Command\DiscordBotCommand:
         arguments:
             $botToken: '%env(DISCORD_BOT_TOKEN)%'
+
+    App\Security\TOTPFactory:
+        arguments:
+            $secret: '%env(TOTP_SECRET)%'
+            $appName: 'danin'
 
     App\Service\Message\Transformer\TransformerManager:
         arguments:

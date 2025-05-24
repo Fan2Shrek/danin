@@ -27,6 +27,14 @@ class UserFixtures extends AbstractFixtures
             'password' => self::USER_PASSWORD,
             'roles' => ['ROLE_ADMIN'],
         ];
+
+        yield [
+            'username' => '2FA',
+            'email' => 'big@gmail.com',
+            'password' => self::USER_PASSWORD,
+            'roles' => ['ROLE_USER'],
+            'totpSecret' => 'JBSWY3DPEHPK3PXP',
+        ];
     }
 
     protected function postInstantiate($entity): void

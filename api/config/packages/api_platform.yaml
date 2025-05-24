@@ -1,6 +1,7 @@
 api_platform:
     title: Danin
     version: 1.0.0
+    use_symfony_listeners: true
     formats:
       jsonld: ["application/ld+json"]
       json: ["application/json"]
