@@ -12,6 +12,7 @@ const tokens = {
             title: 'login.totp.title',
             submit: 'login.totp.submit',
             input: 'login.totp.input',
+            error: 'login.totp.error',
         },
         error: {
             invalid: 'login.error.invalid',

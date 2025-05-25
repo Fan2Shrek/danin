@@ -48,7 +48,7 @@ const handleCode = async () => {
         errorMessage.value = '';
         await verifyCode(totpCode.value);
     } catch {
-        errorMessage.value = tokens.login.error.invalid;
+        errorMessage.value = tokens.login.totp.error;
     }
 };
 </script>
@@ -56,39 +56,46 @@ const handleCode = async () => {
 <template>
     <div class="login-container">
         <div class="login-box">
-            <div v-if="step === 1">
-                <h1>{{ $t(tokens.login.title) }}</h1>
-                <form @submit.prevent="handleLogin" class="login-form">
-                    <div class="form-group">
-                        <label>{{ $t(tokens.login.email) }}</label>
-                        <input type="text" v-model="email" class="form-input" />
-                    </div>
-                    <div class="form-group">
-                        <label>{{ $t(tokens.login.password) }}</label>
-                        <input type="password" v-model="password" class="form-input" />
-                    </div>
-                    <p v-if="errorMessage" class="error-message">{{ $t(errorMessage) }}</p>
-                    <button type="submit" class="submit-button">
-                        {{ $t(tokens.login.submit) }}
-                    </button>
+            <Transition name="slide-left">
+                <div v-if="step === 1">
+                    <h1>{{ $t(tokens.login.title) }}</h1>
+                    <form @submit.prevent="handleLogin" class="login-form">
+                        <div class="form-group">
+                            <label>{{ $t(tokens.login.email) }}</label>
+                            <input type="text" v-model="email" class="form-input" />
+                        </div>
+                        <div class="form-group">
+                            <label>{{ $t(tokens.login.password) }}</label>
+                            <input type="password" v-model="password" class="form-input" />
+                        </div>
+                        <p v-if="errorMessage" class="error-message">{{ $t(errorMessage) }}</p>
+                        <button type="submit" class="submit-button">
+                            {{ $t(tokens.login.submit) }}
+                        </button>
 
-                    <p class="register-link">
-                        {{ $t(tokens.login.register.link) }}
-                        <!-- todo link to register page -->
-                        <a href="#">{{ $t(tokens.login.register.cta) }}</a>
-                    </p>
-                </form>
-            </div>
-            <div v-if="step === 2">
-                <h1>{{ $t(tokens.login.totp.title) }}</h1>
-                <form @submit.prevent="handleCode">
-                    <div class="form-group">
-                        <label>{{ $t(tokens.login.totp.input) }}</label>
-                        <input type="text" v-model="totpCode" class="form-input" />
-                    </div>
-                </form>
-                <p class="error-message">{{ $t(errorMessage) }}</p>
-            </div>
+                        <p class="register-link">
+                            {{ $t(tokens.login.register.link) }}
+                            <!-- todo link to register page -->
+                            <a href="#">{{ $t(tokens.login.register.cta) }}</a>
+                        </p>
+                    </form>
+                </div>
+            </Transition>
+            <Transition name="slide-right">
+                <div v-if="step === 2">
+                    <h1>{{ $t(tokens.login.totp.title) }}</h1>
+                    <form @submit.prevent="handleCode">
+                        <div class="form-group">
+                            <label>{{ $t(tokens.login.totp.input) }}</label>
+                            <input type="text" v-model="totpCode" class="form-input" />
+                        </div>
+                        <button type="submit" class="submit-button">
+                            {{ $t(tokens.login.totp.submit) }}
+                        </button>
+                    </form>
+                    <p class="error-message">{{ $t(errorMessage) }}</p>
+                </div>
+            </Transition>
         </div>
     </div>
 </template>
@@ -164,6 +171,8 @@ const handleCode = async () => {
         font-weight: 500;
         cursor: pointer;
         transition: background-color 0.2s ease;
+        width: 100%;
+        margin-top: 1rem;
 
         &:hover {
             background: #357abd;
@@ -217,5 +226,31 @@ label {
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     font-size: 0.875rem;
+}
+
+.slide-left-enter-active,
+.slide-left-leave-active {
+    transition: all 0.2s ease;
+}
+.slide-left-enter-from {
+    transform: translateX(100%);
+    opacity: 0;
+}
+.slide-left-leave-to {
+    transform: translateX(-100%);
+    opacity: 0;
+}
+
+.slide-right-enter-active,
+.slide-right-leave-active {
+    transition: all 10s ease;
+}
+.slide-right-enter-from {
+    transform: translateX(100%);
+    opacity: 0;
+}
+.slide-right-leave-to {
+    transform: translateX(-100%);
+    opacity: 0;
 }
 </style>
