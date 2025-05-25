@@ -12,6 +12,7 @@ const translations: { [key: string]: string } = {
     [tokens.login.totp.title]: 'Authentification à deux facteurs',
     [tokens.login.totp.submit]: 'Vérifier',
     [tokens.login.totp.input]: 'Entrez votre code d’authentification',
+    [tokens.login.totp.error]: 'Le code d’authentification est invalide ou expiré',
     [tokens.home.title]: 'Bienvenue sur Danin',
     [tokens.home.subtitle]: 'Découvrez une nouvelle façon de jouer avec vos amis',
     [tokens.home.cta]: 'Jouer maintenant',

@@ -10,6 +10,7 @@ const translations: { [key: string]: string } = {
     [tokens.login.totp.title]: 'Two-Factor Authentication',
     [tokens.login.totp.submit]: 'Verify',
     [tokens.login.totp.input]: 'Enter your authentication code',
+    [tokens.login.totp.error]: 'The authentication code is invalid or expired',
     [tokens.login.error.invalid]: 'Invalid username or password',
     [tokens.login.error.empty]: 'Please fill all fields',
     [tokens.home.title]: 'Welcome to Danin',

@@ -55,7 +55,8 @@ class Client {
         });
 
         if (!response.ok) {
-            if (response.status === 401 && !url.includes('login')) {
+            // @todo find better way
+            if (response.status === 401 && !url.includes('login') && !url.includes('totp')) {
                 this._refreshToken();
 
                 return this.request<T>(method, url, body, headers, credentials);
