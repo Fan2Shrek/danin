@@ -31,6 +31,8 @@ const translations: { [key: string]: string } = {
     [tokens.room.start.requestConnectionToGame]: 'Demander la connexion au jeu',
     [tokens.room.start.localSetupError]:
         'Une erreur est survenue lors de la configuration locale de la salle',
+    [tokens.games.title]: 'Jeux disponibles',
+    [tokens.games.subtitle]: 'Explorez notre sélection de jeux et rejoignez une partie',
     [tokens.room.tchat.title]: 'Tchat',
     [tokens.room.tchat.send]: 'Envoyer un message',
     [tokens.room.tchat.placeholder]: 'Écrire un message...',

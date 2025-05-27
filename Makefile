@@ -80,3 +80,6 @@ drop-db:
 
 fixtures: db
 	$(CONSOLE) doctrine:fixtures:load --no-interaction
+
+db-data: db
+	$(CONSOLE) app:sync:data
