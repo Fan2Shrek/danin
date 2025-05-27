@@ -8,7 +8,7 @@ import LanguageSwitcher from '@/components/i18n/LanguageSwitcher.vue';
 import type { User } from '@/lib/api/resources/user';
 
 const links = {
-    [tokens.navbar.links.games]: '/',
+    [tokens.navbar.links.games]: '/games',
     [tokens.navbar.links.tchat]: '/',
     [tokens.navbar.links.createRoom]: '/',
 };

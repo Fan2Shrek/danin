@@ -16,6 +16,8 @@ const translations: { [key: string]: string } = {
     [tokens.home.title]: 'Welcome to Danin',
     [tokens.home.subtitle]: 'Discover a new way to play with your friends',
     [tokens.home.cta]: 'Play now',
+    [tokens.games.title]: 'Available Games',
+    [tokens.games.subtitle]: 'Explore our selection of games and join a match',
     [tokens.room.tchat.title]: 'Tchat',
     [tokens.room.tchat.send]: 'Send message',
     [tokens.room.tchat.placeholder]: 'Write a message...',

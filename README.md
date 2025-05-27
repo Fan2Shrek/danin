@@ -14,7 +14,6 @@ For the ESGI Web Engineering diploma
 
 This project *should* be deployed by middle of June 2025 and I'm looking for people to test it :).
 
-
 ## What is Danin?
 
 Danin aims to be a new way to play games with your friends.
