@@ -2,16 +2,31 @@
 
 namespace App\Entity;
 
-use App\Repository\CommandRepository;
+use App\Repository\GameRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
-#[ORM\Entity(repositoryClass: CommandRepository::class)]
-class Command
+#[ORM\Entity(repositoryClass: GameRepository::class)]
+#[ApiResource(
+    operations: [
+        new GetCollection(
+            uriTemplate: '/games',
+            provider: GameProvider::class,
+        ),
+        new GetCollection(
+            uriTemplate: '/games/{id}/commands',
+            provider: GameCommandProvider::class,
+        ),
+    ],
+)]
+class Game
 {
     #[ORM\Id]
     #[ORM\Column]
     private string $id;
+
+    #[ORM\Column(length: 255)]
+    private ?string $name = null;
 
     #[ORM\Column(length: 255)]
     #[Gedmo\Translatable]
@@ -20,19 +35,26 @@ class Command
     #[Gedmo\Locale]
     private ?string $locale = null;
 
-    #[ORM\ManyToOne(targetEntity: Game::class)]
-    #[ORM\JoinColumn(nullable: false)]
-    private Game $game;
-
-    public function __construct(string $id, Game $game)
+    public function __construct(string $id)
     {
         $this->id = $id;
-        $this->game = $game;
     }
 
     public function getId(): string
     {
         return $this->id;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): static
+    {
+        $this->name = $name;
+
+        return $this;
     }
 
     public function getDescription(): ?string
@@ -45,11 +67,6 @@ class Command
         $this->description = $description;
 
         return $this;
-    }
-
-    public function getGame(): Game
-    {
-        return $this->game;
     }
 
     public function setTranslatableLocale(string $locale)
