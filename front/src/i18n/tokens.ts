@@ -36,11 +36,11 @@ const tokens = {
     },
     navbar: {
         links: {
-            games: 'navbar.games',
-            tchat: 'navbar.tchat',
-            createRoom: 'navbar.createRoom',
-            logout: 'navbar.logout',
-            login: 'navbar.login',
+            games: 'navbar.links.games',
+            tchat: 'navbar.links.tchat',
+            createRoom: 'navbar.links.createRoom',
+            logout: 'navbar.links.logout',
+            login: 'navbar.links.login',
         },
     },
     footer: {

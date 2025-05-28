@@ -36,8 +36,8 @@ const toggleMenu = () => {
         </div>
 
         <ul class="navbar__links" :class="{ 'navbar__links--expanded': isOpen }">
-            <li v-for="(link, key) in links" :key="key">
-                <a :href="link">{{ $t(key) }}</a>
+            <li v-for="(link, name) in links" :key="name">
+                <a :href="link">{{ $t(String(name)) }}</a>
             </li>
         </ul>
 
@@ -46,127 +46,129 @@ const toggleMenu = () => {
 </template>
 
 <style scoped lang="scss">
-    .navbar {
-        background: white;
+.navbar {
+    background: white;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    padding: 0.75rem 2rem;
+    width: 100%;
+    z-index: 20;
+    box-shadow:
+        0 1px 3px 0 rgb(0 0 0 / 10%),
+        0 1px 2px -1px rgb(0 0 0 / 10%);
+
+    &__brand {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    &__title {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: #101828;
+        text-decoration: none;
+        font-size: 2rem;
+        line-height: 1.25;
+
+        & img {
+            width: 2.5rem;
+            height: 2.5rem;
+        }
+    }
+
+    &__toggle {
         display: flex;
         flex-direction: column;
-        position: fixed;
-        padding: 0.75rem 2rem;
-        width: 100%;
-        z-index: 20;
-        box-shadow: 0 1px 3px 0 rgb(0 0 0 / 10%), 0 1px 2px -1px rgb(0 0 0 / 10%);
+        gap: 0.25rem;
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+        padding: 0.5rem;
 
-        &__brand {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+        &-line {
+            width: 1.25rem;
+            height: 0.125rem;
+            background-color: #101828;
+            border-radius: 0.25rem;
+        }
+    }
+
+    &__links {
+        overflow: hidden;
+        list-style: none;
+        padding: 0;
+        max-height: 0;
+        transition: all 0.5s ease-in-out;
+
+        & li a {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+            padding: 0.375rem 0.75rem;
+            font-size: 1.125rem;
+            color: #6a7282;
+            text-decoration: none;
+            border-radius: 0.375rem;
+
+            &:hover {
+                color: #3b82f6;
+                background-color: rgb(59, 130, 246, 0.1);
+            }
         }
 
-        &__title {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: #101828;
-            text-decoration: none;
-            font-size: 2rem;
-            line-height: 1.25;
+        &--expanded {
+            margin-top: 0.375rem;
+            max-height: 15rem;
+        }
+    }
+}
 
-            & img {
-                width: 2.5rem;
-                height: 2.5rem;
-            }
+@media (min-width: 768px) {
+    .navbar {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding-right: 5rem;
+
+        &__links {
+            display: flex;
+            gap: 1rem;
+            max-height: none;
+            margin-top: 0;
         }
 
         &__toggle {
-            display: flex;
-            flex-direction: column;
-            gap: 0.25rem;
-            background-color: transparent;
-            border: none;
-            cursor: pointer;
-            padding: 0.5rem;
-
-            &-line {
-                width: 1.25rem;
-                height: 0.125rem;
-                background-color: #101828;
-                border-radius: 0.25rem;
-            }
+            display: none;
         }
 
-        &__links {
-            overflow: hidden;
-            list-style: none;
+        &__links li a {
             padding: 0;
-            max-height: 0;
-            transition: all 0.5s ease-in-out;
 
-            & li a {
-                position: relative;
-                display: inline-block;
+            &:hover {
+                color: #101828;
+                background-color: transparent;
+            }
+
+            &::after {
+                content: '';
+                position: absolute;
                 width: 100%;
-                padding: 0.375rem 0.75rem;
-                font-size: 1.125rem;
-                color: #6a7282;
-                text-decoration: none;
-                border-radius: 0.375rem;
-
-                &:hover {
-                    color: #3b82f6;
-                    background-color: rgb(59, 130, 246, 0.1);
-                }
+                transform: scaleX(0);
+                height: 2px;
+                bottom: 0;
+                left: 0;
+                background-color: #101828;
+                transform-origin: bottom;
+                transition: transform 0.2s ease-out;
             }
 
-            &--expanded {
-                margin-top: 0.375rem;
-                max-height: 15rem;
+            &:hover::after {
+                transform: scaleX(1);
             }
         }
     }
-
-    @media (min-width: 768px) {
-        .navbar {
-            flex-direction: row;
-            justify-content: space-between;
-            align-items: center;
-            padding-right: 5rem;
-
-            &__links {
-                display: flex;
-                gap: 1rem;
-                max-height: none;
-                margin-top: 0;
-            }
-
-            &__toggle {
-                display: none;
-            }
-
-            &__links li a {
-                padding: 0;
-
-                &:hover {
-                    color: #101828;
-                    background-color: transparent;
-                }
-
-                &::after {
-                    content: "";
-                    position: absolute;
-                    width: 100%;
-                    transform: scaleX(0);
-                    height: 2px;
-                    bottom: 0;
-                    left: 0;
-                    background-color: #101828;
-                    transform-origin: bottom;
-                    transition: transform 0.2s ease-out;
-                }
-
-                &:hover::after {
-                    transform: scaleX(1);
-                }
-            }
-        }
-    }
+}
 </style>
