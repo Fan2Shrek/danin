@@ -7,7 +7,7 @@ const links = {
     [tokens.navbar.links.games]: '/',
     [tokens.navbar.links.tchat]: '/',
     [tokens.navbar.links.createRoom]: '/',
-    [tokens.navbar.links.login]: '/',
+    [tokens.navbar.links.login]: '/login',
 };
 
 const isOpen = ref(false);

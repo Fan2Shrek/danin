@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, inject } from 'vue';
+import { ref, inject, watch } from 'vue';
 import tokens from '@/i18n/tokens';
 
 import type { LoginResponse } from '@/lib/api/resources/user';
@@ -7,6 +7,8 @@ import type { LoginResponse } from '@/lib/api/resources/user';
 const email = ref('');
 const password = ref('');
 const errorMessage = ref('');
+
+const animate = ref(false);
 
 const totpCode = ref('');
 const step = ref(1);
@@ -17,6 +19,17 @@ const verifyCode = inject<(code: string) => null>('verifyCode');
 if (!loginUser || !verifyCode) {
     throw new Error('loginUser function is not provided');
 }
+
+let timerId = null;
+
+watch(animate, (newVal) => {
+    if (newVal) {
+        if (timerId) clearTimeout(timerId);
+        timerId = setTimeout(() => {
+            animate.value = false;
+        }, 2000);
+    }
+});
 
 const handleLogin = async () => {
     if (!email.value || !password.value) {
@@ -29,6 +42,7 @@ const handleLogin = async () => {
         const response = await loginUser(email.value, password.value);
 
         if (response.need_totp) {
+            animate.value = true;
             step.value = 2;
             return;
         }
@@ -54,7 +68,7 @@ const handleCode = async () => {
 </script>
 
 <template>
-    <div class="login-container">
+    <div class="login-container" :class="{ animate: animate }">
         <div class="login-box">
             <Transition name="slide-left">
                 <div v-if="step === 1">
@@ -117,6 +131,7 @@ const handleCode = async () => {
         max-width: 400px;
         border-radius: 8px;
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
     }
 
     &-form {
@@ -252,5 +267,47 @@ label {
 .slide-right-leave-to {
     transform: translateX(-100%);
     opacity: 0;
+}
+@keyframes rotatelascar {
+    to {
+        rotate: 2turn;
+    }
+}
+
+@keyframes scalelascar {
+    0% {
+        transform: scaleY(1) scaleX(1);
+    }
+    25% {
+        transform: scaleX(0.1) scaleY(1);
+    }
+    50% {
+        transform: scaleX(1) scaleY(1);
+    }
+    75% {
+        transform: scaleX(1) scaleY(0.1);
+    }
+    100% {
+        transform: scaleY(1) scaleX(1);
+    }
+}
+
+@keyframes filterlascar {
+    50% {
+        filter: blur(7px);
+    }
+    100% {
+        filter: blur(0);
+    }
+}
+
+.animate {
+    &,
+    > * {
+        animation:
+            scalelascar 2s infinite linear,
+            rotatelascar 2s infinite linear,
+            filterlascar 1s infinite linear;
+    }
 }
 </style>
