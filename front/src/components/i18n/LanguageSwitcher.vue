@@ -27,21 +27,18 @@ watch(locale, (newLocale: string) => {
 </script>
 
 <template>
-    <div class="locale-switcher">
-        <select v-model="$i18n.locale">
-            <option
-                v-for="locale in $i18n.availableLocales"
-                :key="`locale-${locale}`"
-                :value="locale"
-            >
-                {{ locale }}
-            </option>
-        </select>
-    </div>
+    <select v-model="$i18n.locale" class="locale-switcher">
+        <option v-for="locale in $i18n.availableLocales" :key="`locale-${locale}`" :value="locale">
+            {{ locale }}
+        </option>
+    </select>
 </template>
 
 <style scoped lang="scss">
 .locale-switcher {
-    position: fixed;
+    position: absolute;
+    top: 1.25rem;
+    right: 2rem;
+    height: 1.5rem;
 }
 </style>

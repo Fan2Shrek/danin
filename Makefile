@@ -20,6 +20,9 @@ CONSOLE := $(PHP) bin/console
 up:
 	$(COMPOSE) up -d
 
+stop:
+	$(COMPOSE) stop
+
 install:
 	echo "Installing dependencies..."
 	$(PHP) composer install
