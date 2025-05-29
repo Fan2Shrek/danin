@@ -6,6 +6,7 @@ namespace App\Api\State;
 
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
+use App\Api\Model\Message as ApiMessage;
 use App\Domain\Model\Message;
 use App\Repository\RoomRepository;
 use App\Service\DaninTchat;
@@ -28,7 +29,7 @@ final class MessageProcessor implements ProcessorInterface
     ) {
     }
 
-    public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): ?Message
+    public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): ?ApiMessage
     {
         if (!KillSwitch::isEnabled('tchat')) {
             return null;
