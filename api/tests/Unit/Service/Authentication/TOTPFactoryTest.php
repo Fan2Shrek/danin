@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\Service\Authentication;
 
-use App\Service\Authentication\TOTP;
-use App\Service\Authentication\TOTPFactory;
+use App\Security\TOTP;
+use App\Security\TOTPFactory;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\User\UserInterface;
