@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
+use App\Api\State\MeProvider;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -13,6 +14,7 @@ use Symfony\Component\Serializer\Attribute\Ignore;
 #[ApiResource(operations: [
     new Get(
         uriTemplate: '/me',
+        provider: MeProvider::class,
     ),
 ])]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
@@ -133,11 +135,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->plainPassword = null;
     }
 
+    #[Ignore]
     public function hasTotp(): bool
     {
         return null !== $this->totpSecret;
     }
 
+    #[Ignore]
     public function getTotpSecret(): ?string
     {
         return $this->totpSecret;

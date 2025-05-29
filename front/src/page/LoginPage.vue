@@ -20,14 +20,14 @@ if (!loginUser || !verifyCode) {
     throw new Error('loginUser function is not provided');
 }
 
-let timerId = null;
+let timerId: ReturnType<typeof setTimeout> | null = null;
 
 watch(animate, (newVal) => {
     if (newVal) {
         if (timerId) clearTimeout(timerId);
         timerId = setTimeout(() => {
             animate.value = false;
-        }, 2000);
+        }, 4000);
     }
 });
 
@@ -305,8 +305,8 @@ label {
     &,
     > * {
         animation:
-            scalelascar 2s infinite linear,
-            rotatelascar 2s infinite linear,
+            scalelascar 3s infinite linear,
+            rotatelascar 3s infinite linear,
             filterlascar 1s infinite linear;
     }
 }

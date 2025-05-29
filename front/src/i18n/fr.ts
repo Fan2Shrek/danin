@@ -24,6 +24,7 @@ const translations: { [key: string]: string } = {
     [tokens.navbar.links.games]: 'Jeux',
     [tokens.navbar.links.tchat]: 'Tchat',
     [tokens.navbar.links.createRoom]: 'Créer une salle',
+    [tokens.navbar.links.profile]: 'Mon profil',
     [tokens.navbar.links.login]: 'Se connecter',
     [tokens.navbar.links.logout]: 'Se déconnecter',
     [tokens.footer.copyright]: 'Tous droits réservés',

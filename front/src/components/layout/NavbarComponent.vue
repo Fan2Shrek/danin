@@ -1,14 +1,19 @@
 <script setup lang="ts">
+import { ref, inject } from 'vue';
+
 import tokens from '@/i18n/tokens';
+import UserBadge from '@/components/ui/UserBadge.vue';
 import LanguageSwitcher from '@/components/i18n/LanguageSwitcher.vue';
-import { ref } from 'vue';
+
+import type { User } from '@/lib/api/resources/user';
 
 const links = {
     [tokens.navbar.links.games]: '/',
     [tokens.navbar.links.tchat]: '/',
     [tokens.navbar.links.createRoom]: '/',
-    [tokens.navbar.links.login]: '/login',
 };
+
+const user = inject<User | null>('user');
 
 const isOpen = ref(false);
 const toggleMenu = () => {
@@ -38,6 +43,12 @@ const toggleMenu = () => {
         <ul class="navbar__links" :class="{ 'navbar__links--expanded': isOpen }">
             <li v-for="(link, name) in links" :key="name">
                 <a :href="link">{{ $t(String(name)) }}</a>
+            </li>
+            <li v-if="!user">
+                <a href="/login">{{ $t(tokens.navbar.links.login) }}</a>
+            </li>
+            <li v-if="user">
+                <UserBadge :user="user" />
             </li>
         </ul>
 

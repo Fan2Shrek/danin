@@ -40,6 +40,7 @@ const tokens = {
             games: 'navbar.links.games',
             tchat: 'navbar.links.tchat',
             createRoom: 'navbar.links.createRoom',
+            profile: 'navbar.links.profile',
             logout: 'navbar.links.logout',
             login: 'navbar.links.login',
         },
