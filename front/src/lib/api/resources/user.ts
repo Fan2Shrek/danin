@@ -9,12 +9,21 @@ export interface LoginResponse extends Response {
     need_totp?: boolean;
 }
 
+export type User = {
+    username: string;
+    email: string;
+};
+
 class UserResource extends Resource {
     public async login(email: string, password: string): Promise<LoginResponse> {
         return await this.post(`/api/login`, {
             email,
             password,
         });
+    }
+
+    public async me(): Promise<User> {
+        return await this.get(`/api/me`);
     }
 
     public async verifyCode(code: string): Promise<Response> {

@@ -1,0 +1,5 @@
+services:
+  pma:
+    image: phpmyadmin:latest
+    ports:
+      - "8080:80"

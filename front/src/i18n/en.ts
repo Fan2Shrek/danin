@@ -26,6 +26,7 @@ const translations: { [key: string]: string } = {
     [tokens.navbar.links.createRoom]: 'Create a room',
     [tokens.navbar.links.login]: 'Login',
     [tokens.navbar.links.logout]: 'Logout',
+    [tokens.navbar.links.profile]: 'My profile',
     [tokens.footer.copyright]: 'All rights reserved',
     [tokens.footer.links.games.title]: 'Games',
     [tokens.footer.links.games.supportedList]: 'Supported games',
