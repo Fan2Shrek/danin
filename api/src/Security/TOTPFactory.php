@@ -4,25 +4,48 @@ declare(strict_types=1);
 
 namespace App\Security;
 
+use App\Entity\User;
 use Symfony\Component\Clock\ClockInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 final class TOTPFactory
 {
     public function __construct(
-        private string $secret,
         private string $appName,
         private ClockInterface $clock,
         private int $timeStep = 30,
     ) {
     }
 
-    public function create(UserInterface $user): TOTP
+    public function activateForUser(User $user): TOTP
     {
+        if ($user->hasTotp()) {
+            throw new \RuntimeException('User already has TOTP enabled');
+        }
+
+        $user->setTotpSecret(TOTP::generateSecret());
+
+        return $this->create($user);
+    }
+
+    public function deactivateForUser(User $user): void
+    {
+        if (!$user->hasTotp()) {
+            throw new \RuntimeException('User does not have TOTP enabled');
+        }
+
+        $user->setTotpSecret(null);
+    }
+
+    public function create(User $user): TOTP
+    {
+        if (!$user->hasTotp()) {
+            throw new \RuntimeException('User does not have TOTP enabled');
+        }
+
         return new TOTP(
-            $this->secret,
+            $user->getTotpSecret(),
             $this->timeStep,
-            $user,
+            $user->getUsername(),
         );
     }
 

@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Security;
 
-use Symfony\Component\Security\Core\User\UserInterface;
-
 final class TOTP
 {
+    private const string BASE32_ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
+
     public function __construct(
         private readonly string $secret,
         private readonly int $timeStep,
-        private readonly UserInterface $user,
+        private readonly string $user,
     ) {
     }
 
@@ -22,10 +22,10 @@ final class TOTP
 
     public function getUsername(): string
     {
-        return $this->user->getUserIdentifier();
+        return $this->user;
     }
 
-    public function getTOTPCode()
+    public function getTOTPCode(): string
     {
         $timeSlice = floor(time() / $this->timeStep);
 
@@ -52,14 +52,23 @@ final class TOTP
         return false;
     }
 
+    public static function generateSecret(): string
+    {
+        $secret = '';
+        for ($i = 0; $i < 16; ++$i) {
+            $secret .= self::BASE32_ALPHABET[random_int(0, \strlen(self::BASE32_ALPHABET) - 1)];
+        }
+
+        return $secret;
+    }
+
     private function base32Decode(string $b32): string
     {
-        $alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
         $b32 = strtoupper($b32);
         $binaryString = '';
 
         foreach (str_split($b32) as $char) {
-            $val = strpos($alphabet, $char);
+            $val = strpos(self::BASE32_ALPHABET, $char);
             if (false === $val) {
                 continue;
             }

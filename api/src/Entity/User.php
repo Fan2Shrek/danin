@@ -4,7 +4,9 @@ namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Post;
 use App\Api\State\MeProvider;
+use App\Domain\Command\User\EnableTOTPCommand;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -15,6 +17,11 @@ use Symfony\Component\Serializer\Attribute\Ignore;
     new Get(
         uriTemplate: '/me',
         provider: MeProvider::class,
+    ),
+    new Post(
+        uriTemplate: '/activate-totp',
+        messenger: 'input',
+        input: EnableTOTPCommand::class,
     ),
 ])]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
@@ -147,7 +154,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->totpSecret;
     }
 
-    public function setTotpSecret(string $totpSecret): static
+    public function setTotpSecret(?string $totpSecret): static
     {
         $this->totpSecret = $totpSecret;
 
