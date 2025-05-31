@@ -10,8 +10,9 @@ use App\Domain\Command\Security\CheckTOTPCommand;
 
 #[ApiResource(operations: [
     new Post(
-        '/check-totp',
+        uriTemplate: '/check-totp',
         messenger: 'input',
+        condition: "is_enable('totp')",
         input: CheckTOTPCommand::class,
     ),
 ])]

@@ -45,9 +45,13 @@ services:
         # Probably more things to exclude
         exclude:
             - '../src/DependencyInjection/'
+            - '../src/Domain/'
             - '../src/Entity/'
-            - '../src/Domain/Model'
+            - '../src/Util/'
             - '../src/Kernel.php'
+
+    App\Domain\:
+        resource: '../src/Domain/**/*Handler.php'
 
     app.custom_authenticator:
         class: App\Security\Authentication\JwtAuthenticator

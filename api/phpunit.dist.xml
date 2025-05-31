@@ -16,6 +16,7 @@
         <server name="APP_ENV" value="test" force="true" />
         <server name="KERNEL_CLASS" value="App\DaninKernel" force="true" />
         <server name="SHELL_VERBOSITY" value="-1" />
+        <env name="SYMFONY_DEPRECATIONS_HELPER" value="/!vendor/"/>
     </php>
 
     <testsuites>

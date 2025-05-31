@@ -1,9 +1,9 @@
 <?php
 
-use App\DaninKernel;
-
 require_once dirname(__DIR__).'/vendor/autoload_runtime.php';
 
 return function (array $context) {
-    return new DaninKernel($context['APP_ENV'], (bool) $context['APP_DEBUG']);
+    $kernelClass = (bool) $context['APP_SELF_HOSTED'] ? App\SelfHostedKernel::class : App\DaninKernel::class;
+
+    return new $kernelClass($context['APP_ENV'], (bool) $context['APP_DEBUG']);
 };

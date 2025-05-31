@@ -21,6 +21,7 @@ use Symfony\Component\Serializer\Attribute\Ignore;
     new Post(
         uriTemplate: '/activate-totp',
         messenger: 'input',
+        condition: "is_enable('totp')",
         input: EnableTOTPCommand::class,
     ),
 ])]

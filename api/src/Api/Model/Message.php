@@ -15,10 +15,12 @@ use App\Api\State\TchatProvider;
         new Post(
             uriTemplate: '/rooms/{id}/messages',
             processor: MessageProcessor::class,
+            condition: 'is_enable("tchat")',
             status: 201,
         ),
         new GetCollection(
             uriTemplate: '/rooms/{id}/messages',
+            condition: 'is_enable("tchat")',
             provider: TchatProvider::class,
         ),
     ],
