@@ -13,6 +13,7 @@ use App\Service\Transport\WorkerTransport;
 use App\Service\Worker\DaninWorker;
 use App\Tests\Resources\GameClientMock;
 use App\Tests\Resources\HubSpy;
+use App\Util\FeatureManager;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -31,6 +32,18 @@ class DaninKernel extends Kernel
     {
         $container->addCompilerPass(new ResolveRedisDispatcherPass());
         $container->addCompilerPass(new RegisterRedisListenerPass());
+
+        $container->register(FeatureManager::class);
+
+        $container->register('kernel.get_feature', \Closure::class)
+            ->setFactory([\Closure::class, 'fromCallable'])
+            ->setArguments([
+                [new Reference(FeatureManager::class), 'isEnable'],
+            ])
+            ->addTag('routing.expression_language_function', [
+                'function' => 'is_enable',
+            ])
+        ;
 
         if ('prod' === $this->getEnvironment() || $this->appDebug) {
             $this->buildAsProd($container);

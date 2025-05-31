@@ -4,15 +4,22 @@ declare(strict_types=1);
 
 namespace App\Util;
 
-final class KillSwitch
+class KillSwitch
 {
-    private const FILE = '../config/features.php';
+    protected const FILE = '../config/features.php';
 
     private static array $features = [];
 
     public static function isEnabled(string $featureName): bool
     {
         return true === self::getFeature($featureName);
+    }
+
+    public static function hasFeature(string $featureName): bool
+    {
+        self::loadFeatures();
+
+        return \array_key_exists($featureName, self::$features);
     }
 
     private static function getFeature(string $featureName): bool
@@ -28,8 +35,8 @@ final class KillSwitch
     private static function loadFeatures(): void
     {
         if (empty(self::$features)) {
-            if (file_exists(self::FILE)) {
-                self::$features = require self::FILE;
+            if (file_exists(static::FILE)) {
+                self::$features = require static::FILE;
             } else {
                 self::$features = [];
             }
