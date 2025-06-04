@@ -4,15 +4,18 @@ import { ref, onMounted } from 'vue';
 import tokens from '@/i18n/tokens';
 import api from '@/lib/api/api';
 import { useEmitter } from '@/lib/eventBus';
+import GameCard from '@/components/ui/GameCard.vue';
 
 import type { Game } from '@/lib/api/resources/game';
 
 const emitter = useEmitter();
 
 const games = ref<Game[]>([]);
+const isLoading = ref(true);
 
 const fetchGames = async () => {
     games.value = await api().game().getAll();
+    isLoading.value = false;
 };
 
 onMounted(() => {
@@ -25,60 +28,97 @@ emitter?.on('locale-changed', async () => {
 </script>
 
 <template>
-    <div class="container">
-        <div class="left">
-            <h2>{{ $t(tokens.games.title) }}</h2>
-            <p>{{ $t(tokens.games.subtitle) }}</p>
+    <section class="container">
+        <h1>{{ $t(tokens.games.title) }}</h1>
+        <p class="subtitle">{{ $t(tokens.games.subtitle) }}</p>
 
-            <ul class="games">
-                <li v-for="game in games" :key="game.id">
-                    <strong>{{ game.name }} ({{ game.id }})</strong>: {{ game.description }}
-                </li>
-            </ul>
+        <div v-if="isLoading" class="loading-container">
+            <div class="loading-spinner" aria-hidden="true"></div>
         </div>
-    </div>
+
+        <ul 
+            v-else
+            class="game-list"
+            role="list"
+            :aria-label="$t(tokens.games.subtitle)"
+        >
+            <li 
+                v-for="game in games" :key="game.id"
+                role="listitem"
+            >
+                <GameCard :game="game" />
+            </li>
+        </ul>
+    </section>
 </template>
 
 <style scoped lang="scss">
 .container {
-    min-height: 100vh;
+    width: 100%;
+    padding: 5rem 2rem 2rem;
+    background-color: #f8fafc;
+}
+
+h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #1e293b;
+    text-align: center;
+}
+
+.subtitle {
+    font-size: 1.125rem;
+    color: #475569;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.game-list {
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding: 0;
+    margin: 0;
+}
+
+/* Tablet */
+@media (min-width: 768px) {
+    .container {
+        padding-inline: 4rem;
+    }
+
+    .game-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+    .game-list {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.loading-container {
     display: flex;
-    align-items: center;
     justify-content: center;
-    background-color: #f5f5f5;
+    align-items: center;
+    min-height: 200px;
+}
 
-    .left {
-        width: 50%;
-        padding: 20px;
-        background-color: #fff;
-        border-radius: 5px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        margin-right: 20px;
+.loading-spinner {
+    width: 3rem;
+    height: 3rem;
+    border: 4px solid rgba(100, 108, 255, 0.2);
+    border-radius: 50%;
+    border-top-color: #646cff;
+    animation: spin 1s ease-in-out infinite;
+}
 
-        h2 {
-            font-size: 2rem;
-            color: #333;
-        }
-
-        p {
-            font-size: 1rem;
-            color: #666;
-        }
-
-        .games {
-            margin-top: 20px;
-            list-style-type: none;
-            padding: 0;
-
-            li {
-                background-color: #fff;
-                padding: 10px;
-                margin-bottom: 10px;
-                border-radius: 5px;
-                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-                color: black;
-            }
-        }
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
     }
 }
 </style>
