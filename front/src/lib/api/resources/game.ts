@@ -3,6 +3,7 @@ import Resource from './resource';
 export type Game = {
     id: string;
     name: string;
+    description: string;
 };
 
 export type Command = {

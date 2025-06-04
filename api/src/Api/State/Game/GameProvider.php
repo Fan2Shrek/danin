@@ -21,12 +21,18 @@ final class GameProvider implements ProviderInterface
             return [];
         }
 
+        // Temp to test template
+        $gamesList = $games;
+        for ($i = 1; $i < 10; $i++) {
+            $gamesList = array_merge($gamesList, $games);
+        }
+
         return array_map(function ($game) {
             return [
                 'id' => $game->getId(),
                 'name' => $game->getName(),
                 'description' => $game->getDescription(),
             ];
-        }, $games);
+        }, $gamesList);
     }
 }
