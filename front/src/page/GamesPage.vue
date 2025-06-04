@@ -30,14 +30,11 @@ emitter?.on('locale-changed', async () => {
             <h2>{{ $t(tokens.games.title) }}</h2>
             <p>{{ $t(tokens.games.subtitle) }}</p>
 
-            <div class="games">
-                <ul>
-                    <li v-for="game in games" :key="game.id">
-                        <strong>{{ game.id }}</strong
-                        >: {{ game.name }}
-                    </li>
-                </ul>
-            </div>
+            <ul class="games">
+                <li v-for="game in games" :key="game.id">
+                    <strong>{{ game.name }} ({{ game.id }})</strong>: {{ game.description }}
+                </li>
+            </ul>
         </div>
     </div>
 </template>
@@ -70,19 +67,16 @@ emitter?.on('locale-changed', async () => {
 
         .games {
             margin-top: 20px;
+            list-style-type: none;
+            padding: 0;
 
-            ul {
-                list-style-type: none;
-                padding: 0;
-
-                li {
-                    background-color: #fff;
-                    padding: 10px;
-                    margin-bottom: 10px;
-                    border-radius: 5px;
-                    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-                    color: black;
-                }
+            li {
+                background-color: #fff;
+                padding: 10px;
+                margin-bottom: 10px;
+                border-radius: 5px;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                color: black;
             }
         }
     }
