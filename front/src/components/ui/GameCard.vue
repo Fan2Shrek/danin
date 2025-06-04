@@ -2,7 +2,7 @@
 import { ref, onMounted } from 'vue';
 import type { Game } from '@/lib/api/resources/game';
 
-defineProps<{game: Game}>();
+defineProps<{ game: Game }>();
 
 const isVisible = ref(false);
 const cardRef = ref<HTMLElement | null>(null);
@@ -16,12 +16,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <div
-        ref="cardRef"
-        class="game-card"
-        :class="{ visible: isVisible }"
-        role="article"
-    >
+    <div ref="cardRef" class="game-card" :class="{ visible: isVisible }" role="article">
         <span class="game-code">{{ game.id }}</span>
         <h2>{{ game.name }}</h2>
         <p class="game-description">{{ game.description }}</p>

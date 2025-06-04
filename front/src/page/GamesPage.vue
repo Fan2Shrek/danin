@@ -36,16 +36,8 @@ emitter?.on('locale-changed', async () => {
             <div class="loading-spinner" aria-hidden="true"></div>
         </div>
 
-        <ul 
-            v-else
-            class="game-list"
-            role="list"
-            :aria-label="$t(tokens.games.subtitle)"
-        >
-            <li 
-                v-for="game in games" :key="game.id"
-                role="listitem"
-            >
+        <ul v-else class="game-list" role="list" :aria-label="$t(tokens.games.subtitle)">
+            <li v-for="game in games" :key="game.id" role="listitem">
                 <GameCard :game="game" />
             </li>
         </ul>
