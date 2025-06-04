@@ -21,11 +21,13 @@ use Gedmo\Mapping\Annotation as Gedmo;
 )]
 class Game
 {
+    // Code of the game
     #[ORM\Id]
     #[ORM\Column]
     private string $id;
 
     #[ORM\Column(length: 255)]
+    #[Gedmo\Translatable]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
