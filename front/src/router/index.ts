@@ -5,6 +5,7 @@ import HomePage from '../page/HomePage.vue';
 import TchatPage from '../page/room/TchatPage.vue';
 
 import { getCookie } from '../lib/cookies';
+import GamesPage from '@/page/GamesPage.vue';
 
 function isAuthenticated() {
     const cookie = getCookie('token') || getCookie('refresh_token');
@@ -24,6 +25,11 @@ const router = createRouter({
             path: '/login',
             name: 'Login',
             component: LoginPage,
+        },
+        {
+            path: '/games',
+            name: 'Games',
+            component: GamesPage,
         },
         {
             path: '/room/tchat',

@@ -20,9 +20,14 @@ class Command
     #[Gedmo\Locale]
     private ?string $locale = null;
 
-    public function __construct(string $id)
+    #[ORM\ManyToOne(targetEntity: Game::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    private Game $game;
+
+    public function __construct(string $id, Game $game)
     {
         $this->id = $id;
+        $this->game = $game;
     }
 
     public function getId(): string
@@ -40,6 +45,11 @@ class Command
         $this->description = $description;
 
         return $this;
+    }
+
+    public function getGame(): Game
+    {
+        return $this->game;
     }
 
     public function setTranslatableLocale(string $locale)
