@@ -12,7 +12,9 @@ export type Command = {
 
 class GameResource extends Resource {
     public async getAll(): Promise<Game[]> {
-        return await this.get(`/api/games`);
+        const response: { member: Game[] } = await this.get(`/api/games`);
+
+        return response.member;
     }
 
     public async getCommands(gameName: string): Promise<Command[]> {
