@@ -29,7 +29,7 @@ const games = ref({
         <div class="home-header">
             <h1>{{ $t(tokens.home.title) }}</h1>
             <p>{{ $t(tokens.home.subtitle) }}</p>
-            <BasicButton :text="$t(tokens.home.cta)" class="home-header__btn" />
+            <BasicButton link="/room/create" :text="$t(tokens.home.cta)" class="home-header__btn" />
         </div>
         <div class="game-list">
             <div v-for="(game, key) in games" :key="key" class="game-item">

@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import LoginPage from '../page/LoginPage.vue';
 import HomePage from '../page/HomePage.vue';
 import TchatPage from '../page/room/TchatPage.vue';
+import CreateRoomPage from '../page/room/CreatePage.vue';
 
 import { getCookie } from '../lib/cookies';
 
@@ -24,6 +25,12 @@ const router = createRouter({
             path: '/login',
             name: 'Login',
             component: LoginPage,
+        },
+        {
+            path: '/room/create',
+            name: 'CreateRoom',
+            component: CreateRoomPage,
+            meta: { requiresAuth: true },
         },
         {
             path: '/room/tchat',

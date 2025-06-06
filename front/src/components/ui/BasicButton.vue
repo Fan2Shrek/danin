@@ -1,10 +1,15 @@
 <script setup lang="ts">
-defineProps(['text']);
+defineProps(['text', 'link']);
 </script>
 
 <template>
     <button>
-        {{ text }}
+        <a v-if="link" :href="link" rel="noopener noreferrer">
+            {{ text }}
+        </a>
+        <span v-else>
+            {{ text }}
+        </span>
     </button>
 </template>
 
@@ -19,6 +24,12 @@ button {
     border-radius: 0.5rem;
     cursor: pointer;
     transition: background-color 0.3s ease;
+
+    a,
+    span {
+        color: #ffffff;
+        text-decoration: none;
+    }
 
     &:hover {
         background-color: #2563eb;

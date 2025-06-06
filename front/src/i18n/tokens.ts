@@ -25,6 +25,22 @@ const tokens = {
         cta: 'home.cta',
     },
     room: {
+        create: {
+            game: {
+                title: 'room.create.game.title',
+                howTo: 'room.create.game.howTo',
+                cta: 'room.create.game.cta',
+            },
+            settings: {
+                title: 'room.create.settings.title',
+                ip: 'room.create.settings.ip',
+                port: 'room.create.settings.port',
+            },
+            commands: {
+                title: 'room.create.commands.title',
+            },
+            submit: 'room.create.submit',
+        },
         tchat: {
             title: 'room.tchat.title',
             send: 'room.tchat.send',
