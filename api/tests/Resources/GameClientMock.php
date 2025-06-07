@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Resources;
 
-use App\Domain\Model\Connection;
+use App\Entity\RoomConfig;
 use App\Service\Transport\GameTransportInterface;
 
 final class GameClientMock implements GameTransportInterface
@@ -16,14 +16,14 @@ final class GameClientMock implements GameTransportInterface
     ) {
     }
 
-    public function send(string|Connection $connection, string $message, string $type): void
+    public function send(RoomConfig $config, string $message, string $type): void
     {
         if ($this->echo) {
-            echo "Sending message: $message to connection: $connection with type: $type\n";
+            echo "Sending message: $message to connection: {$config->getId()} with type: $type\n";
         }
 
         $this->messages[] = [
-            'connection' => $connection,
+            'connection' => $config->getId(),
             'message' => $message,
             'type' => $type,
         ];

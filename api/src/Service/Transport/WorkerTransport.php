@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service\Transport;
 
-use App\Domain\Model\Connection;
+use App\Entity\RoomConfig;
 use App\Service\Redis\Attribute\UseRedisDispatcher;
 use App\Service\Redis\EventDispatcher\RedisEvent;
 use Psr\Log\LoggerInterface;
@@ -19,18 +19,12 @@ class WorkerTransport implements GameTransportInterface
     ) {
     }
 
-    public function send(Connection $connection, string $message, string $type): void
+    public function send(RoomConfig $roomConfig, string $message, string $type): void
     {
-        $this->logger->debug('Sending "{message}" to connection with id "{id}"', [
-            'connection' => $connection,
-            'message' => $message,
-            'type' => $type,
-        ]);
-
         $this->eventDispatcher->dispatch(
             new RedisEvent([
                 'type' => $type,
-                'connection' => $connection->host,
+                'connection' => (string) $roomConfig->getRoom()->getId(),
                 'content' => $message,
             ]),
             'tchat_message',

@@ -39,6 +39,9 @@ class Room
     #[ORM\JoinColumn(nullable: false)]
     private User $owner;
 
+    #[ORM\OneToOne(mappedBy: 'room', cascade: ['persist', 'remove'])]
+    private ?RoomConfig $roomConfig = null;
+
     public function __construct(User $owner)
     {
         $this->owner = $owner;
@@ -52,5 +55,22 @@ class Room
     public function getOwner(): User
     {
         return $this->owner;
+    }
+
+    public function getRoomConfig(): ?RoomConfig
+    {
+        return $this->roomConfig;
+    }
+
+    public function setRoomConfig(RoomConfig $roomConfig): static
+    {
+        // set the owning side of the relation if necessary
+        if ($roomConfig->getRoom() !== $this) {
+            $roomConfig->setRoom($this);
+        }
+
+        $this->roomConfig = $roomConfig;
+
+        return $this;
     }
 }

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { computed, ref, onMounted, watch } from 'vue';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Navigation } from 'swiper/modules';
 
@@ -41,8 +41,13 @@ const games = ref([
 ]);
 
 // todo api call
-const transports = ref([
-    {
+const transports = ref({
+    mercure: {
+        id: 'mercure',
+        name: 'Mercure',
+        fields: [],
+    },
+    socket: {
         id: 'socket',
         name: 'Socket',
         fields: [
@@ -50,18 +55,18 @@ const transports = ref([
             'port',
         ],
     },
-    {
-        id: 'mercure',
-        name: 'Mercure',
-        fields: [],
-    },
-]);
+});
+
+const currentFields = computed(() => {
+    return transports.value[config.value.transport]?.fields || [];
+});
 
 const commands = ref<Command[]>([]);
 const config = ref<Config>({
     game: games.value[0].id,
     commands: commands.value.map((command) => command.id),
-    transport: transports.value[0].id,
+    transport: Object.values(transports.value)[0].id,
+    config: {},
 });
 
 const onSlideChange = (swiper: SwiperClass) => {
@@ -71,10 +76,6 @@ const onSlideChange = (swiper: SwiperClass) => {
 const fetchCommands = async () => {
     commands.value = await api().game().getCommands('tboi');
     config.value.commands = commands.value.map((command) => command.id);
-};
-
-const handleSubmit = () => {
-    console.log('Configuration submitted:', config.value);
 };
 
 const handleCheck = (commandId: string) => {
@@ -87,7 +88,7 @@ const handleCheck = (commandId: string) => {
 
 const handleChange = (e: Event, name: StringField) => {
     const input = e.target as HTMLInputElement;
-    config.value[name] = input.value ?? null;
+    config.value.config[name] = input.value ?? null;
 };
 
 onMounted(() => {
@@ -97,6 +98,10 @@ onMounted(() => {
 emitter?.on('locale-changed', async () => {
     fetchCommands();
 });
+
+const handleSubmit = () => {
+    console.log('Configuration submitted:', config.value);
+};
 </script>
 
 <template>
@@ -131,30 +136,25 @@ emitter?.on('locale-changed', async () => {
                     <div>
                         <div class="form-group">
                             <label>{{ $t(tokens.room.create.settings.transport) }}:</label>
-                            <select>
+                            <select
+                                @change="(e) => config.transport = e.target.value"
+                                v-model="config.transport"
+                            >
                                 <option
+                                    :value="transport.id"
                                     v-for="transport in transports"
                                     :key="transport.id"
-                                    :value="transport.name"
-                                    @change="(e) => config.game = e.target.value"
                                 >
                                     {{ transport.name }}
                                 </option>
                             </select>
                         </div>
-                        <div class="form-group">
-                            <label>{{ $t(tokens.room.create.settings.ip) }}:</label>
+                        <div v-for="field in currentFields" :key="field" class="form-group">
+                            <label>{{ $t(tokens.room.create.settings[field]) }}:</label>
                             <input
                                 type="text"
-                                @change="(e) => handleChange(e, 'ip')"
-                                class="form-input"
-                            />
-                        </div>
-                        <div class="form-group">
-                            <label>{{ $t(tokens.room.create.settings.port) }}:</label>
-                            <input
-                                type="text"
-                                @change="(e) => handleChange(e, 'port')"
+                                @change="(e) => handleChange(e, field)"
+                                v-model="config[field]"
                                 class="form-input"
                             />
                         </div>

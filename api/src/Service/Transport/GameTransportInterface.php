@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Service\Transport;
 
-use App\Domain\Model\Connection;
+use App\Entity\RoomConfig;
 
 interface GameTransportInterface
 {
-    public function send(Connection $connection, string $data, string $type): void;
+    public function send(RoomConfig $roomConfig, string $data, string $type): void;
 }

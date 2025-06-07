@@ -7,7 +7,7 @@ use App\DependencyInjection\Compiler\ResolveRedisDispatcherPass;
 use App\Service\Message\MessageProcessor;
 use App\Service\Redis\Attribute\AsRedisListener;
 use App\Service\Redis\Attribute\UseRedisDispatcher;
-use App\Service\Transport\GameTransport;
+use App\Service\Transport\SocketTransport;
 use App\Service\Transport\GameTransportInterface;
 use App\Service\Transport\WorkerTransport;
 use App\Service\Worker\DaninWorker;
@@ -49,7 +49,7 @@ class DaninKernel extends Kernel
             $this->buildAsProd($container);
 
             if ('worker' === $this->getEnvironment()) {
-                $container->setAlias(GameTransportInterface::class, GameTransport::class);
+                $container->setAlias(GameTransportInterface::class, SocketTransport::class);
             }
         }
 
@@ -57,10 +57,10 @@ class DaninKernel extends Kernel
             $this->registerMocks($container);
         }
 
-        $container->register(GameTransport::class)->setAutowired(true);
+        $container->register(SocketTransport::class)->setAutowired(true);
 
         if (!$container->hasAlias(GameTransportInterface::class)) {
-            $container->setAlias(GameTransportInterface::class, GameTransport::class);
+            $container->setAlias(GameTransportInterface::class, SocketTransport::class);
         }
 
         $container->registerAttributeForAutoconfiguration(

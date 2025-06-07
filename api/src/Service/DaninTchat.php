@@ -23,7 +23,8 @@ class DaninTchat
     {
         $this->hub->publish(
             new Update(
-                $this->getKey($roomId),
+                'aaa',
+                /* $this->getKey($roomId), */
                 json_encode([
                     'content' => $message->content,
                     'author' => $message->author,

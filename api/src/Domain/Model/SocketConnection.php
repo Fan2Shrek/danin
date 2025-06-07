@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Model;
 
-class Connection
+class SocketConnection
 {
     private \Socket $socket;
     private bool $isConnected = false;
@@ -45,6 +45,10 @@ class Connection
 
     public function send(string $data): void
     {
+        if (!$this->isConnected) {
+            throw new \RuntimeException('Socket is not connected. Please connect before sending data.');
+        }
+
         $bytesSent = socket_send($this->socket, $data, \strlen($data), 0);
 
         if (false === $bytesSent) {
