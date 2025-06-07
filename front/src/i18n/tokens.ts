@@ -33,6 +33,7 @@ const tokens = {
             },
             settings: {
                 title: 'room.create.settings.title',
+                transport: 'room.create.settings.transport',
                 ip: 'room.create.settings.ip',
                 port: 'room.create.settings.port',
             },

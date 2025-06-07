@@ -26,6 +26,7 @@ type Config = {
 
 const emitter = useEmitter();
 
+// todo api call
 const games = ref([
     {
         id: 'tboi',
@@ -39,10 +40,28 @@ const games = ref([
     },
 ]);
 
+// todo api call
+const transports = ref([
+    {
+        id: 'socket',
+        name: 'Socket',
+        fields: [
+            'ip',
+            'port',
+        ],
+    },
+    {
+        id: 'mercure',
+        name: 'Mercure',
+        fields: [],
+    },
+]);
+
 const commands = ref<Command[]>([]);
 const config = ref<Config>({
     game: games.value[0].id,
     commands: commands.value.map((command) => command.id),
+    transport: transports.value[0].id,
 });
 
 const onSlideChange = (swiper: SwiperClass) => {
@@ -110,6 +129,19 @@ emitter?.on('locale-changed', async () => {
 
                 <div class="form__settings">
                     <div>
+                        <div class="form-group">
+                            <label>{{ $t(tokens.room.create.settings.transport) }}:</label>
+                            <select>
+                                <option
+                                    v-for="transport in transports"
+                                    :key="transport.id"
+                                    :value="transport.name"
+                                    @change="(e) => config.game = e.target.value"
+                                >
+                                    {{ transport.name }}
+                                </option>
+                            </select>
+                        </div>
                         <div class="form-group">
                             <label>{{ $t(tokens.room.create.settings.ip) }}:</label>
                             <input
@@ -187,7 +219,7 @@ emitter?.on('locale-changed', async () => {
                 color: #555;
             }
 
-            input {
+            input, select {
                 width: 100%;
                 padding: 0.5rem;
                 border: 1px solid #ccc;

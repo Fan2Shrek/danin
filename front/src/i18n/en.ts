@@ -20,6 +20,7 @@ const translations: { [key: string]: string } = {
     [tokens.room.create.game.howTo]: 'How to setup {gameName} for danin',
     [tokens.room.create.game.cta]: 'Click here to see',
     [tokens.room.create.settings.title]: 'Danin settings',
+    [tokens.room.create.settings.transport]: 'Transport',
     [tokens.room.create.settings.ip]: 'IP Address',
     [tokens.room.create.settings.port]: 'Port',
     [tokens.room.create.commands.title]: 'Commands',
