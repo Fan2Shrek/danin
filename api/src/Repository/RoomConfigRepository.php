@@ -18,10 +18,10 @@ class RoomConfigRepository extends ServiceEntityRepository
 
     public function save(RoomConfig $entity, bool $flush = true): void
     {
-        $this->_em->persist($entity);
+        $this->getEntityManager()->persist($entity);
 
         if ($flush) {
-            $this->_em->flush();
+            $this->getEntityManager()->flush();
         }
     }
 }
