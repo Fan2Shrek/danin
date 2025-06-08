@@ -17,17 +17,6 @@ final class GameProvider implements ProviderInterface
 
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): array
     {
-        $games = $this->gameRepository->findAll();
-        if (empty($games)) {
-            return [];
-        }
-
-        // Temp to test template
-        $gamesList = $games;
-        for ($i = 1; $i < 10; $i++) {
-            $gamesList = array_merge($gamesList, $games);
-        }
-
-        return $gamesList;
+        return $this->gameRepository->findAll();
     }
 }
