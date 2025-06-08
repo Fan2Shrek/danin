@@ -27,7 +27,7 @@ final class RoomStarter
                 'local_setup' => true,
                 'data' => [
                     'mercure-url' => $this->mercureHub->getPublicUrl().'?topic='.$room->getId(),
-                    'mercure-token' => $this->mercureHub->getFactory()->create([$room->getId()]),
+                    'mercure-token' => $this->mercureHub->getFactory()?->create([$room->getId()]) ?? '',
                 ],
             ];
         }
