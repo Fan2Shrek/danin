@@ -57,6 +57,8 @@ services:
         class: App\Security\Authentication\JwtAuthenticator
         parent: lexik_jwt_authentication.security.jwt_authenticator
 
+    App\Service\Transport\GameTransportInterface: '@App\Service\Transport\DelagatingGameTransport'
+
     App\Command\DiscordBotCommand:
         arguments:
             $botToken: '%env(DISCORD_BOT_TOKEN)%'

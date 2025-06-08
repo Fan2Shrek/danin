@@ -1,5 +1,3 @@
-local DEBUG = true
-
 local console = {}
 
 function console.print(str)

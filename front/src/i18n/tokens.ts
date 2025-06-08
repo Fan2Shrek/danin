@@ -33,6 +33,7 @@ const tokens = {
             },
             settings: {
                 title: 'room.create.settings.title',
+                transport: 'room.create.settings.transport',
                 ip: 'room.create.settings.ip',
                 port: 'room.create.settings.port',
             },
@@ -40,6 +41,13 @@ const tokens = {
                 title: 'room.create.commands.title',
             },
             submit: 'room.create.submit',
+        },
+        start: {
+            title: 'room.start.title',
+            description: 'room.start.description',
+            error: 'room.start.error',
+            requestConnectionToGame: 'room.start.requestConnectionToGame',
+            localSetupError: 'room.start.localSetupError',
         },
         tchat: {
             title: 'room.tchat.title',

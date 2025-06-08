@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { computed, ref, onMounted } from 'vue';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Navigation } from 'swiper/modules';
+import { useRouter } from 'vue-router';
 
 import api from '@/lib/api/api';
 import tokens from '@/i18n/tokens';
@@ -10,22 +11,18 @@ import BasicButton from '@/components/ui/BasicButton.vue';
 
 import type { Swiper as SwiperClass } from 'swiper';
 import type { Command } from '@/lib/api/resources/game';
+import type { RoomConfig } from '@/lib/api/resources/room';
 
-type StringField = Extract<keyof Config, 'ip' | 'port'>;
+type FieldKey = keyof typeof tokens.room.create.settings;
 
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
-type Config = {
-    game: string;
-    ip?: string;
-    port?: string;
-    commands: string[];
-};
-
+const router = useRouter();
 const emitter = useEmitter();
 
+// todo api call
 const games = ref([
     {
         id: 'tboi',
@@ -39,10 +36,31 @@ const games = ref([
     },
 ]);
 
+// todo api call
+const transports = ref({
+    mercure: {
+        id: 'mercure',
+        name: 'Mercure',
+        fields: [],
+    },
+    socket: {
+        id: 'socket',
+        name: 'Socket',
+        fields: ['ip', 'port'],
+    },
+});
+
+const currentFields = computed(() => {
+    // @ts-expect-error et tout
+    return transports.value[config.value.transport]?.fields || [];
+});
+
 const commands = ref<Command[]>([]);
-const config = ref<Config>({
+const config = ref<RoomConfig>({
     game: games.value[0].id,
     commands: commands.value.map((command) => command.id),
+    transport: Object.values(transports.value)[0].id,
+    config: {},
 });
 
 const onSlideChange = (swiper: SwiperClass) => {
@@ -54,10 +72,6 @@ const fetchCommands = async () => {
     config.value.commands = commands.value.map((command) => command.id);
 };
 
-const handleSubmit = () => {
-    console.log('Configuration submitted:', config.value);
-};
-
 const handleCheck = (commandId: string) => {
     if (config.value.commands.includes(commandId)) {
         config.value.commands = config.value.commands.filter((id) => id !== commandId);
@@ -66,9 +80,9 @@ const handleCheck = (commandId: string) => {
     }
 };
 
-const handleChange = (e: Event, name: StringField) => {
+const handleChange = (e: Event, name: string) => {
     const input = e.target as HTMLInputElement;
-    config.value[name] = input.value ?? null;
+    config.value.config[name] = input.value ?? null;
 };
 
 onMounted(() => {
@@ -78,6 +92,17 @@ onMounted(() => {
 emitter?.on('locale-changed', async () => {
     fetchCommands();
 });
+
+const handleSubmit = async () => {
+    const response = await api().room().create(config.value);
+
+    router.push({
+        name: 'StartRoom',
+        params: {
+            id: response.id,
+        },
+    });
+};
 </script>
 
 <template>
@@ -111,18 +136,30 @@ emitter?.on('locale-changed', async () => {
                 <div class="form__settings">
                     <div>
                         <div class="form-group">
-                            <label>{{ $t(tokens.room.create.settings.ip) }}:</label>
-                            <input
-                                type="text"
-                                @change="(e) => handleChange(e, 'ip')"
-                                class="form-input"
-                            />
+                            <label>{{ $t(tokens.room.create.settings.transport) }}:</label>
+                            <select
+                                @change="
+                                    (e) =>
+                                        (config.transport =
+                                            (e.target as HTMLSelectElement)?.value || '')
+                                "
+                                v-model="config.transport"
+                            >
+                                <option
+                                    :value="transport.id"
+                                    v-for="transport in transports"
+                                    :key="transport.id"
+                                >
+                                    {{ transport.name }}
+                                </option>
+                            </select>
                         </div>
-                        <div class="form-group">
-                            <label>{{ $t(tokens.room.create.settings.port) }}:</label>
+                        <div v-for="field in currentFields" :key="field" class="form-group">
+                            <label>{{ $t(tokens.room.create.settings[field as FieldKey]) }}:</label>
                             <input
                                 type="text"
-                                @change="(e) => handleChange(e, 'port')"
+                                @change="(e) => handleChange(e, field)"
+                                v-model="config.config[field]"
                                 class="form-input"
                             />
                         </div>
@@ -187,7 +224,8 @@ emitter?.on('locale-changed', async () => {
                 color: #555;
             }
 
-            input {
+            input,
+            select {
                 width: 100%;
                 padding: 0.5rem;
                 border: 1px solid #ccc;

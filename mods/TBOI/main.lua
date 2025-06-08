@@ -1,41 +1,38 @@
-local DEBUG = true
+DEBUG = true
+TRANSPORT_TYPE = "mercure";
 
 local handlers = nil
-local server = nil
+local transport = require("resources.transport")
 
 if DEBUG then
-    server = include('resources/server.lua')
     handlers = include('resources/handlers.lua')
+    transport = include('resources/transport.lua')
 else
     handlers = require('resources/handlers')
-    server = require('resources/server')
+    transport = require('resources.transport')
 end
 
-local PORT = 12345
-local HOST = "0.0.0.0"
+HOST = "localhost"
+MOD_PORT = 12345
+WEB_PORT = 11664;
 
 local mod = RegisterMod("Danin -- Isaac", 1)
 
 function mod:onUpdate()
-	if not server.isRunning() then
-		return
-	end
-
-    local client = server.getClient()
-    local msg = server.receive()
+    local msg = transport.process();
 
     if msg then
-        handlers.handle(msg)
+       handlers.handle(msg)
     end
 end
 
 function mod:tearUp()
-    server.start(HOST, PORT)
+    transport.setUp();
 end
 
 function mod:tearDown()
-    server.stop()
-    handlers.tearDown()
+    transport.stop();
+    handlers.tearDown();
 end
 
 -- Make sure the mod is started if using luamod from cli

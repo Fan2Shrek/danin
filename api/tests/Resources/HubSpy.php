@@ -10,8 +10,12 @@ use Symfony\Component\Mercure\Update;
 
 class HubSpy implements HubInterface
 {
+    public static $lastUpdate;
+
     public function publish(Update $update): string
     {
+        self::$lastUpdate = $update;
+
         return 'id';
     }
 
