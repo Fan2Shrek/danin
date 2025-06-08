@@ -10,8 +10,9 @@ use App\Repository\GameRepository;
 
 final class GameProvider implements ProviderInterface
 {
-    public function __construct(private GameRepository $gameRepository)
-    {
+    public function __construct(
+        private GameRepository $gameRepository
+    ) {
     }
 
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): array
@@ -27,12 +28,6 @@ final class GameProvider implements ProviderInterface
             $gamesList = array_merge($gamesList, $games);
         }
 
-        return array_map(function ($game) {
-            return [
-                'id' => $game->getId(),
-                'name' => $game->getName(),
-                'description' => $game->getDescription(),
-            ];
-        }, $gamesList);
+        return $gamesList;
     }
 }
