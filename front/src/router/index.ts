@@ -4,6 +4,7 @@ import LoginPage from '../page/LoginPage.vue';
 import HomePage from '../page/HomePage.vue';
 import TchatPage from '../page/room/TchatPage.vue';
 import CreateRoomPage from '../page/room/CreatePage.vue';
+import StartRoom from '../page/room/StartPage.vue';
 
 import { getCookie } from '../lib/cookies';
 
@@ -33,7 +34,13 @@ const router = createRouter({
             meta: { requiresAuth: true },
         },
         {
-            path: '/room/tchat',
+            path: '/room/:id/start',
+            name: 'StartRoom',
+            component: StartRoom,
+            meta: { requiresAuth: true },
+        },
+        {
+            path: '/room/:id/tchat',
             name: 'Tchat',
             component: TchatPage,
             meta: { requiresAuth: true },

@@ -20,7 +20,7 @@ final class DelagatingGameTransport implements GameTransportInterface, ServiceSu
         (match ($roomConfig->getTransport()) {
             'socket' => $this->container->get('socket'),
             'mercure' => $this->container->get('mercure'),
-            default => throw new \InvalidArgumentException('Unknown transport type: ' . $roomConfig->getTransportSettings()['type']),
+            default => throw new \InvalidArgumentException('Unknown transport type: '.$roomConfig->getTransportSettings()['type']),
         })->send($roomConfig, $data, $type);
     }
 

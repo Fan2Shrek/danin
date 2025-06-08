@@ -52,7 +52,7 @@ class SocketTransportTest extends TestCase
 
     private function getSocketTransport(): SocketTransport
     {
-        return new class ($this->getLogger()) extends SocketTransport {
+        return new class($this->getLogger()) extends SocketTransport {
             protected function createConnection(string $host, int $port): SocketConnection
             {
                 return new SpySocketConnection($host, $port);
@@ -62,16 +62,7 @@ class SocketTransportTest extends TestCase
 
     private function getRoomConfig(string $host = 'localhost', int $port = 12345): RoomConfig
     {
-        return new class (
-            $this->createMock(Room::class),
-            'socket',
-            GameEnum::THE_BINDING_OF_ISAAC,
-            [
-                'host' => $host,
-                'port' => $port,
-            ],
-            []
-        ) extends RoomConfig {
+        return new class($this->createMock(Room::class), 'socket', GameEnum::THE_BINDING_OF_ISAAC, ['host' => $host, 'port' => $port], []) extends RoomConfig {
             public function getId(): int
             {
                 return 1;
@@ -81,7 +72,7 @@ class SocketTransportTest extends TestCase
 
     private function decodeMessage(string $msg): array
     {
-        return json_decode(str_replace("\”", '', $msg ), true, 512, JSON_THROW_ON_ERROR);
+        return json_decode(str_replace("\”", '', $msg), true, 512, JSON_THROW_ON_ERROR);
     }
 }
 
@@ -94,7 +85,7 @@ class SpySocketConnection extends SocketConnection
 
     public function connect(): void
     {
-        static::$calls['connect']++;
+        ++static::$calls['connect'];
     }
 
     public function send(string $data): void

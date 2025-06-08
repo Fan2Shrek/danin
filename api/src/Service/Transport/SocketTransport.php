@@ -90,7 +90,7 @@ class SocketTransport implements GameTransportInterface
     private function getConnection(string $id): SocketConnection
     {
         if (!isset($this->connections[$id])) {
-            throw new \RuntimeException(sprintf('No connection found for id "%s"', $id));
+            throw new \RuntimeException(\sprintf('No connection found for id "%s"', $id));
         }
 
         return $this->connections[$id];

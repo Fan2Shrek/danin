@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
+import { useRoute } from 'vue-router';
 
 import tokens from '@/i18n/tokens';
 import api from '@/lib/api/api';
@@ -10,8 +11,9 @@ import type { Message } from '@/lib/api/resources/tchat';
 import type { Command } from '@/lib/api/resources/game';
 
 const emitter = useEmitter();
-// add room id
-const roomId = 'c8119903-1551-4439-9b23-a0db2fec37dc';
+const route = useRoute();
+
+const roomId = route.params.id as string;
 const gameId = 'tboi';
 
 const message = ref('');

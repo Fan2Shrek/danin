@@ -25,6 +25,12 @@ const translations: { [key: string]: string } = {
     [tokens.room.create.settings.title]: 'Paramètres Danin',
     [tokens.room.create.commands.title]: 'Commandes',
     [tokens.room.create.submit]: 'Créer la salle',
+    [tokens.room.start.title]: 'Démarrer la salle',
+    [tokens.room.start.description]: 'En attente de la connexion du jeu',
+    [tokens.room.start.error]: 'Une erreur est survenue lors du démarrage de la salle',
+    [tokens.room.start.requestConnectionToGame]: 'Demander la connexion au jeu',
+    [tokens.room.start.localSetupError]:
+        'Une erreur est survenue lors de la configuration locale de la salle',
     [tokens.room.tchat.title]: 'Tchat',
     [tokens.room.tchat.send]: 'Envoyer un message',
     [tokens.room.tchat.placeholder]: 'Écrire un message...',

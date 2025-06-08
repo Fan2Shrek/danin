@@ -2,6 +2,7 @@
 import { computed, ref, onMounted, watch } from 'vue';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Navigation } from 'swiper/modules';
+import { useRouter } from 'vue-router';
 
 import api from '@/lib/api/api';
 import tokens from '@/i18n/tokens';
@@ -10,20 +11,13 @@ import BasicButton from '@/components/ui/BasicButton.vue';
 
 import type { Swiper as SwiperClass } from 'swiper';
 import type { Command } from '@/lib/api/resources/game';
-
-type StringField = Extract<keyof Config, 'ip' | 'port'>;
+import type { RoomConfig } from '@/lib/api/resources/room';
 
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
-type Config = {
-    game: string;
-    ip?: string;
-    port?: string;
-    commands: string[];
-};
-
+const router = useRouter();
 const emitter = useEmitter();
 
 // todo api call
@@ -50,10 +44,7 @@ const transports = ref({
     socket: {
         id: 'socket',
         name: 'Socket',
-        fields: [
-            'ip',
-            'port',
-        ],
+        fields: ['ip', 'port'],
     },
 });
 
@@ -62,7 +53,7 @@ const currentFields = computed(() => {
 });
 
 const commands = ref<Command[]>([]);
-const config = ref<Config>({
+const config = ref<RoomConfig>({
     game: games.value[0].id,
     commands: commands.value.map((command) => command.id),
     transport: Object.values(transports.value)[0].id,
@@ -99,8 +90,15 @@ emitter?.on('locale-changed', async () => {
     fetchCommands();
 });
 
-const handleSubmit = () => {
-    console.log('Configuration submitted:', config.value);
+const handleSubmit = async () => {
+    const response = await api().room().create(config.value);
+
+    router.push({
+        name: 'StartRoom',
+        params: {
+            id: response.id,
+        },
+    });
 };
 </script>
 
@@ -137,7 +135,7 @@ const handleSubmit = () => {
                         <div class="form-group">
                             <label>{{ $t(tokens.room.create.settings.transport) }}:</label>
                             <select
-                                @change="(e) => config.transport = e.target.value"
+                                @change="(e) => (config.transport = e.target.value)"
                                 v-model="config.transport"
                             >
                                 <option
@@ -219,7 +217,8 @@ const handleSubmit = () => {
                 color: #555;
             }
 
-            input, select {
+            input,
+            select {
                 width: 100%;
                 padding: 0.5rem;
                 border: 1px solid #ccc;

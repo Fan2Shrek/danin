@@ -42,6 +42,13 @@ const tokens = {
             },
             submit: 'room.create.submit',
         },
+        start: {
+            title: 'room.start.title',
+            description: 'room.start.description',
+            error: 'room.start.error',
+            requestConnectionToGame: 'room.start.requestConnectionToGame',
+            localSetupError: 'room.start.localSetupError',
+        },
         tchat: {
             title: 'room.tchat.title',
             send: 'room.tchat.send',

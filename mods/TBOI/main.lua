@@ -1,86 +1,38 @@
-local DEBUG = true
+DEBUG = true
+TRANSPORT_TYPE = "mercure";
 
 local handlers = nil
-local server = nil
-
-local console = require("resources.console")
+local transport = require("resources.transport")
 
 if DEBUG then
-    server = include('resources/server.lua')
     handlers = include('resources/handlers.lua')
+    transport = include('resources/transport.lua')
 else
     handlers = require('resources/handlers')
-    server = require('resources/server')
+    transport = require('resources.transport')
 end
 
-local PORT = 12345
-local HOST = "localhost"
+HOST = "localhost"
+MOD_PORT = 12345
+WEB_PORT = 11664;
 
 local mod = RegisterMod("Danin -- Isaac", 1)
 
-local request=[=[
-GET /.well-known/mercure?topic=aaa HTTP/1.1
-Host: localhost:12345
-Accept: text/event-stream
-Connection: keep-alive
-
-
-]=]
-
-
-local socket = require("socket")
-
-
-
-
-
-local client = assert(socket.tcp())
-client:settimeout(0)
-client:connect("127.0.0.1", 8090)
-
-
 function mod:onUpdate()
-	-- if not server.isRunning() then
-	-- 	return
-	-- end
-	--
-	--    local client = server.getClient()
-	--    local msg = server.receive()
-	--
-	--    if msg then
-	--        handlers.handle(msg)
-	--    end
+    local msg = transport.process();
 
-    local line, err = client:receive("*l")
-    if line then
-        -- Simple SSE parsing
-        if line:match("^data:") then
-            local data = line:sub(6)
-	        handlers.handle(data)
-        end
-    else
-        if err ~= "timeout" then
-            console.debug("Connection closed or error:".. err)
-        end
+    if msg then
+       handlers.handle(msg)
     end
 end
 
 function mod:tearUp()
-    -- server.start(HOST, PORT)
-
-    client:send(request)
-
-    local response, err = client:receive()
-    if response then
-        console.debug("Received from server:".. response)
-    else
-        console.debug("Receive error:".. err)
-    end
+    transport.setUp();
 end
 
 function mod:tearDown()
-    server.stop()
-    handlers.tearDown()
+    transport.stop();
+    handlers.tearDown();
 end
 
 -- Make sure the mod is started if using luamod from cli

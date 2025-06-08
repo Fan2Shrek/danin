@@ -38,11 +38,7 @@ class WorkerTransportTest extends TestCase
 
     private function getConfigRoom(): RoomConfig
     {
-        return new class(
-            $this->createMock(Room::class),
-            'socket',
-            GameEnum::THE_BINDING_OF_ISAAC,
-        ) extends RoomConfig {
+        return new class($this->createMock(Room::class), 'socket', GameEnum::THE_BINDING_OF_ISAAC) extends RoomConfig {
             public function getId(): int
             {
                 return 1;

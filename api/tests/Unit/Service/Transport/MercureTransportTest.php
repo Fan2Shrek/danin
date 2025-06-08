@@ -19,11 +19,7 @@ final class MercureTransportTest extends TestCase
             new HubSpy(),
         );
 
-        $roomConfig = new class (
-            $this->createMock(Room::class),
-            'socket',
-            GameEnum::THE_BINDING_OF_ISAAC,
-        ) extends RoomConfig {
+        $roomConfig = new class($this->createMock(Room::class), 'socket', GameEnum::THE_BINDING_OF_ISAAC) extends RoomConfig {
             public function getId(): int
             {
                 return 1;
