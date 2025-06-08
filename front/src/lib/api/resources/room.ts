@@ -6,18 +6,18 @@ type RoomResponse = {
 
 export type StartResponse = {
     local_setup?: boolean;
-    data: Record<string, any>;
+    data: Record<string, string>;
 };
 
 export type RoomConfig = {
     game: string;
-    game: string;
+    transport: string;
     commands: string[];
-    config: Record<string, any>;
+    config: Record<string, string>;
 };
 
 class RoomResource extends Resource {
-    public async create(config: RoomResponse): Promise<RoomResponse> {
+    public async create(config: RoomConfig): Promise<RoomResponse> {
         const response: RoomResponse = await this.post(`/api/rooms/create`, config);
 
         return response;

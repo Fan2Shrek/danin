@@ -6,15 +6,17 @@ import api from '@/lib/api/api';
 import tokens from '@/i18n/tokens';
 import gameClient from '@/lib/gameClient';
 
+import type { LocalData } from '@/lib/gameClient';
+
 const route = useRoute();
 const router = useRouter();
 
 const dots = ref('');
-const error = ref(null);
+const error = ref<string | null>(null);
 const text = ref(tokens.room.start.description);
 
 let step = 0;
-let interval = null;
+let interval: ReturnType<typeof setInterval>;
 
 const routeId = route.params.id as string;
 
@@ -29,7 +31,7 @@ onMounted(() => {
         .room()
         .start(routeId)
         .then(async (response) => {
-            if (response && response.ok) {
+            if (response && !response.local_setup) {
                 router.push({ name: 'Tchat', params: { id: routeId } });
 
                 return;
@@ -41,9 +43,9 @@ onMounted(() => {
                 error.value = tokens.room.start.localSetupError;
             }
 
-            const gameResponse = await gameClient().start(response.data);
+            const gameResponse = await gameClient().start(response.data as LocalData);
 
-            if (gameResponse && gameResponse.ok) {
+            if (gameResponse && gameResponse.status) {
                 router.push({ name: 'Tchat', params: { id: routeId } });
             }
         })

@@ -1,3 +1,8 @@
+export type LocalData = {
+    'mercure-url': string;
+    'mercure-token': string;
+};
+
 class GameClient {
     private host: string = '127.0.0.1';
     private port: number = 11664;
@@ -5,7 +10,7 @@ class GameClient {
     public async start(data: LocalData): Promise<{ status: string }> {
         const { 'mercure-url': mercureUrl, 'mercure-token': mercureToken } = data;
 
-        return await fetch(`http://${this.host}:${this.port}`, {
+        const response = await fetch(`http://${this.host}:${this.port}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -13,6 +18,12 @@ class GameClient {
             },
             body: JSON.stringify({ mercureUrl, mercureToken }),
         });
+
+        if (!response.ok) {
+            throw new Error(`Failed to start game client: ${response.statusText}`);
+        }
+
+        return response.json();
     }
 }
 

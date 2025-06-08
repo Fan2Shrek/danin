@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, onMounted, watch } from 'vue';
+import { computed, ref, onMounted } from 'vue';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Navigation } from 'swiper/modules';
 import { useRouter } from 'vue-router';
@@ -12,6 +12,8 @@ import BasicButton from '@/components/ui/BasicButton.vue';
 import type { Swiper as SwiperClass } from 'swiper';
 import type { Command } from '@/lib/api/resources/game';
 import type { RoomConfig } from '@/lib/api/resources/room';
+
+type FieldKey = keyof typeof tokens.room.create.settings;
 
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -49,6 +51,7 @@ const transports = ref({
 });
 
 const currentFields = computed(() => {
+    // @ts-expect-error et tout
     return transports.value[config.value.transport]?.fields || [];
 });
 
@@ -77,7 +80,7 @@ const handleCheck = (commandId: string) => {
     }
 };
 
-const handleChange = (e: Event, name: StringField) => {
+const handleChange = (e: Event, name: string) => {
     const input = e.target as HTMLInputElement;
     config.value.config[name] = input.value ?? null;
 };
@@ -135,7 +138,11 @@ const handleSubmit = async () => {
                         <div class="form-group">
                             <label>{{ $t(tokens.room.create.settings.transport) }}:</label>
                             <select
-                                @change="(e) => (config.transport = e.target.value)"
+                                @change="
+                                    (e) =>
+                                        (config.transport =
+                                            (e.target as HTMLSelectElement)?.value || '')
+                                "
                                 v-model="config.transport"
                             >
                                 <option
@@ -148,11 +155,11 @@ const handleSubmit = async () => {
                             </select>
                         </div>
                         <div v-for="field in currentFields" :key="field" class="form-group">
-                            <label>{{ $t(tokens.room.create.settings[field]) }}:</label>
+                            <label>{{ $t(tokens.room.create.settings[field as FieldKey]) }}:</label>
                             <input
                                 type="text"
                                 @change="(e) => handleChange(e, field)"
-                                v-model="config[field]"
+                                v-model="config.config[field]"
                                 class="form-input"
                             />
                         </div>
