@@ -24,12 +24,12 @@ final class AddLocaleSubscriber implements EventSubscriberInterface
             return;
         }
 
-        $locale = $request->headers->has('Accept-Language')
+        $locale ??= $request->headers->has('Accept-Language')
             ? $request->getPreferredLanguage()
-            : $request->getLocale();
+            : $request->getLocale()
+        ;
 
         if ($locale) {
-            $request->setLocale($locale);
             $request->attributes->set('_locale', $locale);
         }
     }
