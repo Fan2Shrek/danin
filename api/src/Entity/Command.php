@@ -46,4 +46,16 @@ class Command
     {
         $this->locale = $locale;
     }
+
+    public function getLocale(): ?string
+    {
+        return $this->locale;
+    }
+
+    public function setLocale(?string $locale): static
+    {
+        $this->setTranslatableLocale($locale);
+
+        return $this;
+    }
 }
