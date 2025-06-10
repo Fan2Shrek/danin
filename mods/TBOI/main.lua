@@ -12,7 +12,7 @@ else
     transport = require('resources.transport')
 end
 
-HOST = "localhost"
+HOST = "127.0.0.1"
 MOD_PORT = 12345
 WEB_PORT = 11664;
 

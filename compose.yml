@@ -18,9 +18,10 @@ services:
       - ./api:/app
     environment:
       - REDIS_URL=${REDIS_URL}
-      - MERCURE_JWT_SECRET=${MERCURE_PUBLISHER_SECRET}
       - MERCURE_URL=${MERCURE_URL}
       - MERCURE_PUBLIC_URL=${MERCURE_PUBLIC_URL}
+      - GAME_MERCURE_URL=${GAME_MERCURE_URL}
+      - GAME_MERCURE_PUBLIC_URL=${GAME_MERCURE_PUBLIC_URL}
 
   william:
     build:
@@ -31,6 +32,8 @@ services:
     environment:
       - APP_ENV=worker
       - REDIS_URL=${REDIS_URL}
+      - GAME_MERCURE_URL=${GAME_MERCURE_URL}
+      - GAME_MERCURE_PUBLIC_URL=${GAME_MERCURE_PUBLIC_URL}
     command: php bin/console app:danin:consume
 
   front:
@@ -59,7 +62,7 @@ services:
     environment:
       SERVER_NAME: ':80'
       MERCURE_PUBLISHER_JWT_KEY: ${MERCURE_PUBLISHER_SECRET}
-      MERCURE_SUBSCRIBER_JWT_KEY: ${MERCURE_PUBLISHER_SECRET}
+      MERCURE_SUBSCRIBER_JWT_KEY: ${MERCURE_SUBSCRIBER_SECRET}
       MERCURE_EXTRA_DIRECTIVES: |
         cors_origins http://localhost:3000
     command: /usr/bin/caddy run --config /etc/caddy/dev.Caddyfile

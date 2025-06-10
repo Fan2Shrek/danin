@@ -7,6 +7,7 @@ namespace App\Service\Room;
 use App\Entity\Room;
 use App\Repository\RoomConfigRepository;
 use App\Service\Transport\GameTransportInterface;
+use Symfony\Component\DependencyInjection\Attribute\Target;
 use Symfony\Component\Mercure\HubInterface;
 
 final class RoomStarter
@@ -14,6 +15,7 @@ final class RoomStarter
     public function __construct(
         private RoomConfigRepository $roomConfigRepository,
         private GameTransportInterface $transport,
+        #[Target('mercure.hub.game')]
         private HubInterface $mercureHub,
     ) {
     }
