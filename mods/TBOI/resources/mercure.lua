@@ -4,12 +4,12 @@ local console = require("resources.console")
 local mercure = {}
 
 local url_pattern = "^(https?)://([^:/]+):?(%d*)(/.*)$"
-local request=[=[
+local requestTemplate=[=[
 GET %s HTTP/1.1
+Host: %s:%d
 Accept: text/event-stream
 Cookie: mercureAuthorization=%s
 Connection: keep-alive
-Host: %s:%d
 User-Agent: IsaacMod/1.0
 
 ]=]
@@ -25,15 +25,17 @@ function mercure.start(url, jwt)
     port = tonumber(port) or (protocol == "https" and 443 or 80)
 
     if not client then
-        client = assert(socket.tcp())
-        client:settimeout(0)
+        client = socket.tcp()
+        client:settimeout(0.2)
         client:connect(hostname, port)
     end
 
     token = jwt
 
-    console.debug(string.format(request, path, token, hostname, port))
-    client:send(string.format(request, path, token, hostname, port))
+    local request = string.format(requestTemplate, path, hostname, port, token)
+
+    client:send(request)
+    client:settimeout(0)
 end
 
 function mercure.stop()
