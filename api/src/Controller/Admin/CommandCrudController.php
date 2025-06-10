@@ -29,7 +29,7 @@ class CommandCrudController extends AbstractCrudController
                     $this->getParameter('kernel.enabled_locales'),
                     $this->getParameter('kernel.enabled_locales'),
                 ))
-                ->setFormTypeOption('data', $this->getRequest()->getLocale())
+                ->setFormTypeOption('data', $this->getRequest()->getLocale()),
         ];
     }
 

@@ -6,3 +6,10 @@ mercure:
             jwt:
                 secret: '%env(MERCURE_JWT_SECRET)%'
                 publish: '*'
+
+        game:
+            url: '%env(GAME_MERCURE_URL)%'
+            public_url: '%env(GAME_MERCURE_PUBLIC_URL)%'
+            jwt:
+                secret: '%env(GAME_MERCURE_JWT_SECRET)%'
+                publish: '*'
