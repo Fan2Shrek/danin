@@ -60,7 +60,7 @@ class SynchronizeDataCommand extends Command
     private function doCommands(Game $game): void
     {
         $translationRepository = $this->em->getRepository(Translation::class);
-        foreach ($this->transformerManager->getCommandsFromGame($game->getId()->value) as $command) {
+        foreach ($this->transformerManager->getCommandsFromGame($game->getId()) as $command) {
             $command = new EntityCommand($game->getId()->value.'_'.$command, $game);
             $command->setTranslatableLocale($this->locales[0]);
 

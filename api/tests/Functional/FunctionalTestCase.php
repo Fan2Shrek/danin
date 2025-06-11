@@ -22,7 +22,7 @@ class FunctionalTestCase extends ApiTestCase
         $this->client = self::createClient([], [
             'headers' => [
                 'Accept-Language' => 'fr',
-            ]
+            ],
         ]);
         $this->client->disableReboot();
 

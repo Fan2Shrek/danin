@@ -11,7 +11,7 @@ use App\Repository\GameRepository;
 final class GameProvider implements ProviderInterface
 {
     public function __construct(
-        private GameRepository $gameRepository
+        private GameRepository $gameRepository,
     ) {
     }
 

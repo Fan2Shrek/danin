@@ -5,14 +5,16 @@ declare(strict_types=1);
 namespace App\Service\Message\Transformer;
 
 use App\Domain\Model\Message;
+use App\Entity\RoomConfig;
+use App\Enum\GameEnum;
 
 interface MessageTransformerInterface
 {
-    public function transform(Message $message): array;
+    public function transform(Message $message, RoomConfig $roomConfig): array;
 
-    public function supports(Message $message): bool;
+    public function supports(RoomConfig $roomConfig): bool;
 
-    public function getGameName(): string;
+    public function getGame(): GameEnum;
 
     /**
      * The key is the command name
