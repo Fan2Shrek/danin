@@ -27,10 +27,10 @@ final class TransformerManager
         return null !== $this->getTransformerForMessage($message);
     }
 
-    public function getCommandsFromGame(GameEnum $game): array
+    public function getCommandsFromGame(string $game): array
     {
         foreach ($this->transformers as $transformer) {
-            if ($transformer->getGameName() === $game->value) {
+            if ($transformer->getGameName() === $game) {
                 return array_keys($transformer->getCommands());
             }
         }
