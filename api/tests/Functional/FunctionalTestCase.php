@@ -19,7 +19,11 @@ class FunctionalTestCase extends ApiTestCase
 
     public function setup(): void
     {
-        $this->client = self::createClient();
+        $this->client = self::createClient([], [
+            'headers' => [
+                'Accept-Language' => 'fr',
+            ]
+        ]);
         $this->client->disableReboot();
 
         static::getContainer()->get(Connection::class)->beginTransaction();

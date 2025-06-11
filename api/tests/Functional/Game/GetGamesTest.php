@@ -30,6 +30,7 @@ final class GetGamesTest extends FunctionalTestCase
 
         self::assertArraySubset([
             'id' => 'tboi',
+            'name' => 'The binding of isaac',
         ], $response->toArray()['member'][0]);
     }
 }
