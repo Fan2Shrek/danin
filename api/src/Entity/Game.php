@@ -6,6 +6,7 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
 use App\Api\State\Game\GameCommandProvider;
 use App\Api\State\Game\GameProvider;
+use App\Enum\GameEnum;
 use App\Repository\GameRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -25,10 +26,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
 )]
 class Game
 {
-    // Code of the game
     #[ORM\Id]
     #[ORM\Column]
-    private string $id;
+    private GameEnum $id;
 
     #[ORM\Column(length: 255)]
     #[Gedmo\Translatable]
@@ -41,12 +41,12 @@ class Game
     #[Gedmo\Locale]
     private ?string $locale = null;
 
-    public function __construct(string $id)
+    public function __construct(GameEnum $id)
     {
         $this->id = $id;
     }
 
-    public function getId(): string
+    public function getId(): GameEnum
     {
         return $this->id;
     }

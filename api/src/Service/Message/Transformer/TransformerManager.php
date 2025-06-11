@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Service\Message\Transformer;
 
 use App\Domain\Model\Message;
+use App\Enum\GameEnum;
 
 final class TransformerManager
 {
@@ -26,10 +27,10 @@ final class TransformerManager
         return null !== $this->getTransformerForMessage($message);
     }
 
-    public function getCommandsFromGame(string $game): array
+    public function getCommandsFromGame(GameEnum $game): array
     {
         foreach ($this->transformers as $transformer) {
-            if ($transformer->getGameName() === $game) {
+            if ($transformer->getGameName() === $game->value) {
                 return array_keys($transformer->getCommands());
             }
         }

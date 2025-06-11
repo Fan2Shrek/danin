@@ -32,11 +32,6 @@ class SynchronizeDataCommand extends Command
     {
         $this->doGames();
 
-        foreach (GameEnum::cases() as $gameEnum) {
-            $game = $this->gameRepository->find($gameEnum->value);
-            $this->doCommands($game);
-        }
-
         $this->em->flush();
 
         return self::SUCCESS;
@@ -46,7 +41,7 @@ class SynchronizeDataCommand extends Command
     {
         $translationRepository = $this->em->getRepository(Translation::class);
         foreach (GameEnum::cases() as $gameEnum) {
-            $game = new Game($gameEnum->value);
+            $game = new Game($gameEnum);
             $game->setTranslatableLocale($this->locales[0]);
 
             foreach ($this->locales as $locale) {
@@ -55,6 +50,8 @@ class SynchronizeDataCommand extends Command
             }
 
             $this->em->persist($game);
+
+            $this->doCommands($game);
         }
 
         $this->em->flush();
@@ -64,7 +61,7 @@ class SynchronizeDataCommand extends Command
     {
         $translationRepository = $this->em->getRepository(Translation::class);
         foreach ($this->transformerManager->getCommandsFromGame($game->getId()) as $command) {
-            $command = new EntityCommand($game->getId().'_'.$command, $game);
+            $command = new EntityCommand($game->getId()->value.'_'.$command, $game);
             $command->setTranslatableLocale($this->locales[0]);
 
             foreach ($this->locales as $locale) {
