@@ -28,9 +28,9 @@ final class GetGamesTest extends FunctionalTestCase
     {
         $response = $this->client->request('GET', static::URI);
 
-        self::assertSame([
+        self::assertArraySubset([
             'id' => 'tboi',
-            'name' => 'The binding of isaac',
+            'name' => 'The Binding of Isaac',
         ], $response->toArray()['member'][0]);
     }
 }

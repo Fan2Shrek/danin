@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Service\Message\Transformer;
 
 use App\Domain\Model\Message;
+use App\Enum\GameEnum;
 
 final class TransformerManager
 {

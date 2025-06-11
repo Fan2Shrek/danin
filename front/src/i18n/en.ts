@@ -30,6 +30,8 @@ const translations: { [key: string]: string } = {
     [tokens.room.start.error]: 'An error occurred while starting the room',
     [tokens.room.start.requestConnectionToGame]: 'Request connection to the game',
     [tokens.room.start.localSetupError]: 'An error occurred while setting up the room locally',
+    [tokens.games.title]: 'Available Games',
+    [tokens.games.subtitle]: 'Explore our selection of games and join a match',
     [tokens.room.tchat.title]: 'Tchat',
     [tokens.room.tchat.send]: 'Send message',
     [tokens.room.tchat.placeholder]: 'Write a message...',

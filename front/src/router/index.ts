@@ -5,6 +5,7 @@ import HomePage from '../page/HomePage.vue';
 import TchatPage from '../page/room/TchatPage.vue';
 import CreateRoomPage from '../page/room/CreatePage.vue';
 import StartRoom from '../page/room/StartPage.vue';
+import GamesPage from '@/page/GamesPage.vue';
 
 import { getCookie } from '../lib/cookies';
 
@@ -26,6 +27,11 @@ const router = createRouter({
             path: '/login',
             name: 'Login',
             component: LoginPage,
+        },
+        {
+            path: '/games',
+            name: 'Games',
+            component: GamesPage,
         },
         {
             path: '/room/create',

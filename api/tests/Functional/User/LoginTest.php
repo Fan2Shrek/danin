@@ -39,6 +39,9 @@ final class LoginTest extends FunctionalTestCase
         );
 
         $this->client->request('POST', static::URI, [
+            'headers' => [
+                'Accept-Language' => 'en',
+            ],
             'json' => [
                 'email' => 'fake@gmail.com',
                 'password' => 'wrong',

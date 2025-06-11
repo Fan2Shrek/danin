@@ -24,6 +24,10 @@ const tokens = {
         subtitle: 'home.description',
         cta: 'home.cta',
     },
+    games: {
+        title: 'games.title',
+        subtitle: 'games.subtitle',
+    },
     room: {
         create: {
             game: {

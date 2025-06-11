@@ -6,23 +6,17 @@ namespace App\Api\State\Game;
 
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProviderInterface;
-use App\Enum\GameEnum;
+use App\Repository\GameRepository;
 
 final class GameProvider implements ProviderInterface
 {
-    public function provide(Operation $operation, array $uriVariables = [], array $context = []): array
-    {
-        return array_map(
-            fn (GameEnum $game) => [
-                'id' => $game->value,
-                'name' => $this->formatName($game->name),
-            ],
-            GameEnum::cases()
-        );
+    public function __construct(
+        private GameRepository $gameRepository
+    ) {
     }
 
-    private function formatName(string $name): string
+    public function provide(Operation $operation, array $uriVariables = [], array $context = []): array
     {
-        return ucfirst(strtolower(str_replace('_', ' ', $name)));
+        return $this->gameRepository->findAll();
     }
 }

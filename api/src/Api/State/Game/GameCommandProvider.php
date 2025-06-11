@@ -24,6 +24,7 @@ final class GameCommandProvider implements ProviderInterface
         $commands = [];
 
         foreach ($this->messageTransformer->getCommandsFromGame($uriVariables['id']) as $command) {
+            // @todo: Optimize this to avoid too many queries
             $commandEntity = $this->commandRepository->find($uriVariables['id'].'_'.$command);
 
             if (null === $commandEntity) {
