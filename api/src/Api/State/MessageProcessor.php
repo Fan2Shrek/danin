@@ -41,7 +41,7 @@ final class MessageProcessor implements ProcessorInterface
 
         $message = $this->messageFactory->create($data->content);
 
-        $this->messageProcessor->process($message);
+        $this->messageProcessor->process($message, $room);
         $this->tchat->sendMessage((string) $room->getId(), $message);
 
         return $data;

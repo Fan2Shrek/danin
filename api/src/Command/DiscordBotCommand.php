@@ -56,6 +56,7 @@ final class DiscordBotCommand extends Command
             'content' => $message->content,
         ]);
 
-        $this->messageProcessor->process(new ModelMessage($message->content, 'discord'));
+        // todo fix discord
+        /* $this->messageProcessor->process(new ModelMessage($message->content, 'discord')); */
     }
 }
