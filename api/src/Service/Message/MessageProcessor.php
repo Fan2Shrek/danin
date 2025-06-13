@@ -23,11 +23,11 @@ final class MessageProcessor
     /** @todo add room entity blablabla */
     public function process(Message $message, Room $room): void
     {
-        if (!$this->transformerManager->supports($message)) {
+        if (!$this->transformerManager->supports($room->getRoomConfig())) {
             throw new \RuntimeException('No transformer found for message.');
         }
 
-        $content = $this->transformerManager->transform($message);
+        $content = $this->transformerManager->transform($message, $room->getRoomConfig());
         $this->transport->send($room->getRoomConfig(), json_encode($content), 'message');
     }
 }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Service\Message\Transformer;
 
 use App\Domain\Model\Message;
+use App\Entity\RoomConfig;
 use App\Service\Exception\UnknownCommandException;
 
 abstract class AbstractMessageTransformer implements MessageTransformerInterface
@@ -18,13 +19,12 @@ abstract class AbstractMessageTransformer implements MessageTransformerInterface
     ) {
     }
 
-    public function supports(Message $message): bool
+    public function supports(RoomConfig $roomConfig): bool
     {
-        // return $this->getGameName() === $something;
-        return true;
+        return $this->getGame() === $roomConfig->getGame();
     }
 
-    public function transform(Message $message): array
+    public function transform(Message $message, RoomConfig $roomConfig): array
     {
         if (!str_starts_with($message->content, self::COMMAND_PREFIX)) {
             return [];
@@ -35,8 +35,9 @@ abstract class AbstractMessageTransformer implements MessageTransformerInterface
         $commandName = str_replace(self::COMMAND_PREFIX, '', $explodedCommand[0]);
         $args = $explodedCommand[1] ?? null;
 
+        // todo verify if command is allowed
         if (!$this->hasCommand($commandName)) {
-            throw new UnknownCommandException(\sprintf('Unknown command "%s" for game "%s" (options are %s).', $commandName, $this->getGameName(), implode(', ', array_keys($this->getCommands()))));
+            throw new UnknownCommandException(\sprintf('Unknown command "%s" for game "%s" (options are %s).', $commandName, $this->getGame()->value, implode(', ', array_keys($this->getCommands()))));
         }
 
         if (!$this->isInitialized) {
@@ -48,7 +49,7 @@ abstract class AbstractMessageTransformer implements MessageTransformerInterface
 
     protected function getResourcesPath(): string
     {
-        return $this->baseResourcePath.$this->getGameName().DIRECTORY_SEPARATOR;
+        return $this->baseResourcePath.$this->getGame()->value.DIRECTORY_SEPARATOR;
     }
 
     /**

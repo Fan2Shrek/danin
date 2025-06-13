@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Service\Message\Transformer;
 
 use App\Domain\Model\Message;
+use App\Entity\RoomConfig;
 use App\Enum\GameEnum;
 
 final class TransformerManager
@@ -17,20 +18,20 @@ final class TransformerManager
     ) {
     }
 
-    public function transform(Message $message): array
+    public function transform(Message $message, RoomConfig $roomConfig): array
     {
-        return $this->getTransformerForMessage($message)->transform($message);
+        return $this->getTransformerForConfig($roomConfig)->transform($message, $roomConfig);
     }
 
-    public function supports(Message $message): bool
+    public function supports(RoomConfig $roomConfig): bool
     {
-        return null !== $this->getTransformerForMessage($message);
+        return null !== $this->getTransformerForConfig($roomConfig);
     }
 
-    public function getCommandsFromGame(string $game): array
+    public function getCommandsFromGame(GameEnum $game): array
     {
         foreach ($this->transformers as $transformer) {
-            if ($transformer->getGameName() === $game) {
+            if ($transformer->getGame() === $game) {
                 return array_keys($transformer->getCommands());
             }
         }
@@ -38,10 +39,10 @@ final class TransformerManager
         return [];
     }
 
-    private function getTransformerForMessage(Message $message): ?MessageTransformerInterface
+    private function getTransformerForConfig(RoomConfig $config): ?MessageTransformerInterface
     {
         foreach ($this->transformers as $transformer) {
-            if ($transformer->supports($message)) {
+            if ($transformer->supports($config)) {
                 return $transformer;
             }
         }

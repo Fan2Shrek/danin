@@ -17,9 +17,9 @@ final class IsaacMessageTransformer extends AbstractMessageTransformer
     private array $entityMapping = [];
     private array $activeItemMapping = [];
 
-    public function getGameName(): string
+    public function getGame(): GameEnum
     {
-        return GameEnum::THE_BINDING_OF_ISAAC->value;
+        return GameEnum::THE_BINDING_OF_ISAAC;
     }
 
     protected function spawn(string $data): array

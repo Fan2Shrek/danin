@@ -6,6 +6,7 @@ namespace App\Api\State\Game;
 
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProviderInterface;
+use App\Enum\GameEnum;
 use App\Repository\CommandRepository;
 use App\Service\Message\Transformer\TransformerManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -23,7 +24,13 @@ final class GameCommandProvider implements ProviderInterface
     {
         $commands = [];
 
-        foreach ($this->messageTransformer->getCommandsFromGame($uriVariables['id']) as $command) {
+        $gameEnum = GameEnum::tryFrom($uriVariables['id']);
+
+        if (null === $gameEnum) {
+            return $commands;
+        }
+
+        foreach ($this->messageTransformer->getCommandsFromGame($gameEnum) as $command) {
             // @todo: Optimize this to avoid too many queries
             $commandEntity = $this->commandRepository->find($uriVariables['id'].'_'.$command);
 

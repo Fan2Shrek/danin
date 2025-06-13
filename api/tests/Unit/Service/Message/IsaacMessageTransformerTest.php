@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace App\Tests\Unit\Service\Message;
 
 use App\Domain\Model\Message;
+use App\Entity\Room;
+use App\Entity\RoomConfig;
+use App\Enum\GameEnum;
 use App\Service\Message\Transformer\IsaacMessageTransformer;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
@@ -17,7 +20,7 @@ final class IsaacMessageTransformerTest extends TestCase
         $isaac = new IsaacMessageTransformer(\dirname(__DIR__, 3).'/Resources/games/');
         $message = new Message("!spawn $entityName", 'test');
 
-        $result = $isaac->transform($message);
+        $result = $isaac->transform($message, $this->getRoomConfig());
 
         self::assertSame([
             'type' => 'spawn',
@@ -40,7 +43,7 @@ final class IsaacMessageTransformerTest extends TestCase
         $isaac = new IsaacMessageTransformer(\dirname(__DIR__, 3).'/Resources/games/');
         $message = new Message('!spawn unknown', 'test');
 
-        $isaac->transform($message);
+        $isaac->transform($message, $this->getRoomConfig());
     }
 
     public function testBomb(): void
@@ -48,7 +51,7 @@ final class IsaacMessageTransformerTest extends TestCase
         $isaac = new IsaacMessageTransformer(\dirname(__DIR__, 3).'/Resources/games/');
         $message = new Message('!bomb', 'test');
 
-        $result = $isaac->transform($message);
+        $result = $isaac->transform($message, $this->getRoomConfig());
 
         self::assertSame([
             'type' => 'spawn',
@@ -62,7 +65,7 @@ final class IsaacMessageTransformerTest extends TestCase
         $isaac = new IsaacMessageTransformer(\dirname(__DIR__, 3).'/Resources/games/');
         $message = new Message("!use $activeItemName", 'test');
 
-        $result = $isaac->transform($message);
+        $result = $isaac->transform($message, $this->getRoomConfig());
 
         self::assertSame([
             'type' => 'activate',
@@ -81,7 +84,7 @@ final class IsaacMessageTransformerTest extends TestCase
         $isaac = new IsaacMessageTransformer(\dirname(__DIR__, 3).'/Resources/games/');
         $message = new Message('!use', 'test');
 
-        $result = $isaac->transform($message);
+        $result = $isaac->transform($message, $this->getRoomConfig());
 
         self::assertSame([
             'type' => 'activate',
@@ -97,11 +100,26 @@ final class IsaacMessageTransformerTest extends TestCase
         $isaac = new IsaacMessageTransformer(\dirname(__DIR__, 3).'/Resources/games/');
         $message = new Message('!use unknown', 'test');
 
-        $result = $isaac->transform($message);
+        $result = $isaac->transform($message, $this->getRoomConfig());
 
         self::assertSame([
             'type' => 'activate',
             'content' => null,
         ], $result);
+    }
+
+    private function getRoomConfig(): RoomConfig
+    {
+        return new RoomConfig(
+            $this->createMock(Room::class),
+            'mercure',
+            GameEnum::THE_BINDING_OF_ISAAC,
+            [],
+            [
+                '!use',
+                '!spawn',
+                '!bomb',
+            ],
+        );
     }
 }

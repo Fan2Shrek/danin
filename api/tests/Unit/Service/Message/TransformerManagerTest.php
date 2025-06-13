@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Tests\Unit\Service\Message;
 
 use App\Domain\Model\Message;
+use App\Entity\RoomConfig;
+use App\Enum\GameEnum;
 use App\Service\Message\Transformer\MessageTransformerInterface;
 use App\Service\Message\Transformer\TransformerManager;
 use PHPUnit\Framework\TestCase;
@@ -19,7 +21,7 @@ final class TransformerManagerTest extends TestCase
         ]);
         $message = new Message('!test', 'test');
 
-        $result = $manager->transform($message);
+        $result = $manager->transform($message, $this->createMock(RoomConfig::class));
 
         self::assertSame(['true'], $result);
     }
@@ -30,9 +32,8 @@ final class TransformerManagerTest extends TestCase
             new FalseTransformer(''),
             new TrueTransformer(''),
         ]);
-        $message = new Message('!test', 'test');
 
-        self::assertTrue($manager->supports($message));
+        self::assertTrue($manager->supports($this->createMock(RoomConfig::class)));
     }
 
     public function testTransformerManagerDoesNotSupport(): void
@@ -41,9 +42,8 @@ final class TransformerManagerTest extends TestCase
             new FalseTransformer(''),
             new FalseTransformer(''),
         ]);
-        $message = new Message('!test', 'test');
 
-        self::assertFalse($manager->supports($message));
+        self::assertFalse($manager->supports($this->createMock(RoomConfig::class)));
     }
 
     public function testGetCommands(): void
@@ -53,7 +53,7 @@ final class TransformerManagerTest extends TestCase
             new TrueTransformer(''),
         ]);
 
-        $result = $manager->getCommandsFromGame('false');
+        $result = $manager->getCommandsFromGame(GameEnum::THE_BINDING_OF_ISAAC);
 
         self::assertSame(['a', 'b'], $result);
     }
@@ -61,19 +61,19 @@ final class TransformerManagerTest extends TestCase
 
 class FalseTransformer implements MessageTransformerInterface
 {
-    public function supports(Message $message): bool
+    public function supports(RoomConfig $config): bool
     {
         return false;
     }
 
-    public function transform(Message $message): array
+    public function transform(Message $message, RoomConfig $roomConfig): array
     {
         return [];
     }
 
-    public function getGameName(): string
+    public function getGame(): GameEnum
     {
-        return 'false';
+        return GameEnum::THE_BINDING_OF_ISAAC;
     }
 
     public function getCommands(): array
@@ -87,19 +87,19 @@ class FalseTransformer implements MessageTransformerInterface
 
 class TrueTransformer implements MessageTransformerInterface
 {
-    public function supports(Message $message): bool
+    public function supports(RoomConfig $config): bool
     {
         return true;
     }
 
-    public function transform(Message $message): array
+    public function transform(Message $message, RoomConfig $roomConfig): array
     {
         return ['true'];
     }
 
-    public function getGameName(): string
+    public function getGame(): GameEnum
     {
-        return 'true';
+        return GameEnum::THE_BINDING_OF_ISAAC;
     }
 
     public function getCommands(): array
