@@ -108,6 +108,30 @@ final class IsaacMessageTransformerTest extends TestCase
         ], $result);
     }
 
+    public function testPlay(): void
+    {
+        $isaac = new IsaacMessageTransformer(\dirname(__DIR__, 3).'/Resources/games/');
+        $message = new Message('!play test_sound_1', 'test');
+
+        $result = $isaac->transform($message, $this->getRoomConfig());
+
+        self::assertSame([
+            'type' => 'sound',
+            'content' => 101,
+        ], $result);
+    }
+
+    public function testPlayWithUnknownSound(): void
+    {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Unknown sound "unknown".');
+
+        $isaac = new IsaacMessageTransformer(\dirname(__DIR__, 3).'/Resources/games/');
+        $message = new Message('!play unknown', 'test');
+
+        $isaac->transform($message, $this->getRoomConfig());
+    }
+
     private function getRoomConfig(): RoomConfig
     {
         return new RoomConfig(

@@ -24,4 +24,13 @@ class RoomRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+
+    public function delete(Room $entity, bool $flush = true): void
+    {
+        $this->getEntityManager()->remove($entity);
+
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
 }

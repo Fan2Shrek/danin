@@ -16,6 +16,7 @@ final class IsaacMessageTransformer extends AbstractMessageTransformer
 {
     private array $entityMapping = [];
     private array $activeItemMapping = [];
+    private array $soundMapping = [];
 
     public function getGame(): GameEnum
     {
@@ -53,10 +54,23 @@ final class IsaacMessageTransformer extends AbstractMessageTransformer
         ];
     }
 
+    protected function play(string $data): array
+    {
+        if (null === $id = $this->soundMapping[$data] ?? null) {
+            throw new \RuntimeException(\sprintf('Unknown sound "%s".', $data));
+        }
+
+        return [
+            'type' => 'sound',
+            'content' => $id,
+        ];
+    }
+
     protected function initializeData(): void
     {
         $this->entityMapping = require $this->getResourcesPath().'entities.php';
         $this->activeItemMapping = require $this->getResourcesPath().'active_items.php';
+        $this->soundMapping = require $this->getResourcesPath().'sounds.php';
     }
 
     public function getCommands(): array
@@ -65,6 +79,7 @@ final class IsaacMessageTransformer extends AbstractMessageTransformer
             'spawn' => $this->spawn(...),
             'bomb' => fn () => $this->spawn('bomb'),
             'use' => $this->use(...),
+            'play' => $this->play(...),
         ];
     }
 }

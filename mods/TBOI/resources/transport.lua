@@ -1,9 +1,9 @@
 local console = require("resources.console");
-local server = require("resources.server");
 local json = require("json");
 
 local web = include("resources/web.lua");
 local mercure = include("resources/mercure.lua");
+local server = include("resources/server.lua");
 
 local transport = {};
 
@@ -75,7 +75,11 @@ function transport.process()
             msg = mercure.process();
         end
     elseif TRANSPORT_TYPE == "socket" then
-        msg = server.stop();
+        local client = server.getClient();
+
+        if client then
+            msg = server.receive();
+        end
     end
 
     return msg;

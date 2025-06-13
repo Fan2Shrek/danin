@@ -31,19 +31,21 @@ final class CreateRoomHandler
             throw new \RuntimeException('User not found');
         }
 
-        if (!$room = $this->roomRepository->findOneBy(['owner' => $user])) {
-            $room = new Room($user);
-            $config = new RoomConfig(
-                $room,
-                $command->transport,
-                GameEnum::from($command->game),
-                $command->config,
-                $command->commands,
-            );
-
-            $this->roomRepository->save($room, false);
-            $this->roomConfigRepository->save($config);
+        if ($room = $this->roomRepository->findOneBy(['owner' => $user])) {
+            $this->roomRepository->delete($room);
         }
+
+        $room = new Room($user);
+        $config = new RoomConfig(
+            $room,
+            $command->transport,
+            GameEnum::from($command->game),
+            $command->config,
+            $command->commands,
+        );
+
+        $this->roomRepository->save($room, false);
+        $this->roomConfigRepository->save($config);
 
         return new JsonResponse([
             'id' => $room->getId(),

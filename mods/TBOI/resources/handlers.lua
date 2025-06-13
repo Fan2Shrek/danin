@@ -27,6 +27,11 @@ function handlers.useActiveItem(id)
 	player:UseActiveItem(id)
 end
 
+function handlers.playSFX(id)
+    -- SFXManager():Play(id, 10, 2, true, 0.5)
+    SFXManager():Play(id) -- maybe pass multiple param
+end
+
 function handlers.handle(msg)
 	local success, data = pcall(json.decode, msg)
     console.debug("Received message: " .. tostring(msg))
@@ -57,6 +62,8 @@ function handlers.handle(msg)
 		handlers.spawn(content)
 	elseif action == "activate" then
 		handlers.useActiveItem(content)
+	elseif action == "sound" then
+		handlers.playSFX(content)
 	end
 end
 
