@@ -140,9 +140,10 @@ final class IsaacMessageTransformerTest extends TestCase
             GameEnum::THE_BINDING_OF_ISAAC,
             [],
             [
-                '!use',
-                '!spawn',
-                '!bomb',
+                'use',
+                'spawn',
+                'bomb',
+                'play'
             ],
         );
     }
