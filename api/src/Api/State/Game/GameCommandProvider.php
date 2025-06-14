@@ -38,10 +38,7 @@ final class GameCommandProvider implements ProviderInterface
                 continue;
             }
 
-            $commands[] = [
-                'id' => $command,
-                'description' => $commandEntity->getDescription(),
-            ];
+            $commands[] = $commandEntity;
         }
 
         return $commands;

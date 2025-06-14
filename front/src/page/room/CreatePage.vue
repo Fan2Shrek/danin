@@ -58,7 +58,7 @@ const currentFields = computed(() => {
 const commands = ref<Command[]>([]);
 const config = ref<RoomConfig>({
     game: games.value[0].id,
-    commands: commands.value.map((command) => command.id),
+    commands: commands.value.map((command) => command.name),
     transport: Object.values(transports.value)[0].id,
     config: {},
 });
@@ -69,7 +69,7 @@ const onSlideChange = (swiper: SwiperClass) => {
 
 const fetchCommands = async () => {
     commands.value = await api().game().getCommands('tboi');
-    config.value.commands = commands.value.map((command) => command.id);
+    config.value.commands = commands.value.map((command) => command.name);
 };
 
 const handleCheck = (commandId: string) => {
@@ -174,11 +174,11 @@ const handleSubmit = async () => {
                     <li v-for="command in commands" :key="command.id">
                         <input
                             type="checkbox"
-                            @change="() => handleCheck(command.id)"
+                            @change="() => handleCheck(command.name)"
                             :id="command.id"
-                            :checked="config.commands.includes(command.id)"
+                            :checked="config.commands.includes(command.name)"
                         />
-                        <label :for="command.id">!{{ command.id }}</label>
+                        <label :for="command.id">!{{ command.name }}</label>
                     </li>
                 </ul>
             </div>

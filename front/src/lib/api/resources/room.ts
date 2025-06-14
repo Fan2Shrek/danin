@@ -1,5 +1,7 @@
 import Resource from './resource';
 
+import type { Command } from './game';
+
 type RoomResponse = {
     id: string;
 };
@@ -25,6 +27,12 @@ class RoomResource extends Resource {
 
     public async start(room: string): Promise<StartResponse> {
         return await this.post(`/api/rooms/${room}/start`, {});
+    }
+
+    public async getCommands(room: string): Promise<Command[]> {
+        const response: { member: Command[] } = await this.get(`/api/rooms/${room}/commands`);
+
+        return response.member;
     }
 }
 

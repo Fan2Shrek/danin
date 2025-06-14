@@ -23,13 +23,13 @@ final class GetCommandsTest extends FunctionalTestCase
 
         self::assertArraySubset([
             [
-                'id' => 'spawn',
+                'name' => 'spawn',
             ],
             [
-                'id' => 'bomb',
+                'name' => 'bomb',
             ],
             [
-                'id' => 'use',
+                'name' => 'use',
             ],
         ], $response->toArray()['member']);
         self::assertArrayHasKey('description', $response->toArray()['member'][0]);

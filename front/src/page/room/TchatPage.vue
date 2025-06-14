@@ -14,8 +14,6 @@ const emitter = useEmitter();
 const route = useRoute();
 
 const roomId = route.params.id as string;
-const gameId = 'tboi';
-
 const message = ref('');
 const messages = ref<Message[]>([]);
 
@@ -33,7 +31,7 @@ onMounted(async () => {
 });
 
 const fetchCommands = async () => {
-    commands.value = await api().game().getCommands(gameId);
+    commands.value = await api().room().getCommands(roomId);
 };
 
 onMounted(() => {
@@ -64,7 +62,7 @@ const handleSubmit = async () => {
             <div class="commands">
                 <ul>
                     <li v-for="command in commands" :key="command.id">
-                        <strong>{{ command.id }}</strong
+                        <strong>{{ command.name }}</strong
                         >: {{ command.description }}
                     </li>
                 </ul>
