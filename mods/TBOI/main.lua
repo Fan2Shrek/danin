@@ -1,8 +1,9 @@
 DEBUG = true
 TRANSPORT_TYPE = "mercure";
+-- TRANSPORT_TYPE = "socket";
 
 local handlers = nil
-local transport = require("resources.transport")
+local transport = nil;
 
 if DEBUG then
     handlers = include('resources/handlers.lua')
@@ -12,7 +13,7 @@ else
     transport = require('resources.transport')
 end
 
-HOST = "127.0.0.1"
+HOST = "0.0.0.0"
 MOD_PORT = 12345
 WEB_PORT = 11664;
 
