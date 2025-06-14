@@ -143,7 +143,7 @@ final class IsaacMessageTransformerTest extends TestCase
                 'use',
                 'spawn',
                 'bomb',
-                'play'
+                'play',
             ],
         );
     }

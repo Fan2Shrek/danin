@@ -35,7 +35,7 @@ abstract class AbstractMessageTransformer implements MessageTransformerInterface
         $commandName = str_replace(self::COMMAND_PREFIX, '', $explodedCommand[0]);
         $args = $explodedCommand[1] ?? null;
 
-        if (!$this->hasCommand($commandName) || !\in_array($commandName, $roomConfig->getCommands(),  true)) {
+        if (!$this->hasCommand($commandName) || !\in_array($commandName, $roomConfig->getCommands(), true)) {
             throw new UnknownCommandException(\sprintf('Unknown command "%s" for game "%s" (options are %s).', $commandName, $this->getGame()->value, implode(', ', $roomConfig->getCommands())));
         }
 
