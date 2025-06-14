@@ -34,6 +34,8 @@ end
 function mod:tearDown()
     transport.stop();
     handlers.tearDown();
+
+    SFXManager():StopLoopingSounds()
 end
 
 -- Make sure the mod is started if using luamod from cli

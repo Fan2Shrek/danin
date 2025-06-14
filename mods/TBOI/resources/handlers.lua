@@ -28,7 +28,7 @@ function handlers.useActiveItem(id)
 end
 
 function handlers.playSFX(id)
-    -- SFXManager():Play(id, 10, 2, true, 0.5)
+    -- SFXManager():Play(id, 10, 2, true, 1)
     SFXManager():Play(id) -- maybe pass multiple param
 end
 
