@@ -5,6 +5,7 @@ namespace App\Entity;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
+use App\Api\State\RoomCommandsProvider;
 use App\Domain\Command\Room\CreateRoomCommand;
 use App\Domain\Command\Room\StartRoomCommand;
 use App\Repository\RoomRepository;
@@ -25,6 +26,10 @@ use Ramsey\Uuid\UuidInterface;
         output: false,
     ),
     new Get(),
+    new Get(
+        uriTemplate: '/rooms/{id}/commands',
+        provider: RoomCommandsProvider::class,
+    ),
 ])]
 #[ORM\Entity(repositoryClass: RoomRepository::class)]
 class Room

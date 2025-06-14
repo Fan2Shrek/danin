@@ -8,6 +8,7 @@ export type Game = {
 
 export type Command = {
     id: string;
+    name: string;
     description: string;
 };
 
