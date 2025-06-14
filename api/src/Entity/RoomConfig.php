@@ -31,13 +31,17 @@ class RoomConfig
     #[ORM\Column(type: Types::JSON)]
     private array $commands = [];
 
-    public function __construct(Room $room, string $transport, GameEnum $game, array $transportSettings = [], array $commands = [])
+    #[ORM\Column(type: Types::JSON)]
+    private array $providers = [];
+
+    public function __construct(Room $room, string $transport, GameEnum $game, array $transportSettings = [], array $commands = [], array $providers = [])
     {
         $this->room = $room;
         $this->transport = $transport;
         $this->game = $game;
         $this->transportSettings = $transportSettings;
         $this->commands = $commands;
+        $this->providers = $providers;
     }
 
     public function getId(): ?int
@@ -50,23 +54,9 @@ class RoomConfig
         return $this->room;
     }
 
-    public function setRoom(Room $room): static
-    {
-        $this->room = $room;
-
-        return $this;
-    }
-
     public function getTransport(): ?string
     {
         return $this->transport;
-    }
-
-    public function setTransport(string $transport): static
-    {
-        $this->transport = $transport;
-
-        return $this;
     }
 
     public function getGame(): ?GameEnum
@@ -74,23 +64,9 @@ class RoomConfig
         return $this->game;
     }
 
-    public function setGame(GameEnum $game): static
-    {
-        $this->game = $game;
-
-        return $this;
-    }
-
     public function getTransportSettings(): array
     {
         return $this->transportSettings;
-    }
-
-    public function setTransportSettings(array $transportSettings): static
-    {
-        $this->transportSettings = $transportSettings;
-
-        return $this;
     }
 
     public function getCommands(): array
@@ -98,10 +74,8 @@ class RoomConfig
         return $this->commands;
     }
 
-    public function setCommands(array $commands): static
+    public function getProviders(): array
     {
-        $this->commands = $commands;
-
-        return $this;
+        return $this->providers;
     }
 }
