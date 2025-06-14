@@ -17,33 +17,46 @@ final class RoomStarter
         private GameTransportInterface $transport,
         #[Target('mercure.hub.game')]
         private HubInterface $mercureHub,
+        private RoomTokenManager $roomTokenManager,
     ) {
     }
 
     public function startRoom(Room $room): array
     {
         $config = $this->roomConfigRepository->findOneBy(['room' => $room]);
+        $infos = [];
 
         if ('mercure' === $config->getTransport()) {
-            return [
+            $infos = [
                 'local_setup' => true,
                 'data' => [
                     'mercure-url' => $this->mercureHub->getPublicUrl().'?topic='.$room->getId(),
                     'mercure-token' => $this->mercureHub->getFactory()?->create([$room->getId()]) ?? '',
                 ],
             ];
+        } elseif ('socket' === $config->getTransport()) {
+            $this->transport->send(
+                $config,
+                json_encode([
+                    'host' => $config->getTransportSettings()['host'] ?? throw new \RuntimeException('Host is required for socket transport'),
+                    'port' => $config->getTransportSettings()['port'] ?? throw new \RuntimeException('Port is required for socket transport'),
+                ]),
+                'create'
+            );
+
+            $infos = ['ok' => true];
         }
 
-        // socket
-        $this->transport->send(
-            $config,
-            json_encode([
-                'host' => $config->getTransportSettings()['host'] ?? throw new \RuntimeException('Host is required for socket transport'),
-                'port' => $config->getTransportSettings()['port'] ?? throw new \RuntimeException('Port is required for socket transport'),
-            ]), 'create');
+        $infos['providersToken'] = array_reduce(
+            $config->getProviders(),
+            function (array $carry, string $provider) use ($room) {
+                $carry[$provider] = $this->roomTokenManager->createForRoom($room)->getId();
 
-        return [
-            'ok' => true,
-        ];
+                return $carry;
+            },
+            []
+        );
+
+        return $infos;
     }
 }

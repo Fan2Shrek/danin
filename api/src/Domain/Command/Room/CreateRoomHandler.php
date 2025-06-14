@@ -42,6 +42,7 @@ final class CreateRoomHandler
             GameEnum::from($command->game),
             $command->config,
             $command->commands,
+            $command->providers,
         );
 
         $this->roomRepository->save($room, false);

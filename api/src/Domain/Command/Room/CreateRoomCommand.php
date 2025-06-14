@@ -11,6 +11,7 @@ final readonly class CreateRoomCommand
         public string $transport,
         public array $commands = [],
         public array $config = [],
+        public array $providers = [],
     ) {
     }
 }

@@ -15,12 +15,10 @@ final class MessageProcessor
     public function __construct(
         private GameTransportInterface $transport,
         private TransformerManager $transformerManager,
-
         private RoomConfigRepository $roomConfigRepository,
     ) {
     }
 
-    /** @todo add room entity blablabla */
     public function process(Message $message, Room $room): void
     {
         if (!$this->transformerManager->supports($room->getRoomConfig())) {
