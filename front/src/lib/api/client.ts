@@ -28,6 +28,10 @@ class Client {
         );
     }
 
+    public getUrl(): string {
+        return this.baseUrl;
+    }
+
     public setToken(token: string): void {
         this.token = token;
     }

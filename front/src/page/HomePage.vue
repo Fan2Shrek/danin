@@ -13,7 +13,6 @@ const fetchCommands = async () => {
     games.value = await api().game().getAll();
 };
 
-// Add Image to api
 onMounted(() => {
     fetchCommands();
 });
@@ -28,9 +27,9 @@ onMounted(() => {
         </div>
         <div class="game-list">
             <div v-for="game in games" :key="game.id" class="game-item">
-                <!-- <img :src="game.image" alt="Game Image" /> -->
                 <h2>{{ game.name }}</h2>
                 <p>{{ game.description }}</p>
+                <img v-if="game.image" :src="api().image(game.image)" alt="Game Image" />
             </div>
         </div>
     </div>

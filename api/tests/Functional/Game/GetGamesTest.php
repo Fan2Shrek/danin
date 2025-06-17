@@ -32,5 +32,6 @@ final class GetGamesTest extends FunctionalTestCase
             'id' => 'tboi',
             'name' => 'The Binding of Isaac',
         ], $response->toArray()['member'][0]);
+        self::assertArrayHasKey('image', $response->toArray()['member'][0]);
     }
 }

@@ -27,6 +27,7 @@ install:
 	echo "Installing dependencies..."
 	$(PHP) composer install
 	$(NPM) npm install
+	@mkdir -p api/public/uploads/game
 
 dev: install up
 

@@ -148,7 +148,6 @@ footer {
 
         .footer {
             &__content {
-
                 flex-direction: column;
                 align-items: center;
 

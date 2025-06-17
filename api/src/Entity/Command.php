@@ -37,7 +37,7 @@ class Command
 
     public function getName(): string
     {
-        return str_replace($this->game->getId()->value.'_', '', $this->id);
+        return str_replace($this->game->getId().'_', '', $this->id);
     }
 
     public function getDescription(): ?string

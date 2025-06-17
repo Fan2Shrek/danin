@@ -42,6 +42,7 @@ class SynchronizeDataCommand extends Command
         $translationRepository = $this->em->getRepository(Translation::class);
         foreach (GameEnum::cases() as $gameEnum) {
             $game = new Game($gameEnum);
+            $game->setImg('https://media.tenor.com/w2HShG6EI4oAAAAm/nerd.webp');
             $game->setTranslatableLocale($this->locales[0]);
 
             foreach ($this->locales as $locale) {
@@ -60,8 +61,8 @@ class SynchronizeDataCommand extends Command
     private function doCommands(Game $game): void
     {
         $translationRepository = $this->em->getRepository(Translation::class);
-        foreach ($this->transformerManager->getCommandsFromGame($game->getId()) as $command) {
-            $command = new EntityCommand($game->getId()->value.'_'.$command, $game);
+        foreach ($this->transformerManager->getCommandsFromGame($game->getGame()) as $command) {
+            $command = new EntityCommand($game->getId().'_'.$command, $game);
             $command->setTranslatableLocale($this->locales[0]);
 
             foreach ($this->locales as $locale) {
