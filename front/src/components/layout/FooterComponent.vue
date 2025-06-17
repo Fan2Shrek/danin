@@ -32,7 +32,7 @@ const links = {
                     <h3>{{ $t(block.title) }}</h3>
                     <ul>
                         <li v-for="(link, name) in block.items" :key="name">
-                            <a :href="link">{{ $t(name) }}</a>
+                            <router-link to="link">{{ $t(name) }}</router-link>
                         </li>
                     </ul>
                 </div>

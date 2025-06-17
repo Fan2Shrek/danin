@@ -124,7 +124,8 @@ const handleSubmit = async () => {
                             <img :src="game.image" alt="Game Image" />
                             <h2>{{ game.name }}</h2>
                             <p>{{ $t(tokens.room.create.game.howTo, { gameName: game.name }) }}</p>
-                            <a>{{ $t(tokens.room.create.game.cta) }}</a>
+                            <!-- todo article -->
+                            <router-link to='#'>{{ $t(tokens.room.create.game.cta) }}</router-link>
                         </div>
                     </swiperSlide>
                 </swiper>

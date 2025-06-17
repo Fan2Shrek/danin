@@ -4,9 +4,9 @@ defineProps(['text', 'link']);
 
 <template>
     <button>
-        <a v-if="link" :href="link" rel="noopener noreferrer">
+        <router-link v-if="link" :to="link" rel="noopener noreferrer">
             {{ text }}
-        </a>
+        </router-link>
         <span v-else>
             {{ text }}
         </span>

@@ -90,7 +90,7 @@ const handleCode = async () => {
                         <p class="register-link">
                             {{ $t(tokens.login.register.link) }}
                             <!-- todo link to register page -->
-                            <a href="#">{{ $t(tokens.login.register.cta) }}</a>
+                            <router-link to="#">{{ $t(tokens.login.register.cta) }}</router-link>
                         </p>
                     </form>
                 </div>

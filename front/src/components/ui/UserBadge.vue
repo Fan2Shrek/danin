@@ -23,9 +23,9 @@ defineProps<{
                 <span>{{ user.email }}</span>
             </div>
             <div class="user__badge--info__body">
-                <a href="/profile" class="link">
+                <router-link to="/profile" class="link">
                     {{ $t('navbar.links.profile') }}
-                </a>
+                </router-link>
                 <a @click="logout" class="link">
                     {{ $t('navbar.links.logout') }}
                 </a>
