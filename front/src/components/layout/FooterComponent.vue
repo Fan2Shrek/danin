@@ -141,4 +141,47 @@ footer {
         max-width: 1200px;
     }
 }
+
+@media (max-width: 768px) {
+    footer {
+        height: 100%;
+
+        .footer {
+            &__content {
+
+                flex-direction: column;
+                align-items: center;
+
+                .links {
+                    width: 100%;
+                    flex-direction: column;
+                    align-items: center;
+
+                    h3 {
+                        text-align: center;
+                    }
+
+                    ul {
+                        width: 100%;
+                        text-align: center;
+
+                        li {
+                            margin-bottom: 10px;
+                        }
+                    }
+                }
+
+                .support-us {
+                    width: 100%;
+                    text-align: center;
+
+                    ul {
+                        justify-content: center;
+                        flex-wrap: wrap;
+                    }
+                }
+            }
+        }
+    }
+}
 </style>

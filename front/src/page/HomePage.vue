@@ -101,4 +101,17 @@ const games = ref({
         transform: translateY(0);
     }
 }
+
+@media (max-width: 768px) {
+    .home-container {
+        text-align: center;
+
+        .home-header {
+            align-items: center;
+            h1 {
+                font-size: 3.5rem;
+            }
+        }
+    }
+}
 </style>
