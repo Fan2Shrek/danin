@@ -5,7 +5,6 @@ import GameResource from './resources/game';
 import MercureResource from './resources/mercure';
 import RoomResource from './resources/room';
 import { deleteCookie, getCookie, setCookie } from '../cookies';
-
 class Api {
     private client: Client;
     private refreshToken: string | null = null;
@@ -77,6 +76,10 @@ class Api {
 
     public setLocale(locale: string): void {
         this.client.setLocale(locale);
+    }
+
+    public image(path: string): string {
+        return `${this.client.getUrl()}/${path}`;
     }
 }
 
