@@ -1,26 +1,21 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 
+import api from '@/lib/api/api';
 import tokens from '@/i18n/tokens';
 import BasicButton from '@/components/ui/BasicButton.vue';
 
-// todo replace with api call
-const games = ref({
-    game1: {
-        name: 'Game 1',
-        description: 'Description for Game 1',
-        image: 'https://via.placeholder.com/150',
-    },
-    game2: {
-        name: 'Game 2',
-        description: 'Description for Game 2',
-        image: 'https://via.placeholder.com/150',
-    },
-    game3: {
-        name: 'Game 3',
-        description: 'Description for Game 3',
-        image: 'https://via.placeholder.com/150',
-    },
+import type { Game } from '@/lib/api/resources/game';
+
+const games = ref<Game[]>([]);
+
+const fetchCommands = async () => {
+    games.value = await api().game().getAll();
+};
+
+// Add Image to api
+onMounted(() => {
+    fetchCommands();
 });
 </script>
 
@@ -32,8 +27,8 @@ const games = ref({
             <BasicButton link="/room/create" :text="$t(tokens.home.cta)" class="home-header__btn" />
         </div>
         <div class="game-list">
-            <div v-for="(game, key) in games" :key="key" class="game-item">
-                <img :src="game.image" alt="Game Image" />
+            <div v-for="game in games" :key="game.id" class="game-item">
+                <!-- <img :src="game.image" alt="Game Image" /> -->
                 <h2>{{ game.name }}</h2>
                 <p>{{ game.description }}</p>
             </div>
