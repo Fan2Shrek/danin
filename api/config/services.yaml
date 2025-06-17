@@ -24,6 +24,10 @@ services:
              tags:
                 - { name: 'app.message_transformer' }
 
+        App\Service\Provider\ProviderInterface:
+             tags:
+                - { name: 'app.provider' }
+
     gedmo.mapping.driver.attribute:
         class: Gedmo\Mapping\Driver\AttributeReader
 
@@ -70,3 +74,7 @@ services:
     App\Service\Message\Transformer\TransformerManager:
         arguments:
             $transformers: !tagged_iterator app.message_transformer
+
+    App\Service\Provider\ProviderManager:
+        arguments:
+            $providers: !tagged_iterator app.provider
