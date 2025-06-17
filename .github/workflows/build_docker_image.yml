@@ -44,6 +44,8 @@ jobs:
           push: true
           target: ${{ env.DOCKER_TARGET }}
           tags: ${{ env.IMAGE_PREFIX }}/backend:latest
+          cache-from: type=registry,ref=${{ env.IMAGE_PREFIX }}/api:buildcache
+          cache-to: type=registry,ref=${{ env.IMAGE_PREFIX }}/api:buildcache,mode=max
           build-args: |
             PHP_VERSION=8.4.1
 
@@ -54,6 +56,8 @@ jobs:
           push: true
           target: ${{ env.DOCKER_TARGET }}
           tags: ${{ env.IMAGE_PREFIX }}/frontend:latest
+          cache-from: type=registry,ref=${{ env.IMAGE_PREFIX }}/frontend:buildcache
+          cache-to: type=registry,ref=${{ env.IMAGE_PREFIX }}/frontend:buildcache,mode=max
           build-args: |
             VITE_API_URL=${{ secrets.API_URL }}
             VITE_MERCURE_URL=${{ secrets.MERCURE_URL }}
