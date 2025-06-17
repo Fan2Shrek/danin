@@ -9,13 +9,20 @@ type RoomResponse = {
 export type StartResponse = {
     local_setup?: boolean;
     data: Record<string, string>;
+    providers?: Record<string, ProviderInfo>;
 };
 
 export type RoomConfig = {
     game: string;
     transport: string;
     commands: string[];
+    providers: string[];
     config: Record<string, string>;
+};
+
+export type ProviderInfo = {
+    token: string;
+    command: string;
 };
 
 class RoomResource extends Resource {

@@ -27,7 +27,7 @@ class SocketTransport implements GameTransportInterface
         if (!isset($this->connections[$connectionId])) {
             $this->addConnection($connectionId, $connection = $this->createConnection(
                 $roomConfig->getTransportSettings()['host'],
-                $roomConfig->getTransportSettings()['port'],
+                (int) $roomConfig->getTransportSettings()['port'],
             ));
             $connection->connect();
 
