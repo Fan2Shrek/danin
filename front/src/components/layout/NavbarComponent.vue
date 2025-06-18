@@ -8,9 +8,9 @@ import LanguageSwitcher from '@/components/i18n/LanguageSwitcher.vue';
 import type { User } from '@/lib/api/resources/user';
 
 const links = {
-    [tokens.navbar.links.games]: '/games',
+    [tokens.navbar.links.games]: { name: 'Home' },
     [tokens.navbar.links.tchat]: '/',
-    [tokens.navbar.links.createRoom]: '/',
+    [tokens.navbar.links.createRoom]: { name: 'CreateRoom' },
 };
 
 const user = inject<User | null>('user');
@@ -34,7 +34,7 @@ const toggleMenu = () => {
                 <span class="navbar__toggle-line"></span>
                 <span class="navbar__toggle-line"></span>
             </button>
-            <router-link to="/" title="Accueil" class="navbar__title">
+            <router-link :to="{ name: 'Home' }" title="Accueil" class="navbar__title">
                 <img src="/D.png" alt="Logo" width="40px" height="40px" />
                 <span>Danin</span>
             </router-link>
@@ -45,7 +45,9 @@ const toggleMenu = () => {
                 <router-link :to="link">{{ $t(String(name)) }}</router-link>
             </li>
             <li v-if="!user">
-                <router-link to="/login">{{ $t(tokens.navbar.links.login) }}</router-link>
+                <router-link :to="{ name: 'Login' }">{{
+                    $t(tokens.navbar.links.login)
+                }}</router-link>
             </li>
             <li v-if="user">
                 <UserBadge :user="user" />

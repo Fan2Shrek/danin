@@ -23,6 +23,7 @@ defineProps<{
                 <span>{{ user.email }}</span>
             </div>
             <div class="user__badge--info__body">
+                <!-- todo profile page -->
                 <router-link to="/profile" class="link">
                     {{ $t('navbar.links.profile') }}
                 </router-link>
