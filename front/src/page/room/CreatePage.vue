@@ -10,7 +10,7 @@ import { useEmitter } from '@/lib/eventBus';
 import BasicButton from '@/components/ui/BasicButton.vue';
 
 import type { Swiper as SwiperClass } from 'swiper';
-import type { Command } from '@/lib/api/resources/game';
+import type { Command, Game } from '@/lib/api/resources/game';
 import type { RoomConfig } from '@/lib/api/resources/room';
 import type { Provider } from '@/lib/api/resources/provider';
 
@@ -23,19 +23,7 @@ import 'swiper/css/pagination';
 const router = useRouter();
 const emitter = useEmitter();
 
-// todo api call
-const games = ref([
-    {
-        id: 'tboi',
-        name: 'The binding of Isaac',
-        image: 'https://img.favpng.com/5/24/17/the-binding-of-isaac-afterbirth-plus-video-game-minecraft-png-favpng-6hzHSa2YLxqa861aZC8P9s5fU.jpg',
-    },
-    {
-        id: 'tboi2',
-        name: 'The binding of Isaac 2',
-        image: 'https://studio.ican-design.fr/ecole-infographie/sites/3/2020/08/petitPas00.jpg',
-    },
-]);
+const games = ref<Game[]>([]);
 
 // todo api call
 const transports = ref({
@@ -60,7 +48,8 @@ const currentFields = computed(() => {
 
 const commands = ref<Command[]>([]);
 const config = ref<RoomConfig>({
-    game: games.value[0].id,
+    // @ts-expect-error temporary
+    game: null,
     commands: commands.value.map((command) => command.name),
     providers: providers.value.map((provider) => provider.name),
     transport: Object.values(transports.value)[0].id,
@@ -68,10 +57,12 @@ const config = ref<RoomConfig>({
 });
 
 const onSlideChange = (swiper: SwiperClass) => {
+    if (games.value.length === 0 || isNaN(swiper.activeIndex)) return;
     config.value.game = games.value[swiper.activeIndex].id;
 };
 
 const fetchCommands = async () => {
+    if (!config.value.game) return;
     commands.value = await api().game().getCommands('tboi');
     config.value.commands = commands.value.map((command) => command.name);
 };
@@ -79,6 +70,11 @@ const fetchCommands = async () => {
 const fetchProviders = async () => {
     providers.value = await api().provider().getAll();
     config.value.providers = providers.value.map((provider) => provider.name);
+};
+
+const fetchGames = async () => {
+    games.value = await api().game().getAll();
+    config.value.game = games.value[0].id;
 };
 
 const handleCheck = (key: 'commands' | 'providers', name: string): void => {
@@ -98,12 +94,14 @@ const handleChange = (e: Event, name: string) => {
     config.value.config[name] = input.value ?? null;
 };
 
-onMounted(() => {
+onMounted(async () => {
+    await fetchGames();
     fetchCommands();
     fetchProviders();
 });
 
 emitter?.on('locale-changed', async () => {
+    await fetchGames();
     fetchCommands();
 });
 
@@ -135,7 +133,11 @@ const handleSubmit = async () => {
                 >
                     <swiperSlide v-for="(game, key) in games" :key="key">
                         <div class="game-item">
-                            <img :src="game.image" alt="Game Image" />
+                            <img
+                                v-if="game.image"
+                                :src="api().image(game.image)"
+                                alt="Game Image"
+                            />
                             <h2>{{ game.name }}</h2>
                             <p>{{ $t(tokens.room.create.game.howTo, { gameName: game.name }) }}</p>
                             <!-- todo article -->
