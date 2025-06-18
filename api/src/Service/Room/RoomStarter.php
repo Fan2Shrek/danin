@@ -61,6 +61,7 @@ final class RoomStarter
                     'token' => $this->roomTokenManager->createForRoom($room)->getId(),
                     'command' => $provider->setup(),
                 ];
+
                 return $carry;
             },
             []

@@ -10,7 +10,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[AsCommand(name: 'app:discord-bot')]
+#[AsCommand(name: 'app:run:discord')]
 final class DiscordBotCommand extends Command
 {
     public function __construct(
