@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Command;
 
 use App\Service\Redis\EventDispatcher\RedisListenerManager;
-use App\Service\Transport\GameTransportInterface;
 use App\Service\Worker\DaninWorker;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -25,7 +24,6 @@ final class DaninConsumerCommand extends Command
 {
     public function __construct(
         private RedisListenerManager $redisListenerManager,
-        private GameTransportInterface $transport,
         private DaninWorker $worker,
     ) {
         parent::__construct();

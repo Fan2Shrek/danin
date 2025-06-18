@@ -34,7 +34,7 @@ services:
       - REDIS_URL=${REDIS_URL}
       - GAME_MERCURE_URL=${GAME_MERCURE_URL}
       - GAME_MERCURE_PUBLIC_URL=${GAME_MERCURE_PUBLIC_URL}
-    command: php bin/console app:danin:consume
+    command: php bin/console app:start:william
 
   front:
     build:
