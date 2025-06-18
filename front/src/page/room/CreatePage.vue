@@ -308,4 +308,17 @@ const handleSubmit = async () => {
         }
     }
 }
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        align-items: center;
+        height: auto;
+
+        &__form {
+            width: 90%;
+            margin-bottom: 1rem;
+        }
+    }
+}
 </style>
