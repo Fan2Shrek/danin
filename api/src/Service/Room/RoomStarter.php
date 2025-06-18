@@ -6,6 +6,7 @@ namespace App\Service\Room;
 
 use App\Entity\Room;
 use App\Repository\RoomConfigRepository;
+use App\Service\Provider\ProviderManager;
 use App\Service\Transport\GameTransportInterface;
 use Symfony\Component\DependencyInjection\Attribute\Target;
 use Symfony\Component\Mercure\HubInterface;
@@ -18,6 +19,7 @@ final class RoomStarter
         #[Target('mercure.hub.game')]
         private HubInterface $mercureHub,
         private RoomTokenManager $roomTokenManager,
+        private ProviderManager $providerManager,
     ) {
     }
 
@@ -39,7 +41,7 @@ final class RoomStarter
                 $config,
                 json_encode([
                     'host' => $config->getTransportSettings()['host'] ?? throw new \RuntimeException('Host is required for socket transport'),
-                    'port' => $config->getTransportSettings()['port'] ?? throw new \RuntimeException('Port is required for socket transport'),
+                    'port' => (int) $config->getTransportSettings()['port'] ?? throw new \RuntimeException('Port is required for socket transport'),
                 ]),
                 'create'
             );
@@ -47,11 +49,18 @@ final class RoomStarter
             $infos = ['ok' => true];
         }
 
-        $infos['providersToken'] = array_reduce(
+        $infos['providers'] = array_reduce(
             $config->getProviders(),
-            function (array $carry, string $provider) use ($room) {
-                $carry[$provider] = $this->roomTokenManager->createForRoom($room)->getId();
+            function (array $carry, string $providerName) use ($room) {
+                if (!$provider = $this->providerManager->getProvider($providerName)) {
+                    // todo this should be check on create call
+                    throw new \RuntimeException(\sprintf('Provider "%s" not found.', $providerName));
+                }
 
+                $carry[$providerName] = [
+                    'token' => $this->roomTokenManager->createForRoom($room)->getId(),
+                    'command' => $provider->setup(),
+                ];
                 return $carry;
             },
             []

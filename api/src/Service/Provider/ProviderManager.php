@@ -35,4 +35,15 @@ final class ProviderManager
             $provider->start();
         }
     }
+
+    public function getProvider(string $name): ?ProviderInterface
+    {
+        foreach ($this->providers as $provider) {
+            if ($name === $provider->getName()) {
+                return $provider;
+            }
+        }
+
+        return null;
+    }
 }

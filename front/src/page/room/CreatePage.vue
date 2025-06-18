@@ -12,6 +12,7 @@ import BasicButton from '@/components/ui/BasicButton.vue';
 import type { Swiper as SwiperClass } from 'swiper';
 import type { Command } from '@/lib/api/resources/game';
 import type { RoomConfig } from '@/lib/api/resources/room';
+import type { Provider } from '@/lib/api/resources/provider';
 
 type FieldKey = keyof typeof tokens.room.create.settings;
 
@@ -46,9 +47,11 @@ const transports = ref({
     socket: {
         id: 'socket',
         name: 'Socket',
-        fields: ['ip', 'port'],
+        fields: ['host', 'port'],
     },
 });
+
+const providers = ref<Provider[]>([]);
 
 const currentFields = computed(() => {
     // @ts-expect-error et tout
@@ -59,6 +62,7 @@ const commands = ref<Command[]>([]);
 const config = ref<RoomConfig>({
     game: games.value[0].id,
     commands: commands.value.map((command) => command.name),
+    providers: providers.value.map((provider) => provider.name),
     transport: Object.values(transports.value)[0].id,
     config: {},
 });
@@ -72,11 +76,20 @@ const fetchCommands = async () => {
     config.value.commands = commands.value.map((command) => command.name);
 };
 
-const handleCheck = (commandId: string) => {
-    if (config.value.commands.includes(commandId)) {
-        config.value.commands = config.value.commands.filter((id) => id !== commandId);
+const fetchProviders = async () => {
+    providers.value = await api().provider().getAll();
+    config.value.providers = providers.value.map((provider) => provider.name);
+};
+
+const handleCheck = (key: 'commands' | 'providers', name: string): void => {
+    const target = config.value[key] as string[];
+
+    if (!target) {
+        config.value[key] = [name];
+    } else if (target.includes(name)) {
+        config.value[key] = target.filter((id) => id !== name);
     } else {
-        config.value.commands.push(commandId);
+        config.value[key].push(name);
     }
 };
 
@@ -87,6 +100,7 @@ const handleChange = (e: Event, name: string) => {
 
 onMounted(() => {
     fetchCommands();
+    fetchProviders();
 });
 
 emitter?.on('locale-changed', async () => {
@@ -125,7 +139,7 @@ const handleSubmit = async () => {
                             <h2>{{ game.name }}</h2>
                             <p>{{ $t(tokens.room.create.game.howTo, { gameName: game.name }) }}</p>
                             <!-- todo article -->
-                            <router-link to='#'>{{ $t(tokens.room.create.game.cta) }}</router-link>
+                            <router-link to="#">{{ $t(tokens.room.create.game.cta) }}</router-link>
                         </div>
                     </swiperSlide>
                 </swiper>
@@ -175,11 +189,23 @@ const handleSubmit = async () => {
                     <li v-for="command in commands" :key="command.id">
                         <input
                             type="checkbox"
-                            @change="() => handleCheck(command.name)"
+                            @change="() => handleCheck('commands', command.name)"
                             :id="command.id"
                             :checked="config.commands.includes(command.name)"
                         />
                         <label :for="command.id">!{{ command.name }}</label>
+                    </li>
+                </ul>
+                <h2>{{ $t(tokens.room.create.providers.title) }}</h2>
+                <ul>
+                    <li v-for="provider in providers" :key="provider.name">
+                        <input
+                            type="checkbox"
+                            @change="() => handleCheck('providers', provider.name)"
+                            :id="provider.name"
+                            :checked="config.providers.includes(provider.name)"
+                        />
+                        <label :for="provider.name">{{ provider.name }}</label>
                     </li>
                 </ul>
             </div>
