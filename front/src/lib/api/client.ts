@@ -61,7 +61,11 @@ class Client {
         if (!response.ok) {
             // @todo find better way
             if (response.status === 401 && !url.includes('login') && !url.includes('totp')) {
-                this._refreshToken();
+                await this._refreshToken();
+
+                if (!this.token) {
+                    throw new Error('Unauthorized: No token available after refresh');
+                }
 
                 return this.request<T>(method, url, body, headers, credentials);
             }
@@ -74,7 +78,7 @@ class Client {
 
     private async _refreshToken(): Promise<void> {
         if (this.refreshToken) {
-            this.refreshToken();
+            await this.refreshToken();
         }
     }
 
