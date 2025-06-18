@@ -3,13 +3,13 @@ defineProps(['text', 'link']);
 </script>
 
 <template>
-    <button>
-        <router-link v-if="link" :to="link" rel="noopener noreferrer">
+    <router-link v-if="link" :to="link" rel="noopener noreferrer">
+        <button>
             {{ text }}
-        </router-link>
-        <span v-else>
-            {{ text }}
-        </span>
+        </button>
+    </router-link>
+    <button v-else>
+        {{ text }}
     </button>
 </template>
 
