@@ -3,15 +3,18 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiProperty;
+use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
+use App\Api\State\ArticleProvider;
 use App\Repository\ArticleRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
-#[ApiProperty(operations: [
+#[ApiResource(operations: [
     new Get(
-        uriTemplate: '/articles/{title}',
+        uriTemplate: '/articles/{slug}',
+        provider: ArticleProvider::class,
     ),
 ])]
 #[ORM\Entity(repositoryClass: ArticleRepository::class)]
@@ -20,11 +23,18 @@ class Article
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[ApiProperty(identifier: false)]
     private int $id;
 
     #[ORM\Column(length: 255)]
     #[Gedmo\Translatable]
     private string $title;
+
+    #[ORM\Column(length: 255)]
+    #[Gedmo\Slug(fields: ['title'])]
+    #[Gedmo\Translatable]
+    #[ApiProperty(identifier: false)]
+    private string $slug;
 
     #[ORM\Column(type: Types::TEXT)]
     #[Gedmo\Translatable]
@@ -52,6 +62,18 @@ class Article
     public function setTitle(string $title): static
     {
         $this->title = $title;
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): static
+    {
+        $this->slug = $slug;
 
         return $this;
     }

@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Article;
 use App\Entity\Command;
 use App\Entity\Game;
 use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminDashboard;
@@ -30,5 +31,6 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
         yield MenuItem::linkToCrud('Games', 'fas fa-gamepad', Game::class);
         yield MenuItem::linkToCrud('Commands', 'fas fa-terminal', Command::class);
+        yield MenuItem::linkToCrud('Articles', 'fas fa-newspaper', Article::class);
     }
 }
