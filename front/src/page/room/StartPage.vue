@@ -35,12 +35,16 @@ onMounted(() => {
         .room()
         .start(routeId)
         .then(async (response) => {
-            if (response && !response.local_setup) {
-                providers.value = response.providers || {};
+            if (!response) {
+                return;
+            }
+
+            if (!response.local_setup) {
                 isOk.value = true;
 
                 return;
             }
+            providers.value = response.providers || {};
 
             text.value = tokens.room.start.requestConnectionToGame;
 

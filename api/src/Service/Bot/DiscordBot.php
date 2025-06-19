@@ -16,7 +16,7 @@ use Psr\Log\LoggerInterface;
 
 final class DiscordBot
 {
-    private const string NAME = 'discord';
+    private const string NAME = 'Discord';
 
     /**
      * @var array<string, Room>
@@ -54,6 +54,12 @@ final class DiscordBot
         $content = $message->content;
         if (str_starts_with($content, '/room ')) {
             $this->registerRoom(str_replace('/room ', '', $content), $message->channel_id);
+
+            if (isset($this->rooms[$message->channel_id])) {
+                $message->reply('Room registered successfully. You can now send messages to the room.');
+            } else {
+                $message->reply('Failed to register room. Please check the token and try again.');
+            }
 
             return;
         }

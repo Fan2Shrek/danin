@@ -32,7 +32,7 @@ final class RoomTokenManager
         $token = $this->roomTokenRepository->find($id);
 
         if (!$token) {
-            throw new \InvalidArgumentException('Invalid room token');
+            throw new \InvalidArgumentException(\sprintf('Invalid room token (%s)', $id));
         }
 
         $room = $this->roomRepository->find($token->getRoomId());
