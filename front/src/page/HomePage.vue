@@ -72,6 +72,46 @@ onMounted(() => {
             animation: fadeInUp 1s ease-out 1s forwards;
         }
     }
+
+    .game-list {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 2rem;
+
+        .game-item {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin: 1rem;
+            padding: 1.5rem;
+            width: calc(33.333% - 2rem);
+            text-align: center;
+            transition: transform 0.3s ease;
+
+            h2 {
+                font-size: 1.5rem;
+                margin-bottom: 0.5rem;
+            }
+
+            p {
+                font-size: 1rem;
+                color: #666666;
+                margin-bottom: 1rem;
+            }
+
+            img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+            }
+
+            &:hover {
+                transform: translateY(-5px);
+            }
+        }
+
+    }
 }
 
 @keyframes fadeInLeft {
