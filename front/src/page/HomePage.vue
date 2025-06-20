@@ -2,16 +2,22 @@
 import { ref, onMounted } from 'vue';
 
 import { useApiStore } from '@/stores/apiStore';
+import { useEmitter } from '@/lib/eventBus';
 import api from '@/lib/api/api';
 import tokens from '@/i18n/tokens';
 import BasicButton from '@/components/ui/BasicButton.vue';
 
 import type { Game } from '@/lib/api/resources/game';
 
+const emitter = useEmitter();
 const games = ref<Game[]>([]);
 const apiStore = useApiStore();
 
 onMounted(async () => {
+    games.value = await apiStore.getStoreState('games');
+});
+
+emitter?.on('locale-changed', async () => {
     games.value = await apiStore.getStoreState('games');
 });
 </script>
