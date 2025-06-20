@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 
+import { useApiStore } from '@/stores/apiStore';
 import api from '@/lib/api/api';
 import tokens from '@/i18n/tokens';
 import BasicButton from '@/components/ui/BasicButton.vue';
@@ -8,13 +9,10 @@ import BasicButton from '@/components/ui/BasicButton.vue';
 import type { Game } from '@/lib/api/resources/game';
 
 const games = ref<Game[]>([]);
+const apiStore = useApiStore();
 
-const fetchCommands = async () => {
-    games.value = await api().game().getAll();
-};
-
-onMounted(() => {
-    fetchCommands();
+onMounted(async () => {
+    games.value = await apiStore.getStoreState('games');
 });
 </script>
 
@@ -110,7 +108,6 @@ onMounted(() => {
                 transform: translateY(-5px);
             }
         }
-
     }
 }
 
