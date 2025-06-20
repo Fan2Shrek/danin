@@ -6,6 +6,7 @@ import { useRouter } from 'vue-router';
 
 import api from '@/lib/api/api';
 import tokens from '@/i18n/tokens';
+import { useApiStore } from '@/stores/apiStore';
 import { useEmitter } from '@/lib/eventBus';
 import BasicButton from '@/components/ui/BasicButton.vue';
 
@@ -24,6 +25,7 @@ const router = useRouter();
 const emitter = useEmitter();
 
 const games = ref<Game[]>([]);
+const apiStore = useApiStore();
 
 // todo api call
 const transports = ref({
@@ -56,24 +58,21 @@ const config = ref<RoomConfig>({
     config: {},
 });
 
-const onSlideChange = (swiper: SwiperClass) => {
-    if (games.value.length === 0 || isNaN(swiper.activeIndex)) return;
-    config.value.game = games.value[swiper.activeIndex].id;
-};
-
 const fetchCommands = async () => {
     if (!config.value.game) return;
-    commands.value = await api().game().getCommands('tboi');
+    commands.value = await apiStore.getStoreState(`commands_${config.value.game}`);
+
     config.value.commands = commands.value.map((command) => command.name);
 };
 
 const fetchProviders = async () => {
-    providers.value = await api().provider().getAll();
+    providers.value = await apiStore.getStoreState('providers');
     config.value.providers = providers.value.map((provider) => provider.name);
 };
 
 const fetchGames = async () => {
-    games.value = await api().game().getAll();
+    games.value = await apiStore.getStoreState('games');
+
     config.value.game = games.value[0].id;
 };
 
@@ -92,6 +91,11 @@ const handleCheck = (key: 'commands' | 'providers', name: string): void => {
 const handleChange = (e: Event, name: string) => {
     const input = e.target as HTMLInputElement;
     config.value.config[name] = input.value ?? null;
+};
+
+const onSlideChange = (swiper: SwiperClass) => {
+    if (games.value.length === 0 || isNaN(swiper.activeIndex)) return;
+    config.value.game = games.value[swiper.activeIndex].id;
 };
 
 onMounted(async () => {

@@ -2,6 +2,7 @@ import './assets/main.css';
 
 import { createApp } from 'vue';
 import { createI18n } from 'vue-i18n';
+import { createPinia } from 'pinia';
 import mitt from 'mitt';
 
 import App from './App.vue';
@@ -21,9 +22,11 @@ const i18n = createI18n({
 });
 
 const emitter = mitt();
+const pinia = createPinia();
 
 app.config.globalProperties.emitter = emitter;
 
 app.use(router);
 app.use(i18n);
+app.use(pinia);
 app.mount('#app');

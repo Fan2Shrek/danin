@@ -19,7 +19,6 @@ const messages = ref<Message[]>([]);
 
 const commands = ref<Command[]>([]);
 
-// setup mercure
 mercure.subscribe(`danin_tchat/${roomId}`, (data) => {
     const message = data as Message;
     messages.value.push(message);
