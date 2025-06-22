@@ -9,9 +9,4 @@ interface ProviderInterface
     public function getName(): string;
 
     public function start(): void;
-
-    /**
-     * Return the commands to setup the provider.
-     */
-    public function setup(): string;
 }

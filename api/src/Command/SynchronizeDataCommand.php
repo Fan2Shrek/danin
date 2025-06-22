@@ -6,9 +6,11 @@ namespace App\Command;
 
 use App\Entity\Command as EntityCommand;
 use App\Entity\Game;
+use App\Entity\Provider;
 use App\Enum\GameEnum;
 use App\Repository\GameRepository;
 use App\Service\Message\Transformer\TransformerManager;
+use App\Service\Provider\ProviderManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Gedmo\Translatable\Entity\Translation;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -24,6 +26,7 @@ class SynchronizeDataCommand extends Command
         private TransformerManager $transformerManager,
         private EntityManagerInterface $em,
         private array $locales,
+        private ProviderManager $providerManager,
     ) {
         parent::__construct();
     }
@@ -31,6 +34,7 @@ class SynchronizeDataCommand extends Command
     public function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->doGames();
+        $this->doProviders();
 
         $this->em->flush();
 
@@ -41,6 +45,10 @@ class SynchronizeDataCommand extends Command
     {
         $translationRepository = $this->em->getRepository(Translation::class);
         foreach (GameEnum::cases() as $gameEnum) {
+            if ($this->gameRepository->find($gameEnum)) {
+                continue;
+            }
+
             $game = new Game($gameEnum);
             $game->setImg('https://media.tenor.com/w2HShG6EI4oAAAAm/nerd.webp');
             $game->setTranslatableLocale($this->locales[0]);
@@ -70,6 +78,19 @@ class SynchronizeDataCommand extends Command
             }
 
             $this->em->persist($command);
+        }
+    }
+
+    private function doProviders(): void
+    {
+        foreach ($this->providerManager->getAll() as $providerName) {
+            if ($this->em->getRepository(Provider::class)->find($providerName)) {
+                continue;
+            }
+
+            $entity = new Provider($providerName);
+
+            $this->em->persist($entity);
         }
     }
 }

@@ -22,9 +22,4 @@ final class DiscordProvider implements ProviderInterface
     {
         $this->bot->start();
     }
-
-    public function setup(): string
-    {
-        return '/room <token>';
-    }
 }

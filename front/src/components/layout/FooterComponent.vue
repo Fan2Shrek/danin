@@ -62,7 +62,6 @@ footer {
     width: 100%;
     height: 250px;
     background-color: #f8f9fa;
-    border: 1px solid black;
     padding: 0;
 
     .footer__content {

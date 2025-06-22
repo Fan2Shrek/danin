@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Service\Room;
 
 use App\Entity\Room;
+use App\Repository\ProviderRepository;
 use App\Repository\RoomConfigRepository;
 use App\Service\Provider\ProviderManager;
 use App\Service\Transport\GameTransportInterface;
@@ -20,6 +21,7 @@ final class RoomStarter
         private HubInterface $mercureHub,
         private RoomTokenManager $roomTokenManager,
         private ProviderManager $providerManager,
+        private ProviderRepository $providerRepository,
     ) {
     }
 
@@ -52,14 +54,15 @@ final class RoomStarter
         $infos['providers'] = array_reduce(
             $config->getProviders(),
             function (array $carry, string $providerName) use ($room) {
-                if (!$provider = $this->providerManager->getProvider($providerName)) {
+                if (!$this->providerManager->getProvider($providerName)) {
                     // todo this should be check on create call
                     throw new \RuntimeException(\sprintf('Provider "%s" not found.', $providerName));
                 }
+                $providerEntity = $this->providerRepository->find($providerName);
 
                 $carry[$providerName] = [
                     'token' => $this->roomTokenManager->createForRoom($room)->getId(),
-                    'command' => $provider->setup(),
+                    'command' => $providerEntity->getCommand(),
                 ];
 
                 return $carry;

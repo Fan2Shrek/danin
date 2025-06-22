@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 
+import api from '@/lib/api/api';
 import { useApiStore } from '@/stores/apiStore';
 import { useEmitter } from '@/lib/eventBus';
 import tokens from '@/i18n/tokens';
@@ -8,13 +9,16 @@ import BasicButton from '@/components/ui/BasicButton.vue';
 import GameCard from '@/components/ui/GameCard.vue';
 
 import type { Game } from '@/lib/api/resources/game';
+import type { Provider } from '@/lib/api/resources/provider';
 
 const emitter = useEmitter();
 const games = ref<Game[]>([]);
+const providers = ref<Provider[]>([]);
 const apiStore = useApiStore();
 
 onMounted(async () => {
     games.value = await apiStore.getStoreState('games');
+    providers.value = await apiStore.getStoreState('providers');
 });
 
 emitter?.on('locale-changed', async () => {
@@ -30,7 +34,15 @@ emitter?.on('locale-changed', async () => {
             <BasicButton link="/room/create" :text="$t(tokens.home.cta)" class="home-header__btn" />
         </div>
         <div class="game-list">
+            <h2>{{ $t(tokens.home.games.title) }}</h2>
             <GameCard v-for="game in games" :key="game.id" :game="game" />
+        </div>
+        <div class="providers-list">
+            <h2>{{ $t(tokens.home.providers.title) }}</h2>
+            <div v-for="provider in providers" :key="provider.id">
+                <img v-if="provider.image" :src="api().image(provider.image)" :alt="provider.id" />
+                <p>{{ provider.id }}</p>
+            </div>
         </div>
     </div>
 </template>
@@ -75,9 +87,51 @@ emitter?.on('locale-changed', async () => {
 
     .game-list {
         display: flex;
+        flex-direction: column;
         flex-wrap: wrap;
+        align-items: center;
+        gap: 3em;
         justify-content: center;
         padding: 2rem;
+    }
+
+    .providers-list {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+        align-items: center;
+        gap: 3em;
+        justify-content: center;
+        padding: 2rem;
+        background-color: #f0f0f0;
+
+        h2 {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            text-align: center;
+            color: #333;
+        }
+
+        div {
+            margin: 0.5rem;
+            padding: 1rem;
+            background-color: #f8f8f8;
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            font-size: 1.2rem;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 150px;
+
+            img {
+                width: 100px;
+                height: auto;
+                border-radius: 0.5rem;
+            }
+        }
     }
 }
 
