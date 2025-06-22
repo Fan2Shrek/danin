@@ -5,7 +5,7 @@ const links = {
     games: {
         title: tokens.footer.links.games.title,
         items: {
-            [tokens.footer.links.games.supportedList]: '#',
+            [tokens.footer.links.games.supportedList]: {name: 'Games'},
             [tokens.footer.links.games.suggestion]: '#',
         },
     },
@@ -32,7 +32,7 @@ const links = {
                     <h3>{{ $t(block.title) }}</h3>
                     <ul>
                         <li v-for="(link, name) in block.items" :key="name">
-                            <router-link to="link">{{ $t(name) }}</router-link>
+                            <router-link :to="link">{{ $t(name) }}</router-link>
                         </li>
                     </ul>
                 </div>

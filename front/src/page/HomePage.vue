@@ -6,6 +6,7 @@ import { useEmitter } from '@/lib/eventBus';
 import api from '@/lib/api/api';
 import tokens from '@/i18n/tokens';
 import BasicButton from '@/components/ui/BasicButton.vue';
+import GameCard from '@/components/ui/GameCard.vue';
 
 import type { Game } from '@/lib/api/resources/game';
 
@@ -30,11 +31,7 @@ emitter?.on('locale-changed', async () => {
             <BasicButton link="/room/create" :text="$t(tokens.home.cta)" class="home-header__btn" />
         </div>
         <div class="game-list">
-            <div v-for="game in games" :key="game.id" class="game-item">
-                <h2>{{ game.name }}</h2>
-                <p>{{ game.description }}</p>
-                <img v-if="game.image" :src="api().image(game.image)" alt="Game Image" />
-            </div>
+          <GameCard v-for="game in games" :key="game.id" :game="game" />
         </div>
     </div>
 </template>
@@ -82,38 +79,6 @@ emitter?.on('locale-changed', async () => {
         flex-wrap: wrap;
         justify-content: center;
         padding: 2rem;
-
-        .game-item {
-            background-color: #ffffff;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            margin: 1rem;
-            padding: 1.5rem;
-            width: calc(33.333% - 2rem);
-            text-align: center;
-            transition: transform 0.3s ease;
-
-            h2 {
-                font-size: 1.5rem;
-                margin-bottom: 0.5rem;
-            }
-
-            p {
-                font-size: 1rem;
-                color: #666666;
-                margin-bottom: 1rem;
-            }
-
-            img {
-                max-width: 100%;
-                height: auto;
-                border-radius: 4px;
-            }
-
-            &:hover {
-                transform: translateY(-5px);
-            }
-        }
     }
 }
 

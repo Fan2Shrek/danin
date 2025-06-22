@@ -4,26 +4,34 @@ import { ref, onMounted } from 'vue';
 import tokens from '@/i18n/tokens';
 import api from '@/lib/api/api';
 import { useEmitter } from '@/lib/eventBus';
+import { useApiStore } from '@/stores/apiStore';
 import GameCard from '@/components/ui/GameCard.vue';
 
 import type { Game } from '@/lib/api/resources/game';
 
 const emitter = useEmitter();
+const apiStore = useApiStore();
 
 const games = ref<Game[]>([]);
 const isLoading = ref(true);
 
 const fetchGames = async () => {
-    games.value = await api().game().getAll();
-    isLoading.value = false;
+    isLoading.value = true;
+    try {
+        games.value = await apiStore.getStoreState('games');
+    } catch (error) {
+        console.error('Failed to fetch games:', error);
+    } finally {
+        isLoading.value = false;
+    }
 };
 
-onMounted(() => {
-    fetchGames();
+onMounted(async () => {
+    await fetchGames();
 });
 
 emitter?.on('locale-changed', async () => {
-    fetchGames();
+    await fetchGames();
 });
 </script>
 

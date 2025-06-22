@@ -2,6 +2,8 @@
 import { ref, onMounted } from 'vue';
 import type { Game } from '@/lib/api/resources/game';
 
+import api from '@/lib/api/api';
+
 defineProps<{ game: Game }>();
 
 const isVisible = ref(false);
@@ -20,6 +22,7 @@ onMounted(() => {
         <span class="game-code">{{ game.id }}</span>
         <h2>{{ game.name }}</h2>
         <p class="game-description">{{ game.description }}</p>
+        <img v-if="game.image" :src="api().image(game.image)" alt="Game Image" />
     </div>
 </template>
 
