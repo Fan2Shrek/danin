@@ -5,7 +5,7 @@ const links = {
     games: {
         title: tokens.footer.links.games.title,
         items: {
-            [tokens.footer.links.games.supportedList]: {name: 'Games'},
+            [tokens.footer.links.games.supportedList]: { name: 'Games' },
             [tokens.footer.links.games.suggestion]: '#',
         },
     },

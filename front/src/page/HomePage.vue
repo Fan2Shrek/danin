@@ -3,7 +3,6 @@ import { ref, onMounted } from 'vue';
 
 import { useApiStore } from '@/stores/apiStore';
 import { useEmitter } from '@/lib/eventBus';
-import api from '@/lib/api/api';
 import tokens from '@/i18n/tokens';
 import BasicButton from '@/components/ui/BasicButton.vue';
 import GameCard from '@/components/ui/GameCard.vue';
@@ -31,7 +30,7 @@ emitter?.on('locale-changed', async () => {
             <BasicButton link="/room/create" :text="$t(tokens.home.cta)" class="home-header__btn" />
         </div>
         <div class="game-list">
-          <GameCard v-for="game in games" :key="game.id" :game="game" />
+            <GameCard v-for="game in games" :key="game.id" :game="game" />
         </div>
     </div>
 </template>

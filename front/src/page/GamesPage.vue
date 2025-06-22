@@ -2,7 +2,6 @@
 import { ref, onMounted } from 'vue';
 
 import tokens from '@/i18n/tokens';
-import api from '@/lib/api/api';
 import { useEmitter } from '@/lib/eventBus';
 import { useApiStore } from '@/stores/apiStore';
 import GameCard from '@/components/ui/GameCard.vue';

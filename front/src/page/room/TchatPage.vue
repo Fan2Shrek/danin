@@ -75,34 +75,24 @@ const handleSubmit = async () => {
                     <li v-for="message in messages" :key="message['@id']">
                         <strong>{{ message.author }}</strong
                         >: {{ message.content }}
-                        <br />
-                        <small>{{
-                            new Date(message.sendAt).toLocaleTimeString([], {
-                                hour: '2-digit',
-                                minute: '2-digit',
-                            })
-                        }}</small>
                     </li>
                 </ul>
+                <form @submit.prevent="handleSubmit">
+                    <input
+                        type="text"
+                        v-model="message"
+                        :placeholder="$t(tokens.room.tchat.placeholder)"
+                    />
+                </form>
             </div>
-
-            <form @submit.prevent="handleSubmit">
-                <input
-                    type="text"
-                    v-model="message"
-                    :placeholder="$t(tokens.room.tchat.placeholder)"
-                />
-                <button type="submit" class="submit-button">
-                    {{ $t(tokens.room.tchat.send) }}
-                </button>
-            </form>
         </div>
     </div>
 </template>
 
 <style scoped lang="scss">
 .container {
-    min-height: 100vh;
+    padding-top: 75px;
+    height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -146,25 +136,35 @@ const handleSubmit = async () => {
     }
 
     .right {
+        height: 90%;
+        margin-top: 20px;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
         h1 {
             font-size: 2rem;
             color: #333;
+            text-align: center;
         }
 
         .messages {
-            margin-top: 20px;
-
             ul {
                 list-style-type: none;
                 padding: 0;
 
                 li {
-                    background-color: #fff;
-                    padding: 10px;
-                    margin-bottom: 10px;
-                    border-radius: 5px;
-                    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
                     color: black;
+
+                    small {
+                        color: #999;
+                        font-size: 0.8rem;
+                        margin-right: 10px;
+                    }
                 }
             }
         }
@@ -174,21 +174,7 @@ const handleSubmit = async () => {
             flex-direction: column;
             width: 100%;
             max-width: 600px;
-            margin: 0 auto;
-
-            .submit-button {
-                background-color: #007bff;
-                color: white;
-                border: none;
-                padding: 10px 20px;
-                cursor: pointer;
-                font-size: 1rem;
-                margin-top: 10px;
-
-                &:hover {
-                    background-color: #0056b3;
-                }
-            }
+            margin: 10px auto;
         }
     }
 }
