@@ -63,4 +63,7 @@ export const storeActions = {
     fetchProviders: async (store) => {
         store.providers = await api().provider().getAll();
     },
+    fetchArticle: async (store, [locale, slug]) => {
+        store[locale][`article_${slug}`] = await api().article().getBySlug(slug);
+    },
 };
