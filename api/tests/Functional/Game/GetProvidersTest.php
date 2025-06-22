@@ -30,7 +30,7 @@ final class GetProvidersTest extends FunctionalTestCase
         $response = $this->client->request('GET', static::URI);
 
         self::assertArraySubset([
-            'name' => 'Discord',
+            'id' => 'Discord',
         ], $response->toArray()['member'][0]);
     }
 }

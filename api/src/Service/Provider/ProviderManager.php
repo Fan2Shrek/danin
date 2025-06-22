@@ -21,9 +21,7 @@ final class ProviderManager
     {
         $names = [];
         foreach ($this->providers as $provider) {
-            if (method_exists($provider, 'getName')) {
-                $names[] = $provider->getName();
-            }
+            $names[] = $provider->getName();
         }
 
         return $names;

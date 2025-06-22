@@ -1,7 +1,9 @@
 import Resource from './resource';
 
 export type Provider = {
-    name: string;
+    id: string;
+    commands?: string;
+    image?: string;
 };
 
 class ProviderResource extends Resource {

@@ -53,7 +53,7 @@ const config = ref<RoomConfig>({
     // @ts-expect-error temporary
     game: null,
     commands: commands.value.map((command) => command.name),
-    providers: providers.value.map((provider) => provider.name),
+    providers: providers.value.map((provider) => provider.id),
     transport: Object.values(transports.value)[0].id,
     config: {},
 });
@@ -67,7 +67,7 @@ const fetchCommands = async () => {
 
 const fetchProviders = async () => {
     providers.value = await apiStore.getStoreState('providers');
-    config.value.providers = providers.value.map((provider) => provider.name);
+    config.value.providers = providers.value.map((provider) => provider.id);
 };
 
 const fetchGames = async () => {
@@ -204,14 +204,14 @@ const handleSubmit = async () => {
                 </ul>
                 <h2>{{ $t(tokens.room.create.providers.title) }}</h2>
                 <ul>
-                    <li v-for="provider in providers" :key="provider.name">
+                    <li v-for="provider in providers" :key="provider.id">
                         <input
                             type="checkbox"
-                            @change="() => handleCheck('providers', provider.name)"
-                            :id="provider.name"
-                            :checked="config.providers.includes(provider.name)"
+                            @change="() => handleCheck('providers', provider.id)"
+                            :id="provider.id"
+                            :checked="config.providers.includes(provider.id)"
                         />
-                        <label :for="provider.name">{{ provider.name }}</label>
+                        <label :for="provider.id">{{ provider.id }}</label>
                     </li>
                 </ul>
             </div>

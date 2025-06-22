@@ -23,6 +23,12 @@ const tokens = {
         title: 'home.title',
         subtitle: 'home.description',
         cta: 'home.cta',
+        games: {
+            title: 'home.games.title',
+        },
+        providers: {
+            title: 'home.providers.title',
+        },
     },
     games: {
         title: 'games.title',
