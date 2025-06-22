@@ -5,6 +5,7 @@ import HomePage from '../page/HomePage.vue';
 import TchatPage from '../page/room/TchatPage.vue';
 import CreateRoomPage from '../page/room/CreatePage.vue';
 import StartRoom from '../page/room/StartPage.vue';
+import ArticlePage from '../page/ArticlePage.vue';
 import GamesPage from '@/page/GamesPage.vue';
 
 import { getCookie } from '../lib/cookies';
@@ -50,6 +51,11 @@ const router = createRouter({
             name: 'Tchat',
             component: TchatPage,
             meta: { requiresAuth: true },
+        },
+        {
+            path: '/article/:slug',
+            name: 'Article',
+            component: ArticlePage,
         },
     ],
 });
