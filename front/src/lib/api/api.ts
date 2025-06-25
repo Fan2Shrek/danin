@@ -96,6 +96,10 @@ class Api {
     public setLocale(locale: string): void {
         this.client.setLocale(locale);
     }
+
+    public async refresh(): Promise<void> {
+        return await this.client.refresh();
+    }
 }
 
 const instance = new Api();

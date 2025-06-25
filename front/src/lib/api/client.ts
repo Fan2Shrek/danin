@@ -8,6 +8,10 @@ class Client {
         this.baseUrl = baseUrl;
     }
 
+    public async refresh(): Promise<void> {
+        return await this._refreshToken();
+    }
+
     public async get<T>(url: string): Promise<T> {
         return await this.request<T>('GET', url);
     }
@@ -61,16 +65,10 @@ class Client {
         if (!response.ok) {
             // @todo find better way
             if (response.status === 401 && !url.includes('login') && !url.includes('totp')) {
-                await this._refreshToken();
-
-                if (!this.token) {
-                    throw new Error('Unauthorized: No token available after refresh');
-                }
-
-                return this.request<T>(method, url, body, headers, credentials);
+                await this.refresh();
             }
 
-            throw new Error(`HTTP error! status: ${response.status}`);
+            return this.request<T>(method, url, body, headers, credentials);
         }
 
         return response.json();
@@ -78,7 +76,7 @@ class Client {
 
     private async _refreshToken(): Promise<void> {
         if (this.refreshToken) {
-            await this.refreshToken();
+            return await this.refreshToken();
         }
     }
 
