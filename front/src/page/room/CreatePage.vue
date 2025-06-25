@@ -143,9 +143,10 @@ const handleSubmit = async () => {
                                 alt="Game Image"
                             />
                             <h2>{{ game.name }}</h2>
+                            <div v-if="game.setupArticleSlug" >
                             <p>{{ $t(tokens.room.create.game.howTo, { gameName: game.name }) }}</p>
-                            <!-- todo article -->
-                            <router-link :to="{name: 'Article', params: {slug: game.setupArticleSlug}}">{{ $t(tokens.room.create.game.cta) }}</router-link>
+                                <router-link :to="{name: 'Article', params: {slug: game.setupArticleSlug}}">{{ $t(tokens.room.create.game.cta) }}</router-link>
+                            </div>
                         </div>
                     </swiperSlide>
                 </swiper>
