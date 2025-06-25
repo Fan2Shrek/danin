@@ -2,10 +2,12 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Article;
 use App\Entity\Game;
 use App\Enum\GameEnum;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
@@ -26,11 +28,12 @@ class GameCrudController extends AbstractCrudController
                 ->hideOnForm(),
             TextField::new('name'),
             TextareaField::new('description'),
+            AssociationField::new('setupArticle'),
             ImageField::new('img')
                 ->setBasePath('/uploads/game')
                 ->setUploadDir('public/uploads/game')
                 ->setUploadedFileNamePattern('[randomhash].[extension]')
-                ->setRequired(true),
+                ->setRequired(false),
             $this->getLocaleField(),
         ];
     }

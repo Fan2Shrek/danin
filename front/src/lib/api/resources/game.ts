@@ -5,6 +5,7 @@ export type Game = {
     name: string;
     description: string;
     image?: string;
+    setupArticleSlug?: string;
 };
 
 export type Command = {

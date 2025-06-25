@@ -47,6 +47,9 @@ class Game
     #[Gedmo\Locale]
     private ?string $locale = null;
 
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    private ?Article $setupArticle = null;
+
     public function __construct(GameEnum $id)
     {
         $this->id = $id;
@@ -118,6 +121,24 @@ class Game
     public function setLocale(?string $locale): static
     {
         $this->locale = $locale;
+
+        return $this;
+    }
+
+    #[Ignore]
+    public function getSetupArticle(): ?Article
+    {
+        return $this->setupArticle;
+    }
+
+    public function getSetupArticleSlug(): ?string
+    {
+        return $this->setupArticle?->getSlug();
+    }
+
+    public function setSetupArticle(?Article $setupArticle): static
+    {
+        $this->setupArticle = $setupArticle;
 
         return $this;
     }

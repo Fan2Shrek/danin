@@ -145,7 +145,7 @@ const handleSubmit = async () => {
                             <h2>{{ game.name }}</h2>
                             <p>{{ $t(tokens.room.create.game.howTo, { gameName: game.name }) }}</p>
                             <!-- todo article -->
-                            <router-link to="#">{{ $t(tokens.room.create.game.cta) }}</router-link>
+                            <router-link :to="{name: 'Article', params: {slug: game.setupArticleSlug}}">{{ $t(tokens.room.create.game.cta) }}</router-link>
                         </div>
                     </swiperSlide>
                 </swiper>
