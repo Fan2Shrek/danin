@@ -30,5 +30,6 @@ onMounted(async () => {
     align-items: center;
     background-color: #f9f9f9;
     color: #333;
+    border: 1px solid #ddd;
 }
 </style>
