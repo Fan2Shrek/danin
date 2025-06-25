@@ -12,14 +12,17 @@ const router = useRouter();
 const user = ref<User | null>(null);
 
 if (getCookie('refresh_token') && !getCookie('token')) {
-    api().refresh().then(
-        api()
-            .user()
-            .me()
-            .then((res) => {
-                user.value = res;
-            })
-    );
+    api()
+        .refresh()
+        .then(
+            // @ts-expect-error jsp
+            api()
+                .user()
+                .me()
+                .then((res) => {
+                    user.value = res;
+                }),
+        );
 }
 
 if (getCookie('token')) {
