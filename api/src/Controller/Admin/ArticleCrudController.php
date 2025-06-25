@@ -13,6 +13,11 @@ class ArticleCrudController extends AbstractCrudController
         return Article::class;
     }
 
+    public function createEntity(string $entityFqcn)
+    {
+        return new Article('', '');
+    }
+
     public function configureFields(string $pageName): iterable
     {
         return [
