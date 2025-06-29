@@ -28,6 +28,10 @@ services:
              tags:
                 - { name: 'app.provider' }
 
+        App\Service\Transport\GameTransportInterface:
+             tags:
+                - { name: 'app.transport' }
+
     gedmo.mapping.driver.attribute:
         class: Gedmo\Mapping\Driver\AttributeReader
 

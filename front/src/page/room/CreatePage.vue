@@ -11,7 +11,7 @@ import { useEmitter } from '@/lib/eventBus';
 import BasicButton from '@/components/ui/BasicButton.vue';
 
 import type { Swiper as SwiperClass } from 'swiper';
-import type { Command, Game } from '@/lib/api/resources/game';
+import type { Command, Game, Transport } from '@/lib/api/resources/game';
 import type { RoomConfig } from '@/lib/api/resources/room';
 import type { Provider } from '@/lib/api/resources/provider';
 
@@ -27,24 +27,11 @@ const emitter = useEmitter();
 const games = ref<Game[]>([]);
 const apiStore = useApiStore();
 
-// todo api call
-const transports = ref({
-    mercure: {
-        id: 'mercure',
-        name: 'Mercure',
-        fields: [],
-    },
-    socket: {
-        id: 'socket',
-        name: 'Socket',
-        fields: ['host', 'port'],
-    },
-});
+const transports = ref<Record<string, Transport>>({});
 
 const providers = ref<Provider[]>([]);
 
 const currentFields = computed(() => {
-    // @ts-expect-error et tout
     return transports.value[config.value.transport]?.fields || [];
 });
 
@@ -54,7 +41,8 @@ const config = ref<RoomConfig>({
     game: null,
     commands: commands.value.map((command) => command.name),
     providers: providers.value.map((provider) => provider.id),
-    transport: Object.values(transports.value)[0].id,
+    // @ts-expect-error temporary
+    transport: null,
     config: {},
 });
 
@@ -74,6 +62,18 @@ const fetchGames = async () => {
     games.value = await apiStore.getStoreState('games');
 
     config.value.game = games.value[0].id;
+};
+
+const fetchTransports = async () => {
+    const transportsList = await apiStore.getStoreState('transports');
+
+    transports.value = transportsList.reduce((acc: Record<string, Transport>, cur: Transport) => {
+        acc[cur.name] = cur;
+
+        return acc;
+    }, {});
+
+    config.value.transport = Object.values(transports.value)[0].id;
 };
 
 const handleCheck = (key: 'commands' | 'providers', name: string): void => {
@@ -100,6 +100,7 @@ const onSlideChange = (swiper: SwiperClass) => {
 
 onMounted(async () => {
     await fetchGames();
+    fetchTransports();
     fetchCommands();
     fetchProviders();
 });
@@ -174,6 +175,7 @@ const handleSubmit = async () => {
                                             (e.target as HTMLSelectElement)?.value || '')
                                 "
                                 v-model="config.transport"
+                                v-if="transports"
                             >
                                 <option
                                     :value="transport.id"

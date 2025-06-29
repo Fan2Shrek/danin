@@ -66,4 +66,7 @@ export const storeActions = {
     fetchArticle: async (store, [locale, slug]) => {
         store[locale][`article_${slug}`] = await api().article().getBySlug(slug);
     },
+    fetchTransports: async (store) => {
+        store.transports = await api().game().getTransports();
+    },
 };
