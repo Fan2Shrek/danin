@@ -2,7 +2,6 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Article;
 use App\Entity\Game;
 use App\Enum\GameEnum;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;

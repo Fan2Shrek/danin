@@ -9,7 +9,7 @@ use App\Entity\RoomConfig;
 use App\Service\Exception\UnknowConnectionException;
 use Psr\Log\LoggerInterface;
 
-class SocketTransport implements GameTransportInterface
+class SocketTransport implements GameTransportInterface, ParametrableGameTransportInterface
 {
     /** @var array<string, SocketConnection> */
     private array $connections = [];
@@ -35,6 +35,14 @@ class SocketTransport implements GameTransportInterface
         }
 
         $this->doSend($connectionId, $message, $type);
+    }
+
+    public function getTransportSettings(): array
+    {
+        return [
+            'host',
+            'port',
+        ];
     }
 
     protected function createConnection(string $host, int $port): SocketConnection
