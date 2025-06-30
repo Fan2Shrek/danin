@@ -1,12 +1,27 @@
 <script setup lang="ts">
-import tokens from '@/i18n/tokens';
+import { ref, onMounted, computed } from 'vue';
 
-const links = {
+import tokens from '@/i18n/tokens';
+import { useApiStore } from '@/stores/apiStore';
+
+const apiStore = useApiStore();
+
+const suggestGame = ref<string>('#');
+
+onMounted(async () => {
+    const { suggestGameArticleSlug } = await apiStore.getStoreState('articlesList');
+    suggestGame.value = suggestGameArticleSlug || '#';
+});
+
+const links = computed(() => ({
     games: {
         title: tokens.footer.links.games.title,
         items: {
             [tokens.footer.links.games.supportedList]: { name: 'Games' },
-            [tokens.footer.links.games.suggestion]: '#',
+            [tokens.footer.links.games.suggestion]: {
+                name: 'Article',
+                params: { slug: suggestGame.value },
+            },
         },
     },
     documentation: {
@@ -21,7 +36,7 @@ const links = {
         title: tokens.footer.links.currentGames.title,
         items: {},
     },
-};
+}));
 </script>
 
 <template>

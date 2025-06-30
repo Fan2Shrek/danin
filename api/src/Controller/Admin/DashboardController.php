@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Article;
+use App\Entity\ArticleList;
 use App\Entity\Command;
 use App\Entity\Game;
 use App\Entity\Provider;
@@ -34,5 +35,6 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Commands', 'fas fa-terminal', Command::class);
         yield MenuItem::linkToCrud('Articles', 'fas fa-newspaper', Article::class);
         yield MenuItem::linkToCrud('Provider', 'fas fa-comment', Provider::class);
+        yield MenuItem::linkToCrud('Articles List', 'fas fa-link', ArticleList::class);
     }
 }
