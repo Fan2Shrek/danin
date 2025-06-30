@@ -12,7 +12,7 @@ const links = {
     documentation: {
         title: tokens.footer.links.documentation.title,
         items: {
-            [tokens.footer.links.documentation.createRoom]: '#',
+            [tokens.footer.links.documentation.createRoom]: { name: 'CreateRoom' },
             [tokens.footer.links.documentation.connectGame]: '#',
             [tokens.footer.links.documentation.connectTchat]: '#',
         },

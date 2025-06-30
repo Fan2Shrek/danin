@@ -35,7 +35,7 @@ emitter?.on('locale-changed', async () => {
         </div>
         <div class="game-list">
             <h2>{{ $t(tokens.home.games.title) }}</h2>
-            <GameCard v-for="game in games" :key="game.id" :game="game" />
+            <GameCard v-for="game in games" :key="game.id" :description="false" :game="game" />
         </div>
         <div class="providers-list">
             <h2>{{ $t(tokens.home.providers.title) }}</h2>

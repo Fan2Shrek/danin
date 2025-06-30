@@ -43,7 +43,6 @@ services:
       target: ${DOCKER_TARGET:-dev}
     ports:
       - "3000:5173"
-      - "3001:80"
     depends_on:
       - php
     volumes:

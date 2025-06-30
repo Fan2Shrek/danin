@@ -4,7 +4,17 @@ import type { Game } from '@/lib/api/resources/game';
 
 import api from '@/lib/api/api';
 
-defineProps<{ game: Game }>();
+const props = withDefaults(
+    defineProps<{
+        game: Game;
+        description?: boolean;
+    }>(),
+    {
+        description: true,
+    },
+);
+
+console.log(props);
 
 const isVisible = ref(false);
 const cardRef = ref<HTMLElement | null>(null);
@@ -21,7 +31,7 @@ onMounted(() => {
     <div ref="cardRef" class="game-card" :class="{ visible: isVisible }" role="article">
         <span class="game-code">{{ game.id }}</span>
         <h2>{{ game.name }}</h2>
-        <p class="game-description">{{ game.description }}</p>
+        <p v-if="props.description" class="game-description">{{ game.description }}</p>
         <img v-if="game.image" :src="api().image(game.image)" alt="Game Image" />
     </div>
 </template>
