@@ -14,8 +14,6 @@ const props = withDefaults(
     },
 );
 
-console.log(props);
-
 const isVisible = ref(false);
 const cardRef = ref<HTMLElement | null>(null);
 

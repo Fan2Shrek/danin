@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import { useRoute } from 'vue-router';
 
 import { useApiStore } from '@/stores/apiStore';
@@ -10,9 +10,20 @@ const route = useRoute();
 const apiStore = useApiStore();
 const article = ref<Article | null>(null);
 
-onMounted(async () => {
-    article.value = await apiStore.getStoreState(`article_${route.params.slug}`);
+const fetchArticle = async (slug: string) => {
+    article.value = await apiStore.getStoreState(`article_${slug}`);
+};
+
+onMounted(() => {
+    fetchArticle(route.params.slug as string);
 });
+
+watch(
+    () => route.params.slug,
+    (newSlug) => {
+        fetchArticle(newSlug as string);
+    },
+);
 </script>
 
 <template>
