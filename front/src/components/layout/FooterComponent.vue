@@ -6,11 +6,15 @@ import { useApiStore } from '@/stores/apiStore';
 
 const apiStore = useApiStore();
 
-const suggestGame = ref<string>('#');
+const suggestGame = ref<string>(null);
+const setupGame = ref<string>(null);
+const setupTchat = ref<string>(null);
 
 onMounted(async () => {
-    const { suggestGameArticleSlug } = await apiStore.getStoreState('articlesList');
-    suggestGame.value = suggestGameArticleSlug || '#';
+    const { suggestGameArticleSlug, setupGameArticleSlug, setupTchatArticleSlug } = await apiStore.getStoreState('articlesList');
+    suggestGame.value = suggestGameArticleSlug || null;
+    setupGame.value = setupGameArticleSlug || null;
+    setupTchat.value = setupTchatArticleSlug || null;
 });
 
 const links = computed(() => ({
@@ -18,18 +22,24 @@ const links = computed(() => ({
         title: tokens.footer.links.games.title,
         items: {
             [tokens.footer.links.games.supportedList]: { name: 'Games' },
-            [tokens.footer.links.games.suggestion]: {
+            [tokens.footer.links.games.suggestion]: suggestGame.value ? {
                 name: 'Article',
                 params: { slug: suggestGame.value },
-            },
+            } : '#',
         },
     },
     documentation: {
         title: tokens.footer.links.documentation.title,
         items: {
             [tokens.footer.links.documentation.createRoom]: { name: 'CreateRoom' },
-            [tokens.footer.links.documentation.connectGame]: '#',
-            [tokens.footer.links.documentation.connectTchat]: '#',
+            [tokens.footer.links.documentation.connectGame]: setupGame.value ? {
+                name: 'Article',
+                params: { slug: setupGame.value },
+            } : '#',
+            [tokens.footer.links.documentation.connectTchat]: setupTchat.value ? {
+                name: 'Article',
+                params: { slug: setupTchat.value },
+            } : '#',
         },
     },
     currentGame: {

@@ -19,6 +19,8 @@ class ArticleListCrudController extends AbstractCrudController
     {
         return [
             AssociationField::new('suggestGame'),
+            AssociationField::new('setupGame'),
+            AssociationField::new('setupTchat'),
         ];
     }
 

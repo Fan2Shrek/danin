@@ -25,6 +25,14 @@ class ArticleList
     #[ORM\JoinColumn(nullable: true)]
     private ?Article $suggestGame = null;
 
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?Article $setupGame = null;
+
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?Article $setupTchat = null;
+
     public function getId(): int
     {
         return $this->id;
@@ -47,4 +55,40 @@ class ArticleList
 
         return $this;
     }
+
+	#[Ignore]
+    public function getSetupGame(): ?Article
+    {
+        return $this->setupGame;
+    }
+
+    public function getSetupGameArticleSlug(): ?string
+    {
+        return $this->setupGame?->getSlug();
+    }
+
+    public function setSetupGame(Article $setupGame): static
+    {
+        $this->setupGame = $setupGame;
+
+        return $this;
+    }
+
+	#[Ignore]
+	public function getSetupTchat(): ?Article
+	{
+		return $this->setupTchat;
+	}
+
+	public function getSetupTchatArticleSlug(): ?string
+	{
+		return $this->setupTchat?->getSlug();
+	}
+
+	public function setSetupTchat(Article $setupTchat): static
+	{
+		$this->setupTchat = $setupTchat;
+
+		return $this;
+	}
 }
