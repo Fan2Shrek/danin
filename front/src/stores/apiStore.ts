@@ -69,4 +69,7 @@ export const storeActions = {
     fetchTransports: async (store) => {
         store.transports = await api().game().getTransports();
     },
+    fetchArticlesList: async (store, [locale]) => {
+        store[locale].articlesList = await api().article().getList();
+    },
 };

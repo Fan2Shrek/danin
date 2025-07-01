@@ -61,7 +61,8 @@ security:
 
     access_control:
         - { path: ^/api/(login|token/refresh),      roles: PUBLIC_ACCESS }
-        - { path: ^/api/(games|articles|providers), roles: PUBLIC_ACCESS }
+        - { path: ^/api/(games|providers),          roles: PUBLIC_ACCESS }
+        - { path: ^/api/articles*,                 roles: PUBLIC_ACCESS }
         - { path: ^/api/,                           roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/admin/login,                    roles: PUBLIC_ACCESS }
         - { path: ^/admin,                          roles: ROLE_ADMIN }

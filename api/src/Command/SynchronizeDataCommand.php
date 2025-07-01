@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Command;
 
+use App\Entity\ArticleList;
 use App\Entity\Command as EntityCommand;
 use App\Entity\Game;
 use App\Entity\Provider;
@@ -33,12 +34,25 @@ class SynchronizeDataCommand extends Command
 
     public function execute(InputInterface $input, OutputInterface $output): int
     {
+        $this->doArticleList();
         $this->doGames();
         $this->doProviders();
 
         $this->em->flush();
 
         return self::SUCCESS;
+    }
+
+    private function doArticleList(): void
+    {
+        $articlesLists = $this->em->getRepository(ArticleList::class)->findAll();
+        if (\count($articlesLists) > 0) {
+            return;
+        }
+
+        $articleList = new ArticleList();
+
+        $this->em->persist($articleList);
     }
 
     private function doGames(): void
