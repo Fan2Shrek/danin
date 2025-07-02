@@ -30,6 +30,27 @@ const tokens = {
             title: 'home.providers.title',
         },
     },
+    user: {
+        username: 'user.username',
+        email: 'user.email',
+        password: 'user.password',
+        constraints: {
+            password: {
+                minLength: 'user.password.minLength',
+                uppercase: 'user.password.uppercase',
+                lowercase: 'user.password.lowercase',
+                number: 'user.password.number',
+                special: 'user.password.special',
+                strength: {
+                    veryWeak: 'user.password.strength.veryWeak',
+                    weak: 'user.password.strength.weak',
+                    medium: 'user.password.strength.medium',
+                    strong: 'user.password.strength.strong',
+                    excellent: 'user.password.strength.excellent',
+                }
+            }
+        }
+    },
     games: {
         title: 'games.title',
         subtitle: 'games.subtitle',
@@ -74,6 +95,39 @@ const tokens = {
                 title: 'room.tchat.commands.title',
                 description: 'room.tchat.commands.description',
             },
+        },
+    },
+    register: {
+        title: 'register.title',
+        subtitle: 'register.subtitle',
+        success: 'register.success',
+        confirmPassword: 'user.confirmPassword',
+        submit: 'register.submit',
+        submitting: 'register.submitting',
+        placeholder: {
+            username: 'register.placeholder.username',
+            email: 'register.placeholder.email',
+            password: 'register.placeholder.password',
+            confirmPassword: 'register.placeholder.confirmPassword',
+        },
+        error: {
+            miscellaneous: 'register.error.miscellaneous',
+            username: {
+                alreadyExists: 'register.error.username.exists',
+                minLength: 'register.error.username.minLength',
+                maxLength: 'register.error.username.maxLength',
+                regex: 'register.error.username.regex',
+            },
+            email: {
+                invalid: 'register.error.email.invalid',
+            },
+            password: {
+                minLength: 'register.error.password.minLength',
+                notStrong: 'register.error.password.notStrong',
+            },
+            confirmPassword: {
+                mismatch: 'register.error.confirmPassword.mismatch',
+            }
         },
     },
     navbar: {

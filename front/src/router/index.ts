@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 
 import LoginPage from '../page/LoginPage.vue';
 import HomePage from '../page/HomePage.vue';
+import RegisterPage from '../page/RegisterPage.vue';
 import TchatPage from '../page/room/TchatPage.vue';
 import CreateRoomPage from '../page/room/CreatePage.vue';
 import StartRoom from '../page/room/StartPage.vue';
@@ -28,6 +29,11 @@ const router = createRouter({
             path: '/login',
             name: 'Login',
             component: LoginPage,
+        },
+        {
+            path: '/register',
+            name: 'Register',
+            component: RegisterPage,
         },
         {
             path: '/games',

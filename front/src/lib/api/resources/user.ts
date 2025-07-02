@@ -1,3 +1,4 @@
+import type { RegistrationData } from '@/types/register';
 import Resource from './resource';
 
 export interface Response {
@@ -7,6 +8,10 @@ export interface Response {
 
 export interface LoginResponse extends Response {
     need_totp?: boolean;
+}
+
+export interface RegisterResponse {
+    id: number;
 }
 
 export type User = {
@@ -19,6 +24,14 @@ class UserResource extends Resource {
         return await this.post(`/api/login`, {
             email,
             password,
+        });
+    }
+
+    public async register(user: RegistrationData): Promise<RegisterResponse> {
+        return await this.post(`/api/register`, {
+            username: user.username,
+            email: user.email,
+            password: user.password,
         });
     }
 

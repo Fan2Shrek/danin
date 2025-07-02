@@ -5,7 +5,8 @@ import { useRouter } from 'vue-router';
 import api from '@/lib/api/api';
 import { getCookie, setCookie, deleteCookie } from '@/lib/cookies';
 
-import type { Response, User } from '@/lib/api/resources/user';
+import type { RegisterResponse, Response, User } from '@/lib/api/resources/user';
+import type { RegistrationData } from '@/types/register';
 
 const router = useRouter();
 
@@ -67,6 +68,12 @@ const loginUser = async (username: string, password: string): Promise<Response> 
     return response;
 };
 
+const registerUser = async (user: RegistrationData): Promise<RegisterResponse> => {
+    const response = await api().user().register(user);
+
+    return response;
+};
+
 const verifyCode = async (code: string) => {
     const response = await api().user().verifyCode(code);
 
@@ -80,6 +87,7 @@ const logoutUser = () => {
 };
 
 provide('loginUser', loginUser);
+provide('registerUser', registerUser);
 provide('verifyCode', verifyCode);
 provide('logoutUser', logoutUser);
 provide('user', user);

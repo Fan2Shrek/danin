@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, inject, watch } from 'vue';
+import { RouterLink } from 'vue-router';
 import tokens from '@/i18n/tokens';
 
 import type { LoginResponse } from '@/lib/api/resources/user';
@@ -90,7 +91,7 @@ const handleCode = async () => {
                         <p class="register-link">
                             {{ $t(tokens.login.register.link) }}
                             <!-- todo link to register page -->
-                            <router-link to="#">{{ $t(tokens.login.register.cta) }}</router-link>
+                            <RouterLink to="/register">{{ $t(tokens.login.register.cta) }}</RouterLink>
                         </p>
                     </form>
                 </div>

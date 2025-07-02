@@ -34,20 +34,20 @@ const toggleMenu = () => {
                 <span class="navbar__toggle-line"></span>
                 <span class="navbar__toggle-line"></span>
             </button>
-            <router-link :to="{ name: 'Home' }" title="Accueil" class="navbar__title">
+            <RouterLink :to="{ name: 'Home' }" title="Accueil" class="navbar__title">
                 <img src="/D.png" alt="Logo" width="40px" height="40px" />
                 <span>Danin</span>
-            </router-link>
+            </RouterLink>
         </div>
 
         <ul class="navbar__links" :class="{ 'navbar__links--expanded': isOpen }">
             <li v-for="(link, name) in links" :key="name">
-                <router-link :to="link">{{ $t(String(name)) }}</router-link>
+                <RouterLink :to="link">{{ $t(String(name)) }}</RouterLink>
             </li>
             <li v-if="!user">
-                <router-link :to="{ name: 'Login' }">{{
+                <RouterLink :to="{ name: 'Login' }">{{
                     $t(tokens.navbar.links.login)
-                }}</router-link>
+                }}</RouterLink>
             </li>
             <li v-if="user">
                 <UserBadge :user="user" />
