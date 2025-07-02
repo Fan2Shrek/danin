@@ -47,9 +47,9 @@ const tokens = {
                     medium: 'user.password.strength.medium',
                     strong: 'user.password.strength.strong',
                     excellent: 'user.password.strength.excellent',
-                }
-            }
-        }
+                },
+            },
+        },
     },
     games: {
         title: 'games.title',
@@ -127,7 +127,7 @@ const tokens = {
             },
             confirmPassword: {
                 mismatch: 'register.error.confirmPassword.mismatch',
-            }
+            },
         },
     },
     navbar: {

@@ -21,7 +21,8 @@ const translations: { [key: string]: string } = {
     [tokens.user.username]: 'Nom d’utilisateur',
     [tokens.user.email]: 'Adresse e-mail',
     [tokens.user.password]: 'Mot de passe',
-    [tokens.user.constraints.password.minLength]: 'Le mot de passe doit comporter au moins 8 caractères',
+    [tokens.user.constraints.password.minLength]:
+        'Le mot de passe doit comporter au moins 8 caractères',
     [tokens.user.constraints.password.uppercase]: 'Ajoutez au moins une lettre majuscule',
     [tokens.user.constraints.password.lowercase]: 'Ajoutez au moins une lettre minuscule',
     [tokens.user.constraints.password.number]: 'Ajoutez au moins un chiffre',
@@ -61,13 +62,19 @@ const translations: { [key: string]: string } = {
     [tokens.register.placeholder.email]: 'Entrez votre adresse e-mail',
     [tokens.register.placeholder.password]: 'Entrez votre mot de passe',
     [tokens.register.placeholder.confirmPassword]: 'Confirmez votre mot de passe',
-    [tokens.register.error.miscellaneous]: 'Une erreur est survenue lors de l’inscription. Veuillez réessayer.',
-    [tokens.register.error.username.alreadyExists]: 'Ce nom d’utilisateur est déjà utilisé. Veuillez en choisir un autre.',
-    [tokens.register.error.username.minLength]: 'Le nom d’utilisateur doit comporter au moins 3 caractères',
-    [tokens.register.error.username.maxLength]: 'Le nom d’utilisateur doit comporter moins de 20 caractères',
-    [tokens.register.error.username.regex]: 'Le nom d’utilisateur ne peut contenir que des lettres, des chiffres et des tirets bas',
+    [tokens.register.error.miscellaneous]:
+        'Une erreur est survenue lors de l’inscription. Veuillez réessayer.',
+    [tokens.register.error.username.alreadyExists]:
+        'Ce nom d’utilisateur est déjà utilisé. Veuillez en choisir un autre.',
+    [tokens.register.error.username.minLength]:
+        'Le nom d’utilisateur doit comporter au moins 3 caractères',
+    [tokens.register.error.username.maxLength]:
+        'Le nom d’utilisateur doit comporter moins de 20 caractères',
+    [tokens.register.error.username.regex]:
+        'Le nom d’utilisateur ne peut contenir que des lettres, des chiffres et des tirets bas',
     [tokens.register.error.email.invalid]: 'L’adresse e-mail est invalide',
-    [tokens.register.error.password.minLength]: 'Le mot de passe doit comporter au moins 8 caractères',
+    [tokens.register.error.password.minLength]:
+        'Le mot de passe doit comporter au moins 8 caractères',
     [tokens.register.error.password.notStrong]: 'Veuillez choisir un mot de passe plus fort',
     [tokens.register.error.confirmPassword.mismatch]: 'Les mots de passe ne correspondent pas',
     [tokens.games.title]: 'Jeux disponibles',

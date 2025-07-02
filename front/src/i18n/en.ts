@@ -60,11 +60,14 @@ const translations: { [key: string]: string } = {
     [tokens.register.placeholder.email]: 'Enter your email address',
     [tokens.register.placeholder.password]: 'Enter your password',
     [tokens.register.placeholder.confirmPassword]: 'Confirm your password',
-    [tokens.register.error.miscellaneous]: 'An error occurred during registration. Please try again.',
-    [tokens.register.error.username.alreadyExists]: 'Username already exists. Please choose another one.',
+    [tokens.register.error.miscellaneous]:
+        'An error occurred during registration. Please try again.',
+    [tokens.register.error.username.alreadyExists]:
+        'Username already exists. Please choose another one.',
     [tokens.register.error.username.minLength]: 'Username must be at least 3 characters long',
     [tokens.register.error.username.maxLength]: 'Username must be less than 20 characters',
-    [tokens.register.error.username.regex]: 'Username can only contain letters, numbers, and underscores',
+    [tokens.register.error.username.regex]:
+        'Username can only contain letters, numbers, and underscores',
     [tokens.register.error.email.invalid]: 'Email address is invalid',
     [tokens.register.error.password.minLength]: 'Password must be at least 8 characters long',
     [tokens.register.error.password.notStrong]: 'Please choose a stronger password',

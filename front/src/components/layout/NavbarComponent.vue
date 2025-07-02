@@ -45,9 +45,7 @@ const toggleMenu = () => {
                 <RouterLink :to="link">{{ $t(String(name)) }}</RouterLink>
             </li>
             <li v-if="!user">
-                <RouterLink :to="{ name: 'Login' }">{{
-                    $t(tokens.navbar.links.login)
-                }}</RouterLink>
+                <RouterLink :to="{ name: 'Login' }">{{ $t(tokens.navbar.links.login) }}</RouterLink>
             </li>
             <li v-if="user">
                 <UserBadge :user="user" />

@@ -91,7 +91,9 @@ const handleCode = async () => {
                         <p class="register-link">
                             {{ $t(tokens.login.register.link) }}
                             <!-- todo link to register page -->
-                            <RouterLink to="/register">{{ $t(tokens.login.register.cta) }}</RouterLink>
+                            <RouterLink to="/register">{{
+                                $t(tokens.login.register.cta)
+                            }}</RouterLink>
                         </p>
                     </form>
                 </div>
