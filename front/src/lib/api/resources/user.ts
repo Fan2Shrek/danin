@@ -9,6 +9,17 @@ export interface LoginResponse extends Response {
     need_totp?: boolean;
 }
 
+export interface RegisterResponse {
+    id: number;
+}
+
+export interface RegistrationData {
+    username: string;
+    email: string;
+    password: string;
+    passwordConfirmation: string;
+}
+
 export type User = {
     username: string;
     email: string;
@@ -19,6 +30,14 @@ class UserResource extends Resource {
         return await this.post(`/api/login`, {
             email,
             password,
+        });
+    }
+
+    public async register(user: RegistrationData): Promise<RegisterResponse> {
+        return await this.post(`/api/register`, {
+            username: user.username,
+            email: user.email,
+            password: user.password,
         });
     }
 

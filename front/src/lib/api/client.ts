@@ -66,9 +66,16 @@ class Client {
             // @todo find better way
             if (response.status === 401 && !url.includes('login') && !url.includes('totp')) {
                 await this.refresh();
+
+                return this.request<T>(method, url, body, headers, credentials);
             }
 
-            return this.request<T>(method, url, body, headers, credentials);
+            const errorText = await response.text();
+            if (errorText) {
+                throw new Error(errorText);
+            }
+
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
 
         return response.json();

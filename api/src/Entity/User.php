@@ -7,8 +7,10 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
 use App\Api\State\MeProvider;
 use App\Domain\Command\User\EnableTOTPCommand;
+use App\Domain\Command\User\RegisterCommand;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Attribute\Ignore;
@@ -24,10 +26,16 @@ use Symfony\Component\Serializer\Attribute\Ignore;
         condition: "is_enable('totp')",
         input: EnableTOTPCommand::class,
     ),
+    new Post(
+        uriTemplate: '/register',
+        messenger: 'input',
+        input: RegisterCommand::class,
+    ),
 ])]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_USERNAME', fields: ['username'])]
+#[UniqueEntity(fields: ['username'], message: 'This username is already in use.')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
