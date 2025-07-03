@@ -6,9 +6,9 @@ import { useApiStore } from '@/stores/apiStore';
 
 const apiStore = useApiStore();
 
-const suggestGame = ref<string|null>(null);
-const setupGame = ref<string|null>(null);
-const setupTchat = ref<string|null>(null);
+const suggestGame = ref<string | null>(null);
+const setupGame = ref<string | null>(null);
+const setupTchat = ref<string | null>(null);
 
 onMounted(async () => {
     const { suggestGameArticleSlug, setupGameArticleSlug, setupTchatArticleSlug } =
