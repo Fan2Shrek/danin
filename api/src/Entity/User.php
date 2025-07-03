@@ -29,6 +29,7 @@ use Symfony\Component\Serializer\Attribute\Ignore;
     new Post(
         uriTemplate: '/register',
         messenger: 'input',
+        condition: "is_enable('register')",
         input: RegisterCommand::class,
     ),
 ])]
