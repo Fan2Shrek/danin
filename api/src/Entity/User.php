@@ -64,9 +64,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $totpSecret = null;
 
-    #[ORM\Column]
-    private bool $isVerified = false;
-
     public function __construct(string $username, string $email)
     {
         $this->email = $email;
@@ -169,18 +166,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setTotpSecret(?string $totpSecret): static
     {
         $this->totpSecret = $totpSecret;
-
-        return $this;
-    }
-
-    public function isVerified(): bool
-    {
-        return $this->isVerified;
-    }
-
-    public function setIsVerified(bool $isVerified): static
-    {
-        $this->isVerified = $isVerified;
 
         return $this;
     }

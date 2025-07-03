@@ -5,8 +5,7 @@ import { useRouter } from 'vue-router';
 import api from '@/lib/api/api';
 import { getCookie, setCookie, deleteCookie } from '@/lib/cookies';
 
-import type { RegisterResponse, Response, User } from '@/lib/api/resources/user';
-import type { RegistrationData } from '@/types/register';
+import type { RegistrationData, RegisterResponse, Response, User } from '@/lib/api/resources/user';
 
 const router = useRouter();
 

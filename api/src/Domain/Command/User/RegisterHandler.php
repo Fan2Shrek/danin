@@ -26,8 +26,9 @@ final class RegisterHandler
             return new JsonResponse('Username already exists', 400);
         }
 
-        $user = (new User($command->username, $command->email))
-            ->setRoles(['ROLE_USER']);
+        $user = new User($command->username, $command->email)
+            ->setRoles(['ROLE_USER'])
+        ;
 
         $user->setPassword($this->passwordHasher->hashPassword($user, $command->password));
 

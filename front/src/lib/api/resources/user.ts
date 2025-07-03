@@ -1,4 +1,3 @@
-import type { RegistrationData } from '@/types/register';
 import Resource from './resource';
 
 export interface Response {
@@ -12,6 +11,13 @@ export interface LoginResponse extends Response {
 
 export interface RegisterResponse {
     id: number;
+}
+
+export interface RegistrationData {
+    username: string;
+    email: string;
+    password: string;
+    passwordConfirmation: string;
 }
 
 export type User = {

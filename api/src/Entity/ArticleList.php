@@ -56,7 +56,7 @@ class ArticleList
         return $this;
     }
 
-	#[Ignore]
+    #[Ignore]
     public function getSetupGame(): ?Article
     {
         return $this->setupGame;
@@ -74,21 +74,21 @@ class ArticleList
         return $this;
     }
 
-	#[Ignore]
-	public function getSetupTchat(): ?Article
-	{
-		return $this->setupTchat;
-	}
+    #[Ignore]
+    public function getSetupTchat(): ?Article
+    {
+        return $this->setupTchat;
+    }
 
-	public function getSetupTchatArticleSlug(): ?string
-	{
-		return $this->setupTchat?->getSlug();
-	}
+    public function getSetupTchatArticleSlug(): ?string
+    {
+        return $this->setupTchat?->getSlug();
+    }
 
-	public function setSetupTchat(Article $setupTchat): static
-	{
-		$this->setupTchat = $setupTchat;
+    public function setSetupTchat(Article $setupTchat): static
+    {
+        $this->setupTchat = $setupTchat;
 
-		return $this;
-	}
+        return $this;
+    }
 }
