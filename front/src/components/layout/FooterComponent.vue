@@ -3,12 +3,14 @@ import { ref, onMounted, computed } from 'vue';
 
 import tokens from '@/i18n/tokens';
 import { useApiStore } from '@/stores/apiStore';
+import type { Room } from '@/lib/api/resources/room';
 
 const apiStore = useApiStore();
 
 const suggestGame = ref<string | null>(null);
 const setupGame = ref<string | null>(null);
 const setupTchat = ref<string | null>(null);
+const rooms = ref<Room[]>([]);
 
 onMounted(async () => {
     const { suggestGameArticleSlug, setupGameArticleSlug, setupTchatArticleSlug } =
@@ -16,6 +18,7 @@ onMounted(async () => {
     suggestGame.value = suggestGameArticleSlug || null;
     setupGame.value = setupGameArticleSlug || null;
     setupTchat.value = setupTchatArticleSlug || null;
+    rooms.value = await apiStore.getStoreState('currentRooms');
 });
 
 const links = computed(() => ({
@@ -49,10 +52,6 @@ const links = computed(() => ({
                 : '#',
         },
     },
-    currentGame: {
-        title: tokens.footer.links.currentGames.title,
-        items: {},
-    },
 }));
 </script>
 
@@ -64,7 +63,17 @@ const links = computed(() => ({
                     <h3>{{ $t(block.title) }}</h3>
                     <ul>
                         <li v-for="(link, name) in block.items" :key="name">
-                            <router-link :to="link">{{ $t(name) }}</router-link>
+                            <router-link :to="link">{{ $t(name as string) }}</router-link>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>{{ $t(tokens.footer.links.currentGames.title) }}</h3>
+                    <ul>
+                        <li v-for="room in rooms" :key="room.id">
+                            <router-link :to="{ name: 'Tchat', params: { id: room.id } }"
+                                >{{ room.owner.username }} - {{ room.roomConfig.game }}</router-link
+                            >
                         </li>
                     </ul>
                 </div>
