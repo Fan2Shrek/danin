@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace App\Service\Room;
 
 use App\Entity\Room;
+use App\Enum\RoomStatusEnum;
 use App\Repository\ProviderRepository;
 use App\Repository\RoomConfigRepository;
 use App\Service\Provider\ProviderManager;
 use App\Service\Transport\GameTransportInterface;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\Attribute\Target;
 use Symfony\Component\Mercure\HubInterface;
 
@@ -22,6 +24,7 @@ final class RoomStarter
         private RoomTokenManager $roomTokenManager,
         private ProviderManager $providerManager,
         private ProviderRepository $providerRepository,
+        private EntityManagerInterface $em,
     ) {
     }
 
@@ -69,6 +72,9 @@ final class RoomStarter
             },
             []
         );
+
+        $room->setStatus(RoomStatusEnum::STARTED);
+        $this->em->flush();
 
         return $infos;
     }

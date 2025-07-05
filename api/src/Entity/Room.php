@@ -4,16 +4,25 @@ namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
+use App\Api\State\CurrentRoomsProvider;
 use App\Api\State\RoomCommandsProvider;
 use App\Domain\Command\Room\CreateRoomCommand;
 use App\Domain\Command\Room\StartRoomCommand;
+use App\Enum\RoomStatusEnum;
 use App\Repository\RoomRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Doctrine\UuidGenerator;
 use Ramsey\Uuid\UuidInterface;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ApiResource(operations: [
+    new GetCollection(
+        uriTemplate: '/rooms/current',
+        provider: CurrentRoomsProvider::class,
+        normalizationContext: ['groups' => ['room:read:collection']],
+    ),
     new Post(
         uriTemplate: '/rooms/create',
         messenger: 'input',
@@ -47,21 +56,28 @@ class Room
     #[ORM\OneToOne(mappedBy: 'room', cascade: ['persist', 'remove'])]
     private ?RoomConfig $roomConfig = null;
 
+    #[ORM\Column(enumType: RoomStatusEnum::class)]
+    private RoomStatusEnum $status = RoomStatusEnum::CREATED;
+
     public function __construct(User $owner)
     {
         $this->owner = $owner;
+        $this->status = RoomStatusEnum::CREATED;
     }
 
+    #[Groups(['default', 'room:read:collection'])]
     public function getId(): UuidInterface
     {
         return $this->id;
     }
 
+    #[Groups(['default', 'room:read:collection'])]
     public function getOwner(): User
     {
         return $this->owner;
     }
 
+    #[Groups(['default', 'room:read:collection'])]
     public function getRoomConfig(): ?RoomConfig
     {
         return $this->roomConfig;
@@ -75,6 +91,18 @@ class Room
         }
 
         $this->roomConfig = $roomConfig;
+
+        return $this;
+    }
+
+    public function getStatus(): RoomStatusEnum
+    {
+        return $this->status;
+    }
+
+    public function setStatus(RoomStatusEnum $status): static
+    {
+        $this->status = $status;
 
         return $this;
     }

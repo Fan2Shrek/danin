@@ -25,6 +25,16 @@ export type ProviderInfo = {
     command: string;
 };
 
+export type Room = {
+    id: string;
+    roomConfig: {
+        game: string;
+    };
+    owner: {
+        username: string;
+    };
+};
+
 class RoomResource extends Resource {
     public async create(config: RoomConfig): Promise<RoomResponse> {
         const response: RoomResponse = await this.post(`/api/rooms/create`, config);
@@ -38,6 +48,12 @@ class RoomResource extends Resource {
 
     public async getCommands(room: string): Promise<Command[]> {
         const response: { member: Command[] } = await this.get(`/api/rooms/${room}/commands`);
+
+        return response.member;
+    }
+
+    public async getCurrents(): Promise<Room[]> {
+        const response: { member: Room[] } = await this.get(`/api/rooms/current`);
 
         return response.member;
     }

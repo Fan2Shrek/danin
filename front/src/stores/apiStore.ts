@@ -72,4 +72,7 @@ export const storeActions = {
     fetchArticlesList: async (store, [locale]) => {
         store[locale].articlesList = await api().article().getList();
     },
+    fetchCurrentRooms: async (store) => {
+        store.currentRooms = await api().room().getCurrents();
+    },
 };

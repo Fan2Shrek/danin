@@ -6,6 +6,7 @@ use App\Enum\GameEnum;
 use App\Repository\RoomConfigRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: RoomConfigRepository::class)]
 class RoomConfig
@@ -59,6 +60,7 @@ class RoomConfig
         return $this->transport;
     }
 
+    #[Groups(['default', 'room:read:collection'])]
     public function getGame(): ?GameEnum
     {
         return $this->game;

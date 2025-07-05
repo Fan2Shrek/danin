@@ -2,5 +2,5 @@
 
 return [
     'tchat' => true,
-	'register' => true,
+    'register' => true,
 ];
