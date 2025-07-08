@@ -125,7 +125,8 @@ const handleSubmit = async () => {
     } catch (error) {
         if (error instanceof Error) {
             if (error.message.includes('register.error.')) {
-                submitError.value = JSON.parse(error.message).message || tokens.register.error.miscellaneous;
+                submitError.value =
+                    JSON.parse(error.message).message || tokens.register.error.miscellaneous;
             } else {
                 submitError.value = error.message;
             }
