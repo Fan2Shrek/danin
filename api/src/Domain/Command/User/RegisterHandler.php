@@ -25,11 +25,11 @@ final class RegisterHandler
         $alreadyExists = $this->userRepository->checkUsernameAndEmail($command->username, $command->email);
 
         if ($alreadyExists['username']) {
-            return new JsonResponse('Username already exists', 400);
+            return new JsonResponse('register.error.username.alreadyExists', 400);
         }
 
         if ($alreadyExists['email']) {
-            return new JsonResponse('Email already exists', 400);
+            return new JsonResponse('register.error.email.alreadyExists', 400);
         }
 
         $user = new User($command->username, $command->email)
