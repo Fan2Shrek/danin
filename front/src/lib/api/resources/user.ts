@@ -10,7 +10,7 @@ export interface LoginResponse extends Response {
 }
 
 export interface RegisterResponse {
-    id: number;
+    username: string;
 }
 
 export interface RegistrationData {
