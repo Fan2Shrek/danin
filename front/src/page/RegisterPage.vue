@@ -124,10 +124,8 @@ const handleSubmit = async () => {
         validationErrors.value = {};
     } catch (error) {
         if (error instanceof Error) {
-            if (error.message.includes('register.error.username.alreadyExists')) {
-                submitError.value = tokens.register.error.username.alreadyExists;
-            } else if (error.message.includes('register.error.email.alreadyExists')) {
-                submitError.value = tokens.register.error.email.alreadyExists;
+            if (error.message.includes('register.error.')) {
+                submitError.value = JSON.parse(error.message).message || tokens.register.error.miscellaneous;
             } else {
                 submitError.value = error.message;
             }
