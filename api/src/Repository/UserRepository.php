@@ -48,18 +48,27 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
      * @param string $username the username to check
      * @param string $email    the email to check
      *
-     * @return User|null Returns a User object if the username and email are already in use, null otherwise
+     * @return array<'username' => bool, 'email' => bool>
+     *         Returns an array with keys 'username' and 'email', each indicating whether the
+     *         username or email is already in use.
      */
-    public function checkUsernameAndEmail(string $username, string $email): ?User
+    public function checkUsernameAndEmail(string $username, string $email): array
     {
-        return $this->createQueryBuilder('u')
-            ->addSelect("CASE WHEN u.username = :username THEN 1 ELSE 0 END AS HIDDEN matchingOrder")
-            ->orderBy('matchingOrder', 'DESC')
+        $result = $this->createQueryBuilder('u')
             ->where('u.username = :username OR u.email = :email')
             ->setParameter('username', $username)
             ->setParameter('email', $email)
             ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult();
+
+        if (null === $result) {
+            return ['username' => false, 'email' => false];
+        }
+
+        return [
+            'username' => $result->getUsername() === $username,
+            'email' => $result->getEmail() === $email,
+        ];
     }
 }
