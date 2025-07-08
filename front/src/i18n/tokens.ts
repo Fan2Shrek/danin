@@ -113,12 +113,13 @@ const tokens = {
         error: {
             miscellaneous: 'register.error.miscellaneous',
             username: {
-                alreadyExists: 'register.error.username.exists',
+                alreadyExists: 'register.error.username.alreadyExists',
                 minLength: 'register.error.username.minLength',
                 maxLength: 'register.error.username.maxLength',
                 regex: 'register.error.username.regex',
             },
             email: {
+                alreadyExists: 'register.error.email.alreadyExists',
                 invalid: 'register.error.email.invalid',
             },
             password: {

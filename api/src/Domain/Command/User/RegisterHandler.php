@@ -22,8 +22,14 @@ final class RegisterHandler
     public function __invoke(RegisterCommand $command): JsonResponse
     {
         // Check if the user already exists
-        if ($this->userRepository->findOneBy(['username' => $command->username])) {
+        $alreadyExists = $this->userRepository->checkUsernameAndEmail($command->username, $command->email);
+
+        if ($alreadyExists['username']) {
             return new JsonResponse('Username already exists', 400);
+        }
+
+        if ($alreadyExists['email']) {
+            return new JsonResponse('Email already exists', 400);
         }
 
         $user = new User($command->username, $command->email)

@@ -21,6 +21,8 @@ if (!loginUser || !verifyCode) {
     throw new Error('loginUser function is not provided');
 }
 
+// TODO : Redirect if already logged in
+
 let timerId: ReturnType<typeof setTimeout> | null = null;
 
 watch(animate, (newVal) => {

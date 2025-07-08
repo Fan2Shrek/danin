@@ -69,6 +69,8 @@ const translations: { [key: string]: string } = {
     [tokens.register.error.username.regex]:
         'Username can only contain letters, numbers, and underscores',
     [tokens.register.error.email.invalid]: 'Email address is invalid',
+    [tokens.register.error.email.alreadyExists]:
+        'This email address is already in use. Please choose another one.',
     [tokens.register.error.password.minLength]: 'Password must be at least 8 characters long',
     [tokens.register.error.password.notStrong]: 'Please choose a stronger password',
     [tokens.register.error.confirmPassword.mismatch]: 'Passwords do not match',
