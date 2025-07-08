@@ -44,10 +44,11 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
     /**
      * Check if a username and email are already in use.
-     * 
-     * @param string $username The username to check.
-     * @param string $email The email to check.
-     * @return array Returns true if both username and email are available, false otherwise.
+     *
+     * @param string $username the username to check
+     * @param string $email    the email to check
+     *
+     * @return array returns true if both username and email are available, false otherwise
      */
     public function checkUsernameAndEmail(string $username, string $email): array
     {
