@@ -73,6 +73,8 @@ const translations: { [key: string]: string } = {
     [tokens.register.error.username.regex]:
         'Le nom d’utilisateur ne peut contenir que des lettres, des chiffres et des tirets bas',
     [tokens.register.error.email.invalid]: 'L’adresse e-mail est invalide',
+    [tokens.register.error.email.alreadyExists]:
+        'Cette adresse e-mail est déjà utilisée. Veuillez en choisir une autre.',
     [tokens.register.error.password.minLength]:
         'Le mot de passe doit comporter au moins 8 caractères',
     [tokens.register.error.password.notStrong]: 'Veuillez choisir un mot de passe plus fort',

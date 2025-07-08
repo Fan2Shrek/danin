@@ -22,8 +22,18 @@ final class RegisterHandler
     public function __invoke(RegisterCommand $command): JsonResponse
     {
         // Check if the user already exists
-        if ($this->userRepository->findOneBy(['username' => $command->username])) {
-            return new JsonResponse('Username already exists', 400);
+        $alreadyExists = $this->userRepository->checkUsernameAndEmail($command->username, $command->email);
+
+        if ($alreadyExists['username']) {
+            return new JsonResponse([
+                'message' => 'register.error.username.alreadyExists',
+            ], 400);
+        }
+
+        if ($alreadyExists['email']) {
+            return new JsonResponse([
+                'message' => 'register.error.email.alreadyExists',
+            ], 400);
         }
 
         $user = new User($command->username, $command->email)
@@ -35,7 +45,7 @@ final class RegisterHandler
         $this->userRepository->save($user);
 
         return new JsonResponse([
-            'id' => $user->getId(),
+            'username' => $user->getUsername(),
         ]);
     }
 }
