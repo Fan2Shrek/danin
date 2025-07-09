@@ -44,10 +44,10 @@ const toggleMenu = () => {
             <li v-for="(link, name) in links" :key="name">
                 <RouterLink :to="link">{{ $t(String(name)) }}</RouterLink>
             </li>
-            <li v-if="!user">
+            <li v-if="!user" class="last-link">
                 <RouterLink :to="{ name: 'Login' }">{{ $t(tokens.navbar.links.login) }}</RouterLink>
             </li>
-            <li v-if="user">
+            <li v-else class="last-link">
                 <UserBadge :user="user" />
             </li>
         </ul>
@@ -179,6 +179,10 @@ const toggleMenu = () => {
             &:hover::after {
                 transform: scaleX(1);
             }
+        }
+
+        .last-link {
+            margin-right: 10px;
         }
     }
 }
