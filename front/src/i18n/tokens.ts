@@ -97,6 +97,15 @@ const tokens = {
             },
         },
     },
+    totp: {
+        enable: 'totp.enable',
+        description: 'totp.description',
+    },
+    update: {
+        title: 'update.title',
+        subtitle: 'update.subtitle',
+        submit: 'update.submit',
+    },
     register: {
         title: 'register.title',
         subtitle: 'register.subtitle',

@@ -5,9 +5,11 @@ namespace App\Entity;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
 use App\Api\State\MeProvider;
 use App\Domain\Command\User\EnableTOTPCommand;
 use App\Domain\Command\User\RegisterCommand;
+use App\Domain\Command\User\UpdateProfileCommand;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -20,6 +22,12 @@ use Symfony\Component\Serializer\Attribute\Ignore;
     new Get(
         uriTemplate: '/me',
         provider: MeProvider::class,
+    ),
+    new Put(
+        uriTemplate: '/me',
+        messenger: 'input',
+        input: UpdateProfileCommand::class,
+        output: false,
     ),
     new Post(
         uriTemplate: '/activate-totp',
@@ -156,7 +164,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->plainPassword = null;
     }
 
-    #[Ignore]
     public function hasTotp(): bool
     {
         return null !== $this->totpSecret;

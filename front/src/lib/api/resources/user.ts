@@ -20,9 +20,14 @@ export interface RegistrationData {
     passwordConfirmation: string;
 }
 
+export interface TotpResponse {
+    qrCodeUrl: string;
+}
+
 export type User = {
     username: string;
     email: string;
+    totp: boolean;
 };
 
 class UserResource extends Resource {
@@ -39,6 +44,22 @@ class UserResource extends Resource {
             email: user.email,
             password: user.password,
         });
+    }
+
+    public async update(username = null, email = null, password = null): Promise<RegisterResponse> {
+        return await this.post(`/api/register`, {
+            username: username,
+            email: email,
+            password: password,
+        });
+    }
+
+    public async activateTotp(): Promise<TotpResponse> {
+        const response: { member: string[] } = await this.post(`/api/activate-totp`, {});
+
+        return {
+            qrCodeUrl: response.member[0],
+        };
     }
 
     public async me(): Promise<User> {
