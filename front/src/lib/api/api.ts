@@ -7,6 +7,7 @@ import RoomResource from './resources/room';
 import ProviderResource from './resources/provider';
 import ArticleResource from './resources/article';
 import { deleteCookie, getCookie, setCookie } from '../cookies';
+import EventResource from './resources/event';
 
 class Api {
     private client: Client;
@@ -21,6 +22,7 @@ class Api {
     private roomResource: RoomResource;
     private providerResource: ProviderResource;
     private articleResource: ArticleResource;
+    private eventResource: EventResource;
 
     constructor() {
         this.client = new Client(import.meta.env.VITE_API_URL);
@@ -34,6 +36,7 @@ class Api {
         this.roomResource = new RoomResource(this.client);
         this.providerResource = new ProviderResource(this.client);
         this.articleResource = new ArticleResource(this.client);
+        this.eventResource = new EventResource(this.client);
 
         this.client.setRefreshToken(async () => {
             if (!this.isRefreshing && this.refreshToken) {
@@ -79,6 +82,10 @@ class Api {
 
     public article(): ArticleResource {
         return this.articleResource;
+    }
+
+    public event(): EventResource {
+        return this.eventResource;
     }
 
     public image(path: string): string {

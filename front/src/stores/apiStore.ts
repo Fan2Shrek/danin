@@ -75,4 +75,7 @@ export const storeActions = {
     fetchCurrentRooms: async (store) => {
         store.currentRooms = await api().room().getCurrents();
     },
+    fetchEvents: async (store) => {
+        store.events = await api().event().getAll();
+    },
 };

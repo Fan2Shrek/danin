@@ -18,6 +18,7 @@ const translations: { [key: string]: string } = {
     [tokens.home.cta]: 'Play now',
     [tokens.home.games.title]: 'Our games',
     [tokens.home.providers.title]: 'Chats',
+    [tokens.home.events.title]: 'Upcoming events',
     [tokens.user.username]: 'Username',
     [tokens.user.email]: 'Email',
     [tokens.user.password]: 'Password',

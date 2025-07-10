@@ -29,6 +29,9 @@ const tokens = {
         providers: {
             title: 'home.providers.title',
         },
+        events: {
+            title: 'home.events.title',
+        },
     },
     user: {
         username: 'user.username',
