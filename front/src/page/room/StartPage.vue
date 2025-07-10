@@ -41,16 +41,10 @@ onMounted(() => {
 
             if (!response.local_setup) {
                 isOk.value = true;
-
-                return;
             }
             providers.value = response.providers || {};
 
             text.value = tokens.room.start.requestConnectionToGame;
-
-            if (!response.local_setup) {
-                error.value = tokens.room.start.localSetupError;
-            }
 
             const gameResponse = await gameClient().start(response.data as LocalData);
 
