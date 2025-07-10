@@ -69,6 +69,11 @@ services:
       - mercure_data:/data
       - mercure_config:/config
 
+  matomo:
+    image: matomo:5.3.2-apache
+    ports:
+      - "8888:80"
+
 volumes:
   db_data:
   mercure_data:
