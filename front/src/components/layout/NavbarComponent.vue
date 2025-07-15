@@ -108,7 +108,6 @@ const toggleMenu = () => {
     }
 
     &__links {
-        overflow: hidden;
         list-style: none;
         padding: 0;
         max-height: 0;

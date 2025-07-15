@@ -9,7 +9,7 @@ export interface LoginResponse extends Response {
     need_totp?: boolean;
 }
 
-export interface RegisterResponse {
+export interface UserResponse {
     username: string;
 }
 
@@ -38,7 +38,7 @@ class UserResource extends Resource {
         });
     }
 
-    public async register(user: RegistrationData): Promise<RegisterResponse> {
+    public async register(user: RegistrationData): Promise<UserResponse> {
         return await this.post(`/api/register`, {
             username: user.username,
             email: user.email,
@@ -46,8 +46,8 @@ class UserResource extends Resource {
         });
     }
 
-    public async update(username = null, email = null, password = null): Promise<RegisterResponse> {
-        return await this.post(`/api/register`, {
+    public async update(username = null, email = null, password = null): Promise<UserResponse> {
+        return await this.post(`/api/me/update`, {
             username: username,
             email: email,
             password: password,

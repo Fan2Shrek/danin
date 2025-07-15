@@ -23,8 +23,8 @@ use Symfony\Component\Serializer\Attribute\Ignore;
         uriTemplate: '/me',
         provider: MeProvider::class,
     ),
-    new Put(
-        uriTemplate: '/me',
+    new Post(
+        uriTemplate: '/me/update',
         messenger: 'input',
         input: UpdateProfileCommand::class,
         output: false,
@@ -103,6 +103,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getEmail(): string
     {
         return $this->email;
+    }
+
+    public function setEmail(string $email): static
+    {
+        $this->email = $email;
+
+        return $this;
     }
 
     /**

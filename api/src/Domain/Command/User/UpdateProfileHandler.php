@@ -7,6 +7,7 @@ namespace App\Domain\Command\User;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
@@ -20,7 +21,7 @@ final class UpdateProfileHandler
     ) {
     }
 
-    public function __invoke(UpdateProfileCommand $command): void
+    public function __invoke(UpdateProfileCommand $command): JsonResponse
     {
         $user = $this->security->getUser();
 
@@ -41,5 +42,9 @@ final class UpdateProfileHandler
         }
 
         $this->em->flush();
+
+        return new JsonResponse([
+            'username' => $user->getUsername(),
+        ]);
     }
 }
