@@ -42,6 +42,11 @@ defineProps<{
     gap: 0.5rem;
     font-size: 0.875rem;
     color: #333;
+    cursor: pointer;
+    position: absolute;
+    top: 1.25rem;
+    right: 5.5rem;
+    height: 1.5rem;
 
     &--image {
         display: flex;
@@ -55,15 +60,20 @@ defineProps<{
 
     &--info {
         position: absolute;
-        top: 60px;
-        right: 3%;
-        width: 150px;
-        background-color: #f5f5f5;
+        top: 100%;
+        right: 0;
+        transform: translateX(40%);
+        margin-top: 0.5rem;
+        min-width: 150px;
+        max-width: 200px;
+        background-color: #fff;
+        border: 1px solid #ddd;
         border-radius: 4px;
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         display: flex;
         flex-direction: column;
         justify-content: center;
+        padding: 0.5rem;
 
         &__header {
             display: flex;

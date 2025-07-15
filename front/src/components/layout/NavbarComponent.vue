@@ -47,11 +47,9 @@ const toggleMenu = () => {
             <li v-if="!user" class="last-link">
                 <RouterLink :to="{ name: 'Login' }">{{ $t(tokens.navbar.links.login) }}</RouterLink>
             </li>
-            <li v-else class="last-link">
-                <UserBadge :user="user" />
-            </li>
         </ul>
 
+        <UserBadge :user="user" v-if="user" />
         <LanguageSwitcher />
     </nav>
 </template>
@@ -108,6 +106,7 @@ const toggleMenu = () => {
     }
 
     &__links {
+        overflow: hidden;
         list-style: none;
         padding: 0;
         max-height: 0;
@@ -141,7 +140,7 @@ const toggleMenu = () => {
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
-        padding-right: 5rem;
+        padding-right: 9rem;
 
         &__links {
             display: flex;
