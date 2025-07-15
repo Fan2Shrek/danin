@@ -55,6 +55,7 @@ const translations: { [key: string]: string } = {
     [tokens.update.title]: 'Update Profile',
     [tokens.update.subtitle]: 'Update your personal information',
     [tokens.update.submit]: 'Update Profile',
+    [tokens.update.success]: 'Profile updated successfully',
     [tokens.register.title]: 'Create Account',
     [tokens.register.subtitle]: 'Join us by creating your account',
     [tokens.register.success]: 'Registration successful! Welcome!',

@@ -105,6 +105,7 @@ const tokens = {
         title: 'update.title',
         subtitle: 'update.subtitle',
         submit: 'update.submit',
+        success: 'update.success',
     },
     register: {
         title: 'register.title',

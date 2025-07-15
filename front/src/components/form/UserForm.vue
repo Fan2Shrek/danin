@@ -200,7 +200,7 @@ const validateField = (field: string) => {
                         d="M5 13l4 4L19 7"
                     ></path>
                 </svg>
-                {{ $t(tokens.register.success) }}
+                {{ mode === 'update' ? $t(tokens.update.success) : $t(tokens.register.success) }}
             </div>
 
             <!-- Error message -->
@@ -349,7 +349,7 @@ const validateField = (field: string) => {
             </form>
 
             <!-- Login link -->
-            <p class="login-link" v-if="submitSuccess">
+            <p class="login-link" v-if="submitSuccess && !update">
                 <router-link to="/login" class="link">{{ $t(tokens.login.title) }}</router-link>
             </p>
         </div>

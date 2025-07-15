@@ -57,6 +57,7 @@ const translations: { [key: string]: string } = {
     [tokens.update.title]: 'Mettre à jour le profil',
     [tokens.update.subtitle]: 'Mettez à jour vos informations personnelles',
     [tokens.update.submit]: 'Mettre à jour le profil',
+    [tokens.update.success]: 'Profil mis à jour avec succès',
     [tokens.register.title]: 'Créer un compte',
     [tokens.register.subtitle]: 'Rejoignez-nous en créant votre compte',
     [tokens.register.success]: 'Inscription réussie ! Bienvenue !',
