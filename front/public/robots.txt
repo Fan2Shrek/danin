@@ -1,0 +1,8 @@
+User-agent: *
+Disallow: /login
+Disallow: /register
+Disallow: /admin
+Disallow: /room
+Disallow: /profile
+
+Sitemap: https://sruuua.fr/sitemap.xml
