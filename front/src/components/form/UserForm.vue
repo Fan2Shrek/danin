@@ -21,6 +21,7 @@ const formData = reactive({
     username: user?.username ?? '',
     email: user?.email ?? '',
     confirmPassword: '',
+    password: '',
 });
 
 const mode = update ? 'update' : 'register';

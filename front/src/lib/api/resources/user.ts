@@ -46,7 +46,11 @@ class UserResource extends Resource {
         });
     }
 
-    public async update(username = null, email = null, password = null): Promise<UserResponse> {
+    public async update(
+        username: string | null = null,
+        email: string | null = null,
+        password: string | null = null,
+    ): Promise<UserResponse> {
         return await this.post(`/api/me/update`, {
             username: username,
             email: email,
