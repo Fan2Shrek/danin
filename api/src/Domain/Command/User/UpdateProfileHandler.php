@@ -38,7 +38,7 @@ final class UpdateProfileHandler
         }
 
         if (null !== $command->password) {
-            $user->setPassword($this->passwordHasher->hash($user, $command->password));
+            $user->setPassword($this->passwordHasher->hashPassword($user, $command->password));
         }
 
         $this->em->flush();

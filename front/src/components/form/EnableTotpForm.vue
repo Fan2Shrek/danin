@@ -27,11 +27,36 @@ const handleActivate = async () => {
         <div v-if="!activate">
             <BasicButton :text="$t(tokens.totp.enable)" @click="handleActivate" />
         </div>
-        <div v-else>
+        <div v-else class="totp-activated">
+            <qrcode-vue v-if="qrCodeUrl" :value="qrCodeUrl" />
             <p>
                 {{ $t(tokens.totp.description) }}
-                <qrcode-vue v-if="qrCodeUrl" :value="qrCodeUrl" />
             </p>
         </div>
     </div>
 </template>
+
+<style lang="scss" scoped>
+.page {
+    background-color: #f8f9fa;
+    display: flex;
+    color: black;
+}
+.totp-activated {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+
+    p {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    qrcode-vue {
+        width: 200px;
+        height: 200px;
+    }
+}
+</style>

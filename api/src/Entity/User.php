@@ -5,7 +5,6 @@ namespace App\Entity;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
-use ApiPlatform\Metadata\Put;
 use App\Api\State\MeProvider;
 use App\Domain\Command\User\EnableTOTPCommand;
 use App\Domain\Command\User\RegisterCommand;

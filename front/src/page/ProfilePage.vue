@@ -11,14 +11,19 @@ const user = inject<User | null>('user');
 <template>
     <div v-if="user">
         <UserForm :user="user" update />
-        <EnableTotpForm :user="user" />
+        <div class="totp">
+            <EnableTotpForm :user="user" />
+        </div>
     </div>
 </template>
 
 <style lang="scss" scoped>
-.page {
-    padding-top: 75px;
-    background-color: #f8f9fa;
-    color: black;
+.totp {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 </style>
