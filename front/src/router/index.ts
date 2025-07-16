@@ -10,6 +10,7 @@ import ArticlePage from '../page/ArticlePage.vue';
 import GamesPage from '@/page/GamesPage.vue';
 
 import { getCookie } from '../lib/cookies';
+import ProfilePage from '@/page/ProfilePage.vue';
 
 function isAuthenticated() {
     const cookie = getCookie('token') || getCookie('refresh_token');
@@ -62,6 +63,11 @@ const router = createRouter({
             path: '/article/:slug',
             name: 'Article',
             component: ArticlePage,
+        },
+        {
+            path: '/profile',
+            name: 'Profile',
+            component: ProfilePage,
         },
     ],
 });
