@@ -61,3 +61,4 @@ jobs:
           build-args: |
             VITE_API_URL=${{ secrets.API_URL }}
             VITE_MERCURE_URL=${{ secrets.MERCURE_URL }}
+            VITE_MATOMO_URL=${{ secrets.MATOMO_URL }}

@@ -98,7 +98,7 @@ class Game
 
     public function getImage(): ?string
     {
-        return self::FOLDER.$this->img;
+        return \sprintf("%s%s", str_starts_with($this->img, 'http') ? '' : self::FOLDER, $this->img);
     }
 
     public function setImg(?string $img): static

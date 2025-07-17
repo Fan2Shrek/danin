@@ -89,6 +89,10 @@ class Api {
     }
 
     public image(path: string): string {
+        if (path.startsWith('http')) {
+            return path;
+        }
+
         return `${this.client.getUrl()}/${path}`;
     }
 

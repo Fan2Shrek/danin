@@ -50,6 +50,7 @@ services:
     environment:
       VITE_API_URL: ${API_URL}
       VITE_MERCURE_URL: ${MERCURE_PUBLIC_URL}
+      VITE_MATOMO_URL: ${MATOMO_URL}
 
   redis:
     image: redis:alpine
@@ -68,6 +69,11 @@ services:
     volumes:
       - mercure_data:/data
       - mercure_config:/config
+
+  matomo:
+    image: matomo:5.3.2-apache
+    ports:
+      - "8888:80"
 
 volumes:
   db_data:
