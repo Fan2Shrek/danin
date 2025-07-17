@@ -3,6 +3,7 @@ import './assets/main.css';
 import { createApp } from 'vue';
 import { createI18n } from 'vue-i18n';
 import { createPinia } from 'pinia';
+import { createHead } from '@vueuse/head';
 import mitt from 'mitt';
 
 import App from './App.vue';
@@ -29,4 +30,5 @@ app.config.globalProperties.emitter = emitter;
 app.use(router);
 app.use(i18n);
 app.use(pinia);
+app.use(createHead());
 app.mount('#app');
