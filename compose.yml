@@ -50,6 +50,7 @@ services:
     environment:
       VITE_API_URL: ${API_URL}
       VITE_MERCURE_URL: ${MERCURE_PUBLIC_URL}
+      VITE_MATOMO_URL: ${MATOMO_URL}
 
   redis:
     image: redis:alpine
