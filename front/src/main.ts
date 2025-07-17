@@ -3,6 +3,7 @@ import './assets/main.css';
 import { createApp } from 'vue';
 import { createI18n } from 'vue-i18n';
 import { createPinia } from 'pinia';
+import { createHead } from '@vueuse/head';
 import mitt from 'mitt';
 import VueMatomo from 'vue-matomo'
 
@@ -34,6 +35,7 @@ app.use(VueMatomo, {
   host: 'http://localhost:8888',
   siteId: 1,
 })
+app.use(createHead());
 app.mount('#app');
 
 window._paq.push(['trackPageView']);

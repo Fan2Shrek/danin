@@ -8,6 +8,7 @@ use ApiPlatform\Metadata\Post;
 use App\Api\State\MeProvider;
 use App\Domain\Command\User\EnableTOTPCommand;
 use App\Domain\Command\User\RegisterCommand;
+use App\Domain\Command\User\UpdateProfileCommand;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -20,6 +21,12 @@ use Symfony\Component\Serializer\Attribute\Ignore;
     new Get(
         uriTemplate: '/me',
         provider: MeProvider::class,
+    ),
+    new Post(
+        uriTemplate: '/me/update',
+        messenger: 'input',
+        input: UpdateProfileCommand::class,
+        output: false,
     ),
     new Post(
         uriTemplate: '/activate-totp',
@@ -97,6 +104,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->email;
     }
 
+    public function setEmail(string $email): static
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
     /**
      * A visual identifier that represents this user.
      *
@@ -156,7 +170,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->plainPassword = null;
     }
 
-    #[Ignore]
     public function hasTotp(): bool
     {
         return null !== $this->totpSecret;

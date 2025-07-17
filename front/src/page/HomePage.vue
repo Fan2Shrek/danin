@@ -10,14 +10,18 @@ import GameCard from '@/components/ui/GameCard.vue';
 
 import type { Game } from '@/lib/api/resources/game';
 import type { Provider } from '@/lib/api/resources/provider';
+import type { Event } from '@/lib/api/resources/event';
+import EventCard from '@/components/ui/EventCard.vue';
 
 const emitter = useEmitter();
 const games = ref<Game[]>([]);
 const providers = ref<Provider[]>([]);
 const apiStore = useApiStore();
+const events = ref<Event[]>();
 
 onMounted(async () => {
     games.value = await apiStore.getStoreState('games');
+    events.value = await apiStore.getStoreState('events');
     providers.value = await apiStore.getStoreState('providers');
 });
 
@@ -42,6 +46,12 @@ emitter?.on('locale-changed', async () => {
             <div v-for="provider in providers" :key="provider.id">
                 <img v-if="provider.image" :src="api().image(provider.image)" :alt="provider.id" />
                 <p>{{ provider.id }}</p>
+            </div>
+        </div>
+        <div class="events-list" v-if="events">
+            <h2>{{ $t(tokens.home.events.title) }}</h2>
+            <div class="events-container">
+                <EventCard v-for="event in events" :key="event.id" :event="event" />
             </div>
         </div>
     </div>
@@ -131,6 +141,31 @@ emitter?.on('locale-changed', async () => {
                 height: auto;
                 border-radius: 0.5rem;
             }
+        }
+    }
+
+    .events-list {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+        align-items: center;
+        gap: 3em;
+        justify-content: center;
+        padding: 2rem;
+
+        h2 {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .events-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            justify-content: center;
+            width: 100%;
         }
     }
 }

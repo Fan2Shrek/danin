@@ -50,7 +50,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
      *
      * @return array<'username' => bool, 'email' => bool>
      *         Returns an array with keys 'username' and 'email', each indicating whether the
-     *         username or email is already in use.
+     *         username or email is already in use
      */
     public function checkUsernameAndEmail(string $username, string $email): array
     {

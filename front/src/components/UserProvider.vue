@@ -5,7 +5,7 @@ import { useRouter } from 'vue-router';
 import api from '@/lib/api/api';
 import { getCookie, setCookie, deleteCookie } from '@/lib/cookies';
 
-import type { RegistrationData, RegisterResponse, Response, User } from '@/lib/api/resources/user';
+import type { RegistrationData, UserResponse, Response, User } from '@/lib/api/resources/user';
 
 const router = useRouter();
 
@@ -67,7 +67,7 @@ const loginUser = async (username: string, password: string): Promise<Response> 
     return response;
 };
 
-const registerUser = async (user: RegistrationData): Promise<RegisterResponse> => {
+const registerUser = async (user: RegistrationData): Promise<UserResponse> => {
     const response = await api().user().register(user);
 
     return response;

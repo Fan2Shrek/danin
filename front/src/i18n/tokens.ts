@@ -29,6 +29,9 @@ const tokens = {
         providers: {
             title: 'home.providers.title',
         },
+        events: {
+            title: 'home.events.title',
+        },
     },
     user: {
         username: 'user.username',
@@ -96,6 +99,16 @@ const tokens = {
                 description: 'room.tchat.commands.description',
             },
         },
+    },
+    totp: {
+        enable: 'totp.enable',
+        description: 'totp.description',
+    },
+    update: {
+        title: 'update.title',
+        subtitle: 'update.subtitle',
+        submit: 'update.submit',
+        success: 'update.success',
     },
     register: {
         title: 'register.title',
