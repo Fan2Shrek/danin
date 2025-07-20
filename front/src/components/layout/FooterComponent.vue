@@ -101,16 +101,20 @@ const links = computed(() => ({
 footer {
     color: black;
     width: 100%;
-    height: 250px;
+    height: 100%;
     background-color: #f8f9fa;
     padding: 0;
 
     .footer__content {
         display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
 
         .links {
             display: flex;
-            justify-content: space-between;
+            flex-direction: column;
+            gap: 1rem;
             padding: 20px;
             margin: 0 auto;
             max-width: 1200px;
@@ -118,23 +122,22 @@ footer {
 
             h3 {
                 font-size: 1.5rem;
-                margin-bottom: 10px;
+                margin-bottom: 0.5rem;
             }
 
             ul {
+                display: flex;
+                flex-direction: column;
+                gap: 0.625rem;
                 list-style-type: none;
                 padding: 0;
 
-                li {
-                    margin-bottom: 5px;
+                li a {
+                    text-decoration: none;
+                    color: black;
 
-                    a {
-                        text-decoration: none;
-                        color: black;
-
-                        &:hover {
-                            text-decoration: underline;
-                        }
+                    &:hover {
+                        text-decoration: underline;
                     }
                 }
             }
@@ -183,43 +186,19 @@ footer {
     }
 }
 
-@media (max-width: 768px) {
+@media (min-width: 768px) {
     footer {
-        height: 100%;
+        height: 250px;
 
-        .footer {
-            &__content {
-                flex-direction: column;
-                align-items: center;
+        .footer__content {
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: start;
+            text-align: left;
 
-                .links {
-                    width: 100%;
-                    flex-direction: column;
-                    align-items: center;
-
-                    h3 {
-                        text-align: center;
-                    }
-
-                    ul {
-                        width: 100%;
-                        text-align: center;
-
-                        li {
-                            margin-bottom: 10px;
-                        }
-                    }
-                }
-
-                .support-us {
-                    width: 100%;
-                    text-align: center;
-
-                    ul {
-                        justify-content: center;
-                        flex-wrap: wrap;
-                    }
-                }
+            .links {
+                flex-direction: row;
+                justify-content: space-between;
             }
         }
     }

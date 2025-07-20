@@ -372,7 +372,7 @@ const validateField = (field: string) => {
     background: white;
     border-radius: 1rem;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
-    padding: 2rem;
+    padding: 1.25rem;
     width: 100%;
     max-width: 420px;
 }
@@ -592,14 +592,9 @@ const validateField = (field: string) => {
 }
 
 /* Responsive design */
-@media (max-width: 480px) {
+@media (min-width: 480px) {
     .registration-card {
-        padding: 1.5rem;
-        margin: 0.5rem;
-    }
-
-    .title {
-        font-size: 1.75rem;
+        padding: 2rem;
     }
 }
 </style>

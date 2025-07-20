@@ -162,42 +162,39 @@ const handleSubmit = async () => {
             </div>
 
             <div class="container__form settings">
-                <h2>{{ $t(tokens.room.create.settings.title) }}</h2>
-
                 <div class="form__settings">
-                    <div>
-                        <div class="form-group">
-                            <label>{{ $t(tokens.room.create.settings.transport) }}:</label>
-                            <select
-                                @change="
-                                    (e) =>
-                                        (config.transport =
-                                            (e.target as HTMLSelectElement)?.value || '')
-                                "
-                                v-model="config.transport"
-                                v-if="transports"
+                    <h2>{{ $t(tokens.room.create.settings.title) }}</h2>
+                    <div class="form-group">
+                        <label>{{ $t(tokens.room.create.settings.transport) }}:</label>
+                        <select
+                            @change="
+                                (e) =>
+                                    (config.transport =
+                                        (e.target as HTMLSelectElement)?.value || '')
+                            "
+                            v-model="config.transport"
+                            v-if="transports"
+                        >
+                            <option
+                                :value="transport.id"
+                                v-for="transport in transports"
+                                :key="transport.id"
                             >
-                                <option
-                                    :value="transport.id"
-                                    v-for="transport in transports"
-                                    :key="transport.id"
-                                >
-                                    {{ transport.name }}
-                                </option>
-                            </select>
-                        </div>
-                        <div v-for="field in currentFields" :key="field" class="form-group">
-                            <label>{{ $t(tokens.room.create.settings[field as FieldKey]) }}:</label>
-                            <input
-                                type="text"
-                                @change="(e) => handleChange(e, field)"
-                                v-model="config.config[field]"
-                                class="form-input"
-                            />
-                        </div>
+                                {{ transport.name }}
+                            </option>
+                        </select>
                     </div>
-                    <BasicButton :text="$t(tokens.room.create.submit)" class="submit-button" />
+                    <div v-for="field in currentFields" :key="field" class="form-group">
+                        <label>{{ $t(tokens.room.create.settings[field as FieldKey]) }}:</label>
+                        <input
+                            type="text"
+                            @change="(e) => handleChange(e, field)"
+                            v-model="config.config[field]"
+                            class="form-input"
+                        />
+                    </div>
                 </div>
+                <BasicButton :text="$t(tokens.room.create.submit)" class="submit-button" />
             </div>
 
             <div class="container__form commands">
@@ -232,35 +229,35 @@ const handleSubmit = async () => {
 
 <style lang="scss" scoped>
 .container {
-    padding-top: 5rem;
+    padding-top: 4rem;
     display: flex;
+    flex-direction: column;
     justify-content: space-around;
     align-items: center;
     gap: 1rem;
-    height: 700px;
+    height: auto;
 
     &__form {
-        width: 25%;
-        height: 550px;
+        width: 90%;
+        height: 400px;
         background-color: #fff;
         border-radius: 0.5rem;
         color: #000;
+        margin: 2rem auto;
 
         &.settings,
         &.commands {
             padding: 0 20px;
         }
 
-        .form__settings {
+        &.settings {
             display: flex;
-            height: 450px;
             flex-direction: column;
             justify-content: space-between;
+            padding-bottom: 20px;
         }
 
         .form-group {
-            margin-bottom: 1rem;
-
             label {
                 display: block;
                 font-size: 1rem;
@@ -281,7 +278,7 @@ const handleSubmit = async () => {
         h2 {
             font-size: 2rem;
             font-weight: 600;
-            margin-bottom: 1rem;
+            margin: 1rem 0;
             text-align: center;
         }
 
@@ -304,37 +301,42 @@ const handleSubmit = async () => {
                 }
             }
         }
-
-        .submit-button {
-            width: 100%;
-            margin-top: 1rem;
-        }
     }
 
     .swiper {
         img {
-            height: 300px;
-            width: auto;
+            height: 12rem;
+            width: 12rem;
         }
 
         .game-item {
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
         }
     }
+
+    .submit-button {
+        margin-top: 1rem;
+    }
 }
 
-@media (max-width: 768px) {
+@media (min-width: 480px) {
+    .swiper img {
+        height: 300px;
+        width: 300px;
+    }
+}
+
+@media (min-width: 768px) {
     .container {
-        flex-direction: column;
-        align-items: center;
-        height: auto;
+        flex-direction: row;
+        height: 700px;
 
         &__form {
-            width: 90%;
-            margin-bottom: 1rem;
+            width: 25%;
+            height: 550px;
+            margin: 0;
         }
     }
 }

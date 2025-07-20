@@ -59,11 +59,13 @@ emitter?.on('locale-changed', async () => {
 
 <style lang="scss" scoped>
 .home-container {
+    text-align: center;
+
     .home-header {
         display: flex;
         flex-direction: column;
         justify-content: center;
-        align-items: flex-start;
+        align-items: center;
         height: 100vh;
         padding: 2rem;
         background:
@@ -73,7 +75,7 @@ emitter?.on('locale-changed', async () => {
         font-family: 'Helvetica Neue', sans-serif;
 
         h1 {
-            font-size: 6rem;
+            font-size: 3.5rem;
             font-weight: 800;
             line-height: 1.2;
             margin-bottom: 1rem;
@@ -192,14 +194,15 @@ emitter?.on('locale-changed', async () => {
     }
 }
 
-@media (max-width: 768px) {
+@media (min-width: 768px) {
     .home-container {
-        text-align: center;
+        text-align: start;
 
         .home-header {
-            align-items: center;
+            align-items: flex-start;
+
             h1 {
-                font-size: 3.5rem;
+                font-size: 5rem;
             }
         }
     }
