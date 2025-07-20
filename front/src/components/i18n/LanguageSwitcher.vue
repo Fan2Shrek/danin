@@ -24,12 +24,7 @@ watch(locale, (newLocale: string) => {
 
     emitter.emit('locale-changed', newLocale);
 
-    window._paq.push(['trackEvent',
-        'Langue',
-        'Changement',
-        'Changement de la langue',
-        newLocale
-    ]);
+    window._paq.push(['trackEvent', 'Langue', 'Changement', 'Changement de la langue', newLocale]);
 });
 </script>
 
