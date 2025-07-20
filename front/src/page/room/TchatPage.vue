@@ -48,6 +48,12 @@ const handleSubmit = async () => {
 
     api().tchat().sendMessage(message.value, roomId);
 
+    window._paq.push(['trackEvent',
+        'Tchat',
+        'Message',
+        'Message envoyé dans le tchat',
+    ]);
+
     message.value = '';
 };
 </script>

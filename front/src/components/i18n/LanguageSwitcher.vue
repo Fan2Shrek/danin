@@ -23,6 +23,13 @@ watch(locale, (newLocale: string) => {
     api().setLocale(newLocale);
 
     emitter.emit('locale-changed', newLocale);
+
+    window._paq.push(['trackEvent',
+        'Langue',
+        'Changement',
+        'Changement de la langue',
+        newLocale
+    ]);
 });
 </script>
 
