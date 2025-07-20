@@ -16,12 +16,12 @@ import fr from '@/i18n/fr.ts';
 const app = createApp(App);
 
 const i18n = createI18n({
-  locale: 'fr',
-  fallbackLocale: 'en',
-  messages: {
-    fr: fr,
-    en: en,
-  },
+    locale: 'fr',
+    fallbackLocale: 'en',
+    messages: {
+        fr: fr,
+        en: en,
+    },
 });
 
 const emitter = mitt();
@@ -34,8 +34,8 @@ app.use(i18n);
 app.use(pinia);
 app.use(createHead());
 app.use(VueMatomo, {
-  host: import.meta.env.VITE_MATOMO_URL,
-  siteId: 1,
+    host: import.meta.env.VITE_MATOMO_URL,
+    siteId: 1,
 });
 
 app.mount('#app');
