@@ -119,6 +119,29 @@ const handleSubmit = async () => {
             id: response.id,
         },
     });
+
+    // @ts-expect-error _paq is a global variable for analytics
+    window._paq.push([
+        'trackEvent',
+        'Transport',
+        'Choix',
+        'Transport choisi',
+        config.value.transport,
+    ]);
+
+    // @ts-expect-error _paq is a global variable for analytics
+    window._paq.push(['trackEvent', 'Jeux', 'Choix', 'Jeu choisi', config.value.game]);
+
+    config.value.providers.forEach((provider) => {
+        // @ts-expect-error _paq is a global variable for analytics
+        window._paq.push([
+            'trackEvent',
+            'Tchat',
+            'Choix',
+            'Système de tchat externe choisi',
+            provider,
+        ]);
+    });
 };
 </script>
 

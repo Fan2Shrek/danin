@@ -86,7 +86,11 @@ const isValueEmpty = (value: string) => {
 
 // Check if form is valid
 const isFormValid = computed(() => {
-    const hasAllFields = !isValueEmpty(formData.username) && !isValueEmpty(formData.email) && !isValueEmpty(password.value) && !isValueEmpty(formData.confirmPassword);
+    const hasAllFields =
+        !isValueEmpty(formData.username) &&
+        !isValueEmpty(formData.email) &&
+        !isValueEmpty(password.value) &&
+        !isValueEmpty(formData.confirmPassword);
     const hasStrongPassword = isPasswordStrong.value;
 
     // Validate silently to check current state
