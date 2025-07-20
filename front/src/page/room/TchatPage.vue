@@ -48,6 +48,7 @@ const handleSubmit = async () => {
 
     api().tchat().sendMessage(message.value, roomId);
 
+    // @ts-expect-error _paq is a global variable for analytics
     window._paq.push(['trackEvent', 'Tchat', 'Message', 'Message envoyé dans le tchat']);
 
     message.value = '';

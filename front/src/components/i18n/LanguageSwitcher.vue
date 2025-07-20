@@ -24,6 +24,7 @@ watch(locale, (newLocale: string) => {
 
     emitter.emit('locale-changed', newLocale);
 
+    // @ts-expect-error _paq is a global variable for analytics
     window._paq.push(['trackEvent', 'Langue', 'Changement', 'Changement de la langue', newLocale]);
 });
 </script>
