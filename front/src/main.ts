@@ -5,8 +5,6 @@ import { createI18n } from 'vue-i18n';
 import { createPinia } from 'pinia';
 import { createHead } from '@vueuse/head';
 import mitt from 'mitt';
-// @ts-expect-error et tout
-import VueMatomo from 'vue-matomo';
 
 import App from './App.vue';
 import router from './router';
@@ -33,12 +31,5 @@ app.use(router);
 app.use(i18n);
 app.use(pinia);
 app.use(createHead());
-app.use(VueMatomo, {
-    host: import.meta.env.VITE_MATOMO_URL,
-    siteId: 1,
-});
 
 app.mount('#app');
-
-// @ts-expect-error et tout
-window._paq.push(['trackPageView']);
