@@ -7,13 +7,18 @@ import { getCookie } from '@/lib/cookies';
 
 export default function RequireAuth({ children }: { children: React.ReactNode }) {
     const router = useRouter();
-    const [hasAuth] = useState(() => Boolean(getCookie('token') || getCookie('refresh_token')));
+    // Cookies aren't readable during SSR, so this must stay `false` through the first
+    // client render too (matching the server) and only flip after hydration.
+    const [hasAuth, setHasAuth] = useState(false);
 
     useEffect(() => {
-        if (!hasAuth) {
+        if (getCookie('token') || getCookie('refresh_token')) {
+            // eslint-disable-next-line react-hooks/set-state-in-effect
+            setHasAuth(true);
+        } else {
             router.replace('/login');
         }
-    }, [hasAuth, router]);
+    }, [router]);
 
     if (!hasAuth) {
         return null;

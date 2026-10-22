@@ -19,15 +19,20 @@ type LocaleContextValue = {
 const LocaleContext = createContext<LocaleContextValue | null>(null);
 
 export function LocaleProvider({ children }: { children: React.ReactNode }) {
-    const [locale, setLocaleState] = useState(() => {
-        const current = getCookie('locale');
-
-        return current && messages[current] ? current : 'fr';
-    });
+    // Cookie isn't readable during SSR, so the locale must default to 'fr' on the first
+    // client render too (matching the server) and only switch after hydration.
+    const [locale, setLocaleState] = useState('fr');
 
     useEffect(() => {
-        api().setLocale(locale);
-    }, [locale]);
+        const current = getCookie('locale');
+        const resolved = current && messages[current] ? current : 'fr';
+
+        if (resolved !== 'fr') {
+            // eslint-disable-next-line react-hooks/set-state-in-effect
+            setLocaleState(resolved);
+        }
+        api().setLocale(resolved);
+    }, []);
 
     const setLocale = useCallback((newLocale: string) => {
         setLocaleState(newLocale);
