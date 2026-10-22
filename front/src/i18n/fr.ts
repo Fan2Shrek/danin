@@ -1,4 +1,4 @@
-import tokens from './tokens.ts';
+import tokens from './tokens';
 
 const translations: { [key: string]: string } = {
     [tokens.login.title]: 'Connexion',

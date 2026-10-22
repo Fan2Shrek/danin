@@ -4,10 +4,10 @@ class Mercure {
     private baseUrl: string;
 
     public constructor() {
-        this.baseUrl = import.meta.env.VITE_MERCURE_URL;
+        this.baseUrl = process.env.NEXT_PUBLIC_MERCURE_URL ?? '';
     }
 
-    public async subscribe(topic: string, onMessage: (data: object) => void): Promise<void> {
+    public async subscribe(topic: string, onMessage: (data: object) => void): Promise<EventSource> {
         await api().mercure().getToken([topic]);
         const eventSource = new EventSource(`${this.baseUrl}?topic=${encodeURIComponent(topic)}`, {
             withCredentials: true,
@@ -17,7 +17,11 @@ class Mercure {
             const data = JSON.parse(event.data);
             onMessage(data);
         };
+
+        return eventSource;
     }
 }
 
-export default new Mercure();
+const mercure = new Mercure();
+
+export default mercure;

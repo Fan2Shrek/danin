@@ -29,4 +29,6 @@ class GameClient {
 
 const gameClient = new GameClient();
 
-export default () => gameClient;
+const getGameClient = () => gameClient;
+
+export default getGameClient;
