@@ -93,8 +93,8 @@ function Tchat() {
                     {t(tokens.room.tchat.title)}
                 </h1>
                 <ul className="mb-4 flex-1 space-y-2 overflow-y-auto">
-                    {messages.map((msg) => (
-                        <li key={msg['@id']} className="text-slate-700 dark:text-slate-200">
+                    {messages.map((msg, index) => (
+                        <li key={msg['@id'] ?? index} className="text-slate-700 dark:text-slate-200">
                             <strong className="text-slate-900 dark:text-white">{msg.author}</strong>: {msg.content}
                         </li>
                     ))}

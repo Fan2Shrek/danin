@@ -61,6 +61,10 @@ services:
     App\Domain\:
         resource: '../src/Domain/**/*Handler.php'
 
+    Symfony\Component\Mercure\Authorization:
+        arguments:
+            $cookieSameSite: 'none'
+
     app.custom_authenticator:
         class: App\Security\Authentication\JwtAuthenticator
         parent: lexik_jwt_authentication.security.jwt_authenticator
