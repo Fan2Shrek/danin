@@ -1,0 +1,45 @@
+{
+	{$CADDY_GLOBAL_OPTIONS}
+
+	frankenphp {
+		{$FRANKENPHP_CONFIG}
+	}
+
+	order mercure after encode
+}
+
+# Main app + default Mercure hub. Served on both HTTPS (browsers, real TLS)
+# and plain HTTP (same-network/same-container publishers) without a redirect,
+# by listing both schemes on the same site instead of a separate HTTP block.
+https://{$SERVER_NAME:localhost}, http://{$SERVER_NAME:localhost} {
+	root * /app/public
+	encode zstd gzip
+
+	mercure {
+		name default
+		transport bolt {
+			path {$MERCURE_TRANSPORT_PATH:/data/mercure.db}
+		}
+		publisher_jwt {$MERCURE_PUBLISHER_SECRET}
+		subscriber_jwt {$MERCURE_SUBSCRIBER_SECRET}
+		cors_origins {$MERCURE_CORS_ORIGINS:*}
+		# symfony/mercure-bundle 0.3 issues classic (pre-RFC) Mercure tokens
+		protocol_version_compatibility 8
+	}
+
+	php_server
+}
+
+# Game Mercure hub: dedicated port, no TLS on purpose (game client can't do SSL)
+:{$GAME_MERCURE_PORT:8081} {
+	mercure {
+		name game
+		transport bolt {
+			path {$GAME_MERCURE_TRANSPORT_PATH:/data/game_mercure.db}
+		}
+		publisher_jwt {$GAME_MERCURE_PUBLISHER_SECRET}
+		subscriber_jwt {$GAME_MERCURE_SUBSCRIBER_SECRET}
+		cors_origins {$MERCURE_CORS_ORIGINS:*}
+		protocol_version_compatibility 8
+	}
+}
