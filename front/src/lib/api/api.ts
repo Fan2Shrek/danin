@@ -6,8 +6,8 @@ import MercureResource from './resources/mercure';
 import RoomResource from './resources/room';
 import ProviderResource from './resources/provider';
 import ArticleResource from './resources/article';
-import { deleteCookie, getCookie, setCookie } from '../cookies';
 import EventResource from './resources/event';
+import { deleteCookie, getCookie, setCookie } from '../cookies';
 
 class Api {
     private client: Client;
@@ -25,7 +25,7 @@ class Api {
     private eventResource: EventResource;
 
     constructor() {
-        this.client = new Client(import.meta.env.VITE_API_URL);
+        this.client = new Client(process.env.NEXT_PUBLIC_API_URL);
         this.client.setToken(getCookie('token') || '');
         this.refreshToken = getCookie('refresh_token');
 
@@ -113,7 +113,14 @@ class Api {
     }
 }
 
-const instance = new Api();
-const api = () => instance;
+let instance: Api | null = null;
+
+const api = (): Api => {
+    if (!instance) {
+        instance = new Api();
+    }
+
+    return instance;
+};
 
 export default api;

@@ -53,14 +53,16 @@ services:
       dockerfile: Dockerfile
       target: ${DOCKER_TARGET:-dev}
     ports:
-      - "3000:5173"
+      - "3000:3000"
     depends_on:
       - php
     volumes:
       - ./front:/app
+      - front_node_modules:/app/node_modules
+      - front_next_cache:/app/.next
     environment:
-      VITE_API_URL: ${API_URL}
-      VITE_MERCURE_URL: ${MERCURE_PUBLIC_URL}
+      NEXT_PUBLIC_API_URL: ${API_URL}
+      NEXT_PUBLIC_MERCURE_URL: ${MERCURE_PUBLIC_URL}
 
   redis:
     image: redis:alpine
@@ -69,3 +71,5 @@ volumes:
   db_data:
   caddy_data:
   caddy_config:
+  front_node_modules:
+  front_next_cache:

@@ -63,7 +63,6 @@ class Client {
         });
 
         if (!response.ok) {
-            // @todo find better way
             if (response.status === 401 && !url.includes('login') && !url.includes('totp')) {
                 await this.refresh();
 

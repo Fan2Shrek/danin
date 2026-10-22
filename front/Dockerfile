@@ -1,4 +1,4 @@
-FROM node:20-alpine AS base
+FROM node:26-alpine AS base
 
 FROM base AS main
 
@@ -17,19 +17,25 @@ CMD ["npm", "run", "dev"]
 
 FROM main AS build
 
-ARG VITE_API_URL
-ARG VITE_MERCURE_URL
-ARG VITE_MATOMO_URL
-ENV VITE_API_URL=$VITE_API_URL
-ENV VITE_MERCURE_URL=$VITE_MERCURE_URL
-ENV VITE_MATOMO_URL=$VITE_MATOMO_URL
+ARG NEXT_PUBLIC_API_URL
+ARG NEXT_PUBLIC_MERCURE_URL
+ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
+ENV NEXT_PUBLIC_MERCURE_URL=$NEXT_PUBLIC_MERCURE_URL
 
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
-RUN npm run build-only
+RUN npm run build
 
 
-FROM nginx:alpine AS prod
+FROM base AS prod
 
-COPY ./.devops/default.conf /etc/nginx/conf.d/default.conf
-COPY --from=build /app/dist /usr/share/nginx/html
+WORKDIR /app
+ENV NODE_ENV=production
+
+COPY --from=build /app/public ./public
+COPY --from=build /app/.next ./.next
+COPY --from=build /app/node_modules ./node_modules
+COPY --from=build /app/package.json ./package.json
+
+EXPOSE 3000
+CMD ["npm", "run", "start"]
