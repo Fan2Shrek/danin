@@ -17,8 +17,8 @@ CMD ["npm", "run", "dev"]
 
 FROM main AS build
 
-ARG NEXT_PUBLIC_API_URL
-ARG NEXT_PUBLIC_MERCURE_URL
+ARG NEXT_PUBLIC_API_URL=__RUNTIME_NEXT_PUBLIC_API_URL__
+ARG NEXT_PUBLIC_MERCURE_URL=__RUNTIME_NEXT_PUBLIC_MERCURE_URL__
 ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
 ENV NEXT_PUBLIC_MERCURE_URL=$NEXT_PUBLIC_MERCURE_URL
 
@@ -39,6 +39,9 @@ COPY --from=build /app/public ./public
 COPY --from=build /app/.next ./.next
 COPY --from=build /app/node_modules ./node_modules
 COPY --from=build /app/package.json ./package.json
+COPY docker-entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
 EXPOSE 3000
+ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["npm", "run", "start"]
