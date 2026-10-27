@@ -30,7 +30,10 @@ RUN npm run build
 FROM base AS prod
 
 WORKDIR /app
+
 ENV NODE_ENV=production
+ENV HOSTNAME="0.0.0.0"
+ENV PORT=3000
 
 COPY --from=build /app/public ./public
 COPY --from=build /app/.next ./.next
