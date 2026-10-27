@@ -7,14 +7,14 @@ local handlers = {}
 
 local token = nil
 
-function handlers.spawn(entity)
+function handlers.spawn(entity, subType)
 	if type(entity) ~= "number" then
 		console.debug(entity)
 
 		return
 	end
 
-	Isaac.Spawn(entity, PickupVariant.PICKUP_COLLECTIBLE, 0, Vector(320, 280), Vector(0, 0), nil)
+	Isaac.Spawn(entity, PickupVariant.PICKUP_COLLECTIBLE, subType or 0, Vector(320, 280), Vector(0, 0), nil)
 end
 
 function handlers.useActiveItem(id)
@@ -25,6 +25,12 @@ function handlers.useActiveItem(id)
 	end
 
 	player:UseActiveItem(id)
+end
+
+function handlers.giveItem(id)
+    local player = Isaac.GetPlayer()
+
+    player:AddCollectible(id)
 end
 
 function handlers.playSFX(id)
@@ -64,6 +70,10 @@ function handlers.handle(msg)
 		handlers.useActiveItem(content)
 	elseif action == "sound" then
 		handlers.playSFX(content)
+	elseif action == "pedestal" then
+		handlers.spawn(EntityType.ENTITY_PICKUP, content)
+	elseif action == "give-item" then
+		handlers.giveItem(content)
 	end
 end
 

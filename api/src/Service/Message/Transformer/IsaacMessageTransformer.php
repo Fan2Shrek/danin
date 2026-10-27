@@ -16,6 +16,7 @@ final class IsaacMessageTransformer extends AbstractMessageTransformer
 {
     private array $entityMapping = [];
     private array $activeItemMapping = [];
+    private array $passiveItem = [];
     private array $soundMapping = [];
 
     public function getGame(): GameEnum
@@ -25,52 +26,67 @@ final class IsaacMessageTransformer extends AbstractMessageTransformer
 
     protected function spawn(string $data): array
     {
-        if (null === $id = $this->entityMapping[$data] ?? null) {
-            throw new \RuntimeException(\sprintf('Unknown entity "%s".', $data));
-        }
-
         return [
             'type' => 'spawn',
-            'content' => $id,
+            'content' => $this->resolveId($this->entityMapping, $data, 'entity'),
+        ];
+    }
+
+    protected function spawnPedestal(string $data): array
+    {
+        return [
+            'type' => 'pedestal',
+            'content' => $this->resolveId($this->passiveItem, $data, 'passive item'),
+        ];
+    }
+
+    protected function giveItem(string $data): array
+    {
+        return [
+            'type' => 'give-item',
+            'content' => $this->resolveId($this->passiveItem, $data, 'passive item'),
         ];
     }
 
     protected function use(?string $activeItemName): array
     {
-        if (null === $activeItemName) {
-            return [
-                'type' => 'activate',
-                'content' => null,
-            ];
-        }
-
-        if (null === $id = $this->activeItemMapping[$activeItemName] ?? null) {
-            throw new \RuntimeException(\sprintf('Unknown active item "%s".', $activeItemName));
-        }
-
         return [
             'type' => 'activate',
-            'content' => $id,
+            'content' => null === $activeItemName ? null : $this->resolveId($this->activeItemMapping, $activeItemName, 'active item'),
         ];
     }
 
     protected function play(string $data): array
     {
-        if (null === $id = $this->soundMapping[$data] ?? null) {
-            throw new \RuntimeException(\sprintf('Unknown sound "%s".', $data));
-        }
-
         return [
             'type' => 'sound',
-            'content' => $id,
+            'content' => $this->resolveId($this->soundMapping, $data, 'sound'),
         ];
+    }
+
+    private function resolveId(array $mapping, string $name, string $label): int
+    {
+        if (null === $id = $mapping[$name] ?? null) {
+            throw new \RuntimeException(\sprintf('Unknown %s "%s".', $label, $name));
+        }
+
+        return $id;
     }
 
     protected function initializeData(): void
     {
         $this->entityMapping = require $this->getResourcesPath().'entities.php';
-        $this->activeItemMapping = require $this->getResourcesPath().'active_items.php';
         $this->soundMapping = require $this->getResourcesPath().'sounds.php';
+
+        $items = require $this->getResourcesPath().'items.php';
+        $this->activeItemMapping = array_map(
+            static fn (array $item): int => $item['id'],
+            array_filter($items, static fn (array $item): bool => $item['is_active']),
+        );
+        $this->passiveItem = array_map(
+            static fn (array $item): int => $item['id'],
+            array_filter($items, static fn (array $item): bool => !$item['is_active']),
+        );
     }
 
     public function getCommands(): array
@@ -80,6 +96,8 @@ final class IsaacMessageTransformer extends AbstractMessageTransformer
             'bomb' => fn () => $this->spawn('bomb'),
             'use' => $this->use(...),
             'play' => $this->play(...),
+			'pedestal' => $this->spawnPedestal(...),
+			'give' => $this->giveItem(...),
         ];
     }
 }
