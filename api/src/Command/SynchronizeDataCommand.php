@@ -59,20 +59,20 @@ class SynchronizeDataCommand extends Command
     {
         $translationRepository = $this->em->getRepository(Translation::class);
         foreach (GameEnum::cases() as $gameEnum) {
-            if ($this->gameRepository->find($gameEnum)) {
-                continue;
+            $game = $this->gameRepository->find($gameEnum);
+
+            if (!$game) {
+                $game = new Game($gameEnum);
+                $game->setImg('https://media.tenor.com/w2HShG6EI4oAAAAm/nerd.webp');
+                $game->setTranslatableLocale($this->locales[0]);
+
+                foreach ($this->locales as $locale) {
+                    $translationRepository->translate($game, 'name', $locale, $gameEnum->getName());
+                    $translationRepository->translate($game, 'description', $locale, \sprintf('%s description (%s)', $gameEnum->getName(), $locale));
+                }
+
+                $this->em->persist($game);
             }
-
-            $game = new Game($gameEnum);
-            $game->setImg('https://media.tenor.com/w2HShG6EI4oAAAAm/nerd.webp');
-            $game->setTranslatableLocale($this->locales[0]);
-
-            foreach ($this->locales as $locale) {
-                $translationRepository->translate($game, 'name', $locale, $gameEnum->getName());
-                $translationRepository->translate($game, 'description', $locale, \sprintf('%s description (%s)', $gameEnum->getName(), $locale));
-            }
-
-            $this->em->persist($game);
 
             $this->doCommands($game);
         }
@@ -84,7 +84,12 @@ class SynchronizeDataCommand extends Command
     {
         $translationRepository = $this->em->getRepository(Translation::class);
         foreach ($this->transformerManager->getCommandsFromGame($game->getGame()) as $command) {
-            $command = new EntityCommand($game->getId().'_'.$command, $game);
+            $commandId = $game->getId().'_'.$command;
+            if ($this->em->getRepository(EntityCommand::class)->find($commandId)) {
+                continue;
+            }
+
+            $command = new EntityCommand($commandId, $game);
             $command->setTranslatableLocale($this->locales[0]);
 
             foreach ($this->locales as $locale) {
