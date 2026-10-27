@@ -11,7 +11,7 @@
 # Main app + default Mercure hub. Served on both HTTPS (browsers, real TLS)
 # and plain HTTP (same-network/same-container publishers) without a redirect,
 # by listing both schemes on the same site instead of a separate HTTP block.
-https://{$SERVER_NAME:localhost}, http://{$SERVER_NAME:localhost} {
+{$SERVER_NAME:https://localhost, http://localhost} {
 	root * /app/public
 	encode zstd gzip
 
